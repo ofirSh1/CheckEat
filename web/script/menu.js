@@ -23,8 +23,10 @@ function buildMenu(username) {
         $('<li><a onclick="logout()">יציאה</a></li>').appendTo($("#menuNav"));
         if (username === 'customer')
             $('<li><a href="profile.html">פרופיל</a></li>').appendTo($("#menuNav"));
-        else
+        else if (username === 'restaurant')
             $('<li><a href="restProfile.html">פרופיל</a></li>').appendTo($("#menuNav"));
+        else
+            $('<li><a href="admin.html">פרופיל מנהל מערכת</a></li>').appendTo($("#menuNav"));
     }
     else {
         $('<li><a href="login.html">כניסה</a></li>').appendTo($("#menuNav"));

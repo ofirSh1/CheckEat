@@ -53,15 +53,17 @@ public class LoginServlet extends HttpServlet {
         String usernameFromSession = SessionUtils.getParameter(request, Constants.USERNAME);
         response.setContentType("text/html;charset=UTF-8");
         if(usernameFromSession != null) {
+            PrintWriter out = response.getWriter();
             SignedUser signedUser = em.find(SignedUser.class, usernameFromSession);
             if(signedUser != null) {
-                PrintWriter out = response.getWriter();
                 if (signedUser.getType() == SignedUser.Type.RESTAURANT)
                     out.print("restaurant");
                 else
                     out.print("customer");
-                out.flush();
             }
+            else
+                out.print("CheckEat");
+            out.flush();
         }
     }
 
