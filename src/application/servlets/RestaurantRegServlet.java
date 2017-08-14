@@ -49,17 +49,26 @@ public class RestaurantRegServlet extends HttpServlet{
         restaurant.setLogoUrl(logoUrl);
 
         String usernameFromSession = SessionUtils.getParameter(request, Constants.USERNAME);
-        if(usernameFromSession != null) {
+        if(usernameFromSession != null && !usernameFromSession.equals("CheckEat")) {
             ServletUtils.redirect(response, "הינך רשום כבר במערכת", "index.html");
         }
         else if(!restaurant.isValidUser()) {
-            ServletUtils.redirect(response, "נא למלא שדות חובה", "restaurantReg.htm");
+            if (usernameFromSession.equals("CheckEat"))
+                ServletUtils.redirect(response, "נא למלא שדות חובה", "duplicateRestaurant.html");
+            else
+                ServletUtils.redirect(response, "נא למלא שדות חובה", "restaurantReg.html");
         }
         else if(!restaurant.isValidPassword()) {
-            ServletUtils.redirect(response, "שגיאה באישור סיסמא", "customerReg.html");
+            if (usernameFromSession.equals("CheckEat"))
+                ServletUtils.redirect(response, "שגיאה באישור סיסמא", "duplicateRestaurant.html");
+            else
+                ServletUtils.redirect(response, "שגיאה באישור סיסמא", "customerReg.html");
         }
         else if(appManager.isUserExists(em, restaurant.getUserName())) {
-            ServletUtils.redirect(response, "שם משתמש כבר קיים, נא לבחור שם אחר", "restaurantReg.html");
+            if (usernameFromSession.equals("CheckEat"))
+                ServletUtils.redirect(response, "שם משתמש כבר קיים, נא לבחור שם אחר", "duplicateRestaurant.html");
+            else
+                ServletUtils.redirect(response, "שם משתמש כבר קיים, נא לבחור שם אחר", "restaurantReg.html");
         }
         // TODO: check if the restaurant exist in this city
         else {
@@ -73,8 +82,12 @@ public class RestaurantRegServlet extends HttpServlet{
                     em.getTransaction().rollback();
                 em.close();
             }
-            request.getSession(true).setAttribute(Constants.USERNAME, restaurant.getUserName());
-            ServletUtils.redirect(response, "ההרשמה עברה בהצלחה", "index.html");
+            if (usernameFromSession.equals("CheckEat"))
+                ServletUtils.redirect(response, "ההרשמה עברה בהצלחה", "admin.html");
+            else {
+                request.getSession(true).setAttribute(Constants.USERNAME, restaurant.getUserName());
+                ServletUtils.redirect(response, "ההרשמה עברה בהצלחה", "index.html");
+            }
         }
     }
 

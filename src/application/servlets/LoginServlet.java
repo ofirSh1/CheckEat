@@ -118,7 +118,7 @@ public class LoginServlet extends HttpServlet {
                     em.persist(new Admin());
                     em.getTransaction().commit();
                 }
-                request.getSession(true).setAttribute(Constants.USERNAME, "CheckEat"); //check
+                request.getSession(true).setAttribute(Constants.USERNAME, "CheckEat");
                 ServletUtils.redirect(response, "הנך מועבר לפרופיל מנהל מערכת", "admin.html");
             }
             else {
