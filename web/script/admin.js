@@ -73,7 +73,8 @@ function getCustomers() {
 }
 
 function duplicate(userName) {
-
+    sessionStorage.setItem("restaurantUserName", userName);
+    window.location.href = "duplicateRestaurant.html";
 }
 
 function changePassword(userName) {
@@ -117,4 +118,48 @@ function removeMsg(numMsg) {
         }
     });
     window.location.reload();
+}
+
+function duplicateRestaurantOnLoad() {
+    $.ajax({
+        type: 'get',
+        url: 'dish',
+        async: false,
+        data: {
+            'requestType': 'loadCities'
+        },
+        success: function (cities) {
+            var citySelect = document.getElementById("selectCity");
+            var myOption;
+            for (var i = 0; i < cities.length; i++) {
+                myOption = document.createElement("option");
+                myOption.text = cities[i].name;
+                citySelect.add(myOption);
+            }
+        }
+    });
+    var restUserName = sessionStorage.getItem("restaurantUserName");
+    $.ajax({
+        url: 'profile',
+        data: {
+            "requestType": 'getRestaurant',
+            "restUserName":restUserName
+        },
+        success: function (restaurant) {
+            document.getElementById("username").setAttribute('value',restaurant.userName);
+            document.getElementById("password").setAttribute('value',restaurant.password);
+            document.getElementById("verifyPassword").setAttribute('value',restaurant.verifyPassword);
+            document.getElementById("restName").setAttribute('value',restaurant.restaurantName);
+            var option = $('#selectCity option').filter(function() { return $(this).html() == restaurant.city;});
+            option.attr('selected', true);
+            document.getElementById("street").setAttribute('value',restaurant.street);
+            document.getElementById("streetNum").setAttribute('value',restaurant.streetNum);
+            document.getElementById("email").setAttribute('value',restaurant.email);
+            document.getElementById("contactName").setAttribute('value',restaurant.contactName);
+            document.getElementById("contactPhone").setAttribute('value',restaurant.contactPhone);
+            document.getElementById("phone").setAttribute('value',restaurant.phone);
+            document.getElementById("restLink").setAttribute('value',restaurant.link);
+            document.getElementById("imageURL").setAttribute('value',restaurant.logoUrl);
+        }
+    });
 }

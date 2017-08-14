@@ -209,6 +209,7 @@ function duplicateDishOnLoad(){
             document.getElementById("dishName").setAttribute('value',dish.dishName);
             document.getElementById("otherTypes").setAttribute('value',dish.otherTypes);
             document.getElementById("ingredients").setAttribute('value',dish.ingredients);
+            document.getElementById("imageURL").setAttribute('value',dish.dishUrl);
             if(dish.specialTypes.includes("צמחוני"))
                 document.getElementById("vegetarian").checked = true;
             if(dish.specialTypes.includes("טבעוני"))
