@@ -1,0 +1,124 @@
+package application.utils;
+
+import application.logic.AppManager;
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
+
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
+import java.io.*;
+import java.util.Map;
+
+public class ServletUtils {
+
+	private static final String APP_MANAGER_ATTRIBUTE_NAME = "appManager";
+
+    public static AppManager getAppManager(ServletContext servletContext) {
+		if (servletContext.getAttribute(APP_MANAGER_ATTRIBUTE_NAME) == null) {
+			servletContext.setAttribute(APP_MANAGER_ATTRIBUTE_NAME, new AppManager());
+		}
+		return (AppManager) servletContext.getAttribute(APP_MANAGER_ATTRIBUTE_NAME);
+	}
+
+	public static void redirect(HttpServletResponse response, String message, String location)
+			throws IOException {
+
+		response.setContentType("text/html;charset=UTF-8");
+		PrintWriter out = response.getWriter();
+		out.println("<script type=\"text/javascript\">");
+		out.println(String.format("alert(\"%s\");", message));
+		out.println(String.format("location=\"%s\"", location));
+		out.println("</script>");
+	}
+
+	public static String uploadImageToCloudinary(Part filePart)
+			throws ServletException, IOException {
+
+		String path = saveImageTemporary(filePart);
+		if(path == null)
+			return null;
+
+		String url = null;
+		Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
+				"cloud_name", "checkeat",
+				"api_key", "511198241294818",
+				"api_secret", "lM6ZRF0un11U_hNUnldFifOYQsk"));
+
+		try {
+			Map uploadResult = cloudinary.uploader().upload(path, ObjectUtils.emptyMap());
+			url = uploadResult.get("url").toString();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return url;
+	}
+
+	private static String saveImageTemporary(Part filePart)
+			throws ServletException, IOException {
+
+		String fileName = getFileName(filePart);
+		if(fileName == null)
+			return null;
+
+		String filePath = null;
+		OutputStream out = null;
+		InputStream filecontent = null;
+		String tempDirPath = System.getProperty("java.io.tmpdir");
+
+		try {
+			filePath = tempDirPath + File.separator + fileName;
+			out = new FileOutputStream(new File(filePath));
+			filecontent = filePart.getInputStream();
+
+			int read = 0;
+			byte[] bytes = new byte[1024];
+
+			while ((read = filecontent.read(bytes)) != -1) {
+				out.write(bytes, 0, read);
+			}
+		}
+		catch (FileNotFoundException fne) {
+			//Problems during file upload
+		}
+		finally {
+			if (out != null) {
+				out.close();
+			}
+			if (filecontent != null) {
+				filecontent.close();
+			}
+		}
+
+		return filePath;
+	}
+
+	private static String getFileName(final Part part) {
+		String partHeader = part.getHeader("content-disposition");
+
+		for (String content : part.getHeader("content-disposition").split(";")) {
+			if (content.trim().startsWith("filename")) {
+				return content.substring(
+						content.indexOf('=') + 1).trim().replace("\"", "");
+			}
+		}
+
+		return null;
+	}
+
+	public static String loadImageURL(String url) {
+		Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
+				"cloud_name", "checkeat",
+				"api_key", "511198241294818",
+				"api_secret", "lM6ZRF0un11U_hNUnldFifOYQsk"));
+		try {
+			Map uploadResult = cloudinary.uploader().upload(url, ObjectUtils.emptyMap());
+			return uploadResult.get("url").toString();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return "";
+	}
+}

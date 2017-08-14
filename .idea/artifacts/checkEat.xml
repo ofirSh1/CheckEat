@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="checkEat">
+    <output-path>$PROJECT_DIR$/out/artifacts/checkEat</output-path>
+    <root id="archive" name="checkEat.war">
+      <element id="artifact" artifact-name="checkEat:war exploded" />
+    </root>
+  </artifact>
+</component>

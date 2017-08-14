@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CheckEat</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-rtl/3.4.0/css/bootstrap-rtl.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/menu.css">
+    <link rel="stylesheet" href="css/form.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+    <script src="script/menu.js"></script>
+    <script src="script/citySelector.js"></script>
+    <script src="script/searchDish.js"></script>
+</head>
+
+<body dir="rtl">
+
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-fixed-top navbar-custom" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a id="logo" class="navbar-brand" href="index.html"></a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-left" id="menuNav"></ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+
+    <h2>חיפוש</h2>
+
+    <form class="container-fluid moveLeft">
+
+        <div class="form-group">
+            <label for="restName">שם מסעדה:</label>
+            <input type="text" id="restName" class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label for="selectCity">עיר:</label><br>
+            <select class="form-control js-example-basic-single" id="selectCity">
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="dishName">שם מנה:</label>
+            <input type="text" id="dishName" class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label for="checkBoxes">סוג מנה:</label>
+            <div class="form-group moveLeft" id="checkBoxes">
+                <div class="checkbox">
+                    <label><input type="checkbox" name="vegetarian" id="vegetarian">צמחוני</label>
+                </div>
+                <div class="checkbox">
+                    <label><input type="checkbox" name="naturalist" id="naturalist">טבעוני</label>
+                </div>
+                <div class="checkbox">
+                    <label><input type="checkbox" name="kosher" id="kosher">כשר</label>
+                </div>
+                <div class="checkbox">
+                    <label><input type="checkbox" name="noSugar" id="noSugar">ללא סוכר</label>
+                </div>
+                <div class="checkbox">
+                    <label><input type="checkbox" name="noGluten" id="noGluten">ללא גלוטן</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="otherTypes">אחר</label>
+            <input type="text" id="otherTypes" class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label for="ingredients">מרכיבים:</label>
+            <input type="text" id="ingredients" class="form-control">
+        </div>
+
+        <button type="button" class="btn btn-default btnStyle" onclick="findDish()">חפש</button>
+
+    </form>
+</div>
+
+</body>
+</html>

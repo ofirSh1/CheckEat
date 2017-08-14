@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CheckEat</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-rtl/3.4.0/css/bootstrap-rtl.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/menu.css">
+    <link rel="stylesheet" href="css/form.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+    <script src="script/menu.js"></script>
+    <script src="script/profile.js"></script>
+</head>
+
+<body dir="rtl" onload="buildCustomerProfile()">
+
+<nav class="navbar navbar-default navbar-fixed-top navbar-custom" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a id="logo" class="navbar-brand" href="index.html"></a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-left" id="menuNav"></ul>
+        </div>
+    </div>
+</nav>
+
+<h1> פרופיל לקוח </h1>
+<h2>פרטים אישיים</h2>
+<p>
+    <br>
+    שם משתמש:
+    <label id="username"></label>
+    <br>
+        אימייל:
+    <label id="email"></label>
+    <br>
+    טלפון:
+    <label id="phone"></label>
+    <br>
+    <button type="button" onclick="window.location.href='editCustomer.html'">עריכה</button>
+    <br>
+    <br>
+    <button type="button" onclick="window.location.href='addDish.html'">הוסף מנה למסעדה</button>
+    <br>
+</p>
+
+<div dir="rtl" class="panel panel-default" style="display: inline-block">
+    <div class="panel-heading">
+        <i class="fa fa-heart"></i> מנות מועדפות
+        <div class="panel-body" >
+                    <div class="table-responsive" style="float: right">
+                        <table class="table table-bordered table-hover table-striped" style="text-align:right">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th> שם מנה</th>
+                                <th> סוג מנה</th>
+                                <th> מרכיבים</th>
+                                <th>מסעדה</th>
+                                <th>מיקום</th>
+                                <th>תמונה</th>
+                                <th>הסר מנה</th>
+                            </tr>
+                            </thead>
+                            <tbody id="favoritesDishes">
+                        </tbody>
+                        </table>
+                    </div>
+        </div>
+    </div>
+</div>
+
+<div dir="rtl" class="panel panel-default" style="display: inline-block">
+    <div class="panel-heading">
+        מנות שהוספתי
+        <div class="panel-body" >
+                    <div class="table-responsive" style="float: right">
+                        <table class="table table-bordered table-hover table-striped" style="text-align:right">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th> שם מנה</th>
+                                <th> סוג מנה</th>
+                                <th> מרכיבים</th>
+                                <th>מסעדה</th>
+                                <th>מיקום</th>
+                                <th>תמונה</th>
+                                <th>עריכה</th>
+                            </tr>
+                            </thead>
+                            <tbody id="addedDishes">
+                            </tbody>
+                        </table>
+                    </div>
+       </div>
+    </div>
+</div>
+</body>
+</html>

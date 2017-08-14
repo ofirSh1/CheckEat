@@ -1,0 +1,27 @@
+.dishDetails ul
+{
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+}
+
+.dishDetails li
+{
+    list-style-type: none;
+    display: inline;
+}
+
+.dishDetails li:not(:first-child):before
+{
+    content: " , ";
+}
+
+.dishDetails label{display:inline-block;margin-right:10px;}
+
+article.customer {
+    background-color: bisque ;
+}
+
+article.restaurant {
+    background-color: #c1e2b3;
+}

@@ -1,0 +1,17 @@
+<component name="libraryTable">
+  <library name="com.cloudinary:cloudinary-http44:1.14.0" type="repository">
+    <properties maven-id="com.cloudinary:cloudinary-http44:1.14.0" />
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/cloudinary-http44-1.14.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/cloudinary-core-1.14.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/commons-lang3-3.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/httpclient-4.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/httpcore-4.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/commons-logging-1.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/commons-codec-1.9.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/httpmime-4.4.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

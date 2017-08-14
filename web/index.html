@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CheckEat</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-rtl/3.4.0/css/bootstrap-rtl.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/menu.css">
+    <link rel="stylesheet" href="css/homePage.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+    <script src="script/menu.js"></script>
+    <script src="script/homePage.js"></script>
+</head>
+
+<body dir="rtl">
+
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-fixed-top navbar-custom" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a id="logo" class="navbar-brand" href="index.html"></a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-left" id="menuNav"></ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Header Carousel -->
+<header id="myCarousel" class="carousel slide">
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+        <li data-target="#myCarousel" data-slide-to="1"></li>
+        <li data-target="#myCarousel" data-slide-to="2"></li>
+    </ol>
+
+    <!-- Wrapper for slides -->
+    <div class="carousel-inner">
+        <div class="item active">
+            <div class="fill slideDiv" style="background: url('resources/1.jpg')" id="dish1"></div>
+        </div>
+        <div class="item">
+            <div class="fill slideDiv" style="background: url('resources/2.jpg')" id="dish2"></div>
+        </div>
+        <div class="item">
+            <div class="fill slideDiv" style="background: url('resources/3.jpg')" id="dish3"></div>
+        </div>
+    </div>
+
+    <!-- Controls -->
+    <a class="right carousel-control" href="#myCarousel" data-slide="prev">
+        <span class="icon-prev"></span>
+    </a>
+    <a class="left carousel-control" href="#myCarousel" data-slide="next">
+        <span class="icon-next"></span>
+    </a>
+</header>
+
+<!-- Page Content -->
+<div class="container">
+
+    <!-- Marketing Icons Section -->
+    <div id="lastUploads" class="row">
+        <div class="col-lg-12">
+            <h2 class="page-header">העלאות אחרונות
+                <button type="button" class="btn btn-default" style="float: left" onclick="showMoreLastUploads()">הצג עוד</button>
+            </h2>
+        </div>
+    </div>
+
+    <div id="favDishes" class="row">
+        <div class="col-lg-12">
+            <h2 class="page-header">מנות אהובות
+                <button type="button" class="btn btn-default" style="float: left" onclick="showMoreFavDishes()">הצג עוד</button>
+            </h2>
+        </div>
+    </div>
+
+    <div id="restaurants" class="row" style="display: none">
+        <div class="col-lg-12">
+            <h2 class="page-header">מסעדות בקרבת מקום
+                <button type="button" class="btn btn-default" style="float: left">הצג עוד</button>
+            </h2>
+        </div>
+    </div>
+
+    <label id="currCity" style="display: none"></label>
+
+</div>
+
+</body>
+
+</html>

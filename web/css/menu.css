@@ -1,0 +1,40 @@
+body {
+    padding-top: 70px;
+}
+
+#logo {
+    background: url("../resources/logo.png") center no-repeat;
+    background-size: 150px 70px;
+    width: 150px;
+    height: 70px;
+}
+
+#logo:hover{
+    opacity: .5;
+}
+
+.navbar-custom {
+    background-color: white;
+}
+
+.navbar-default {
+    /*background: -webkit-linear-gradient(top, rgba(226, 226, 226, 1) 0%, rgba(219, 219, 219, 1) 50%, rgba(209, 209, 209, 1) 51%, rgba(254, 254, 254, 1) 100%);*/
+    background: #FDF5E6;
+    font-size: 20px;
+    font-family: "Guttman Yad-Brush";
+    font-weight: bold;
+
+    vertical-align: text-bottom;
+
+
+}
+
+#menuNav li a:hover {
+    color: orange;
+}
+
+#menuNav li a {
+    margin-top: 10px;
+    margin-right: 10px;
+    color: black;
+}

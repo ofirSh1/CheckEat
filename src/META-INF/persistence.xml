@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
+ http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd" version="1.0">
+
+    <persistence-unit name="NewPersistenceUnit">
+        <provider>com.objectdb.jpa.Provider</provider>
+        <class>application.logic.Customer</class>
+        <class>application.logic.Restaurant</class>
+        <class>application.logic.Dish</class>
+        <class>application.logic.Admin</class>
+        <class>application.logic.ContactMsg</class>
+
+        <properties>
+            <property name="javax.persistence.jdbc.url"
+                      value="objectdb://localhost/guest.odb"/>
+            <property name="javax.persistence.jdbc.user" value="admin"/>
+            <property name="javax.persistence.jdbc.password" value="admin"/>
+        </properties>
+    </persistence-unit>
+
+</persistence>

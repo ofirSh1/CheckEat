@@ -1,0 +1,23 @@
+.form-control{
+    width: 250px;
+    height: 30px;
+}
+
+.moveLeft {
+    position: relative;
+    right: 20px;
+}
+
+.formStyle {
+    background-color: antiquewhite;
+    position: relative;
+    top: 30px;
+    border-style: outset;
+}
+
+.btnStyle {
+    width: 60px;
+    position: relative;
+    right: 190px;
+
+}

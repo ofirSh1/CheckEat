@@ -1,0 +1,22 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="checkEat:war exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/checkEat_war_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="checkEat/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="checkEat" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="JPA 2.0-2.0" />
+          <element id="file-copy" path="$USER_HOME$/google-gson-2.1/gson-2.1.jar" />
+          <element id="file-copy" path="$PROJECT_DIR$/lib/objectdb.jar" />
+          <element id="library" level="project" name="com.cloudinary:cloudinary-http44:1.14.0" />
+          <element id="library" level="project" name="cloudinary-core-1.14.0" />
+          <element id="library" level="project" name="objectdb" />
+          <element id="library" level="project" name="gson-2.1" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>

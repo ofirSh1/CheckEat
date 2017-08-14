@@ -1,0 +1,16 @@
+.business-header {
+    height: 360px;
+    background: url('../resources/rsz_checkeat.jpg') center no-repeat;
+}
+
+/* Customize the text color and shadow color and to optimize text legibility. */
+
+.tagline {
+    text-shadow: 0 0 10px #000;
+    color: #fff;
+}
+
+.text12 {
+    font-size: 20px;
+    font-family: "Arial Black";
+}

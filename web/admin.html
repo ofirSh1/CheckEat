@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CheckEat</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-rtl/3.4.0/css/bootstrap-rtl.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/menu.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+    <script src="script/menu.js"></script>
+    <script src="script/admin.js"></script>
+</head>
+
+<body dir="rtl" onload="buildAdminPage()">
+
+<nav class="navbar navbar-default navbar-fixed-top navbar-custom" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a id="logo" class="navbar-brand" href="index.html"></a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-left" id="menuNav"></ul>
+        </div>
+    </div>
+</nav>
+
+<h1> מנהל מערכת  </h1>
+
+<div dir="rtl" class="panel panel-default" style="display: inline-block">
+    <div class="panel-heading">
+פניות
+        <div class="panel-body" >
+            <div class="table-responsive" style="float: right">
+                <table class="table table-bordered table-hover table-striped" style="text-align:right">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th> שם</th>
+                        <th> אימייל</th>
+                        <th> טלפון</th>
+                        <th>סיבת הפנייה</th>
+                        <th>תוכן הפנייה</th>
+                        <th>מענה</th>
+                        <th>הסר</th>
+                    </tr>
+                    </thead>
+                    <tbody id="contactList">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div dir="rtl" class="panel panel-default" style="display: inline-block">
+    <div class="panel-heading">
+        מסעדות
+        <div class="panel-body" >
+            <div class="table-responsive" style="float: right">
+                <table class="table table-bordered table-hover table-striped" style="text-align:right">
+                    <thead>
+                    <tr style="text-align:right">
+                        <th>#</th>
+                        <th> שם משתמש</th>
+                        <th> סיסמא</th>
+                        <th> אימייל</th>
+                        <th>שם המסעדה</th>
+                        <th>עיר</th>
+                        <th>רחוב</th>
+                        <th>מספר</th>
+                        <th>טלפון המסעדה</th>
+                        <th>אתר המסעדה</th>
+                        <th>שם איש קשר</th>
+                        <th>טלפון איש קשר</th>
+                        <th>תמונה</th>
+                        <th>עריכה</th>
+                        <th>שכפל</th>
+                        <th>מחק</th>
+                    </tr>
+                    </thead>
+                    <tbody id="restaurants">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div dir="rtl" class="panel panel-default" style="display: inline-block">
+    <div class="panel-heading">
+        משתמשים רגילים
+        <div class="panel-body" >
+            <div class="table-responsive" style="float: right">
+                <table class="table table-bordered table-hover table-striped" style="text-align:right">
+                    <thead>
+                    <tr style="text-align:right">
+                        <th>#</th>
+                        <th> שם משתמש</th>
+                        <th> סיסמא</th>
+                        <th> אימייל</th>
+                        <th> טלפון</th>
+                        <th>עריכה</th>
+                        <th>מחק</th>
+                    </tr>
+                    </thead>
+                    <tbody id="customers">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
