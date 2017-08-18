@@ -1,0 +1,46 @@
+#customerReg {
+    /*border: solid;
+    border-width: 2px;
+    border-color: #DEB887;*/
+    width: 960px;
+    height: 720px;
+    position: relative;
+    margin-top: 50px;
+    padding-right: 40px ;
+    background: url("../resources/regularRegisterFormat2.png") center no-repeat;
+}
+#username {
+    position: absolute;
+    top: 190px;
+    right: 315px;
+}
+
+#email{
+    position: absolute;
+    top: 260px;
+    right: 315px;
+}
+
+#phone{
+    position: absolute;
+    top: 340px;
+    right: 315px;
+}
+
+#password{
+    position: absolute;
+    top: 420px;
+    right: 315px;
+}
+
+#verifyPassword{
+    position: absolute;
+    top: 490px;
+    right: 315px;
+}
+
+#registerBtn{
+    position: absolute;
+    top: 540px;
+    right: 730px;
+}

@@ -21,7 +21,8 @@ body {
     /*background: -webkit-linear-gradient(top, rgba(226, 226, 226, 1) 0%, rgba(219, 219, 219, 1) 50%, rgba(209, 209, 209, 1) 51%, rgba(254, 254, 254, 1) 100%);*/
     background: #FDF5E6;
     font-size: 20px;
-    font-family: "Guttman Yad-Brush";
+    /*font-family: "Guttman Yad-Brush";*/
+    font-family: Aharoni;
     font-weight: bold;
 
     vertical-align: text-bottom;
@@ -37,4 +38,16 @@ body {
     margin-top: 10px;
     margin-right: 10px;
     color: black;
+}
+
+#title{
+    font-family: Aharoni;
+    color: orange;
+}
+
+#aboutBackground{
+    width: 1000px;
+    margin-top: 50px;
+    margin-right: 150px;
+    height: 300px;
 }

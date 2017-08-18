@@ -1,0 +1,99 @@
+#restReg {
+    /*border: solid;
+    border-width: 2px;
+    border-color: #DEB887;*/
+    width: 960px;
+    height: 1100px;
+    position: relative;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    background: url("../resources/restRegisterFormat4.png") center no-repeat;
+    padding: 15px;
+    padding-right: 35px;
+}
+
+#username {
+    position: absolute;
+    top: 180px;
+    right: 350px;
+}
+
+#email{
+    position: absolute;
+    top: 235px;
+    right: 350px;
+}
+
+#contactName{
+    position: absolute;
+    top: 295px;
+    right: 350px;
+}
+
+#contactPhone{
+    position: absolute;
+    top: 350px;
+    right: 350px;
+}
+
+#password{
+    position: absolute;
+    top: 410px;
+    right: 350px;
+}
+
+#verifyPassword{
+    position: absolute;
+    top: 465px;
+    right: 350px;
+}
+#restName
+{
+    position: absolute;
+    top: 525px;
+    right: 350px;
+}
+
+#selectCityDiv{
+    position: absolute;
+    top: 585px;
+    right: 350px;
+}
+#street{
+    position: absolute;
+    top: 635px;
+    right: 350px;
+}
+
+#streetNum{
+    position: absolute;
+    top: 690px;
+    right: 350px;
+}
+
+#phone{
+    position: absolute;
+    top: 745px;
+    right: 350px;
+}
+#restLink{
+    position: absolute;
+    top: 805px;
+    right: 350px;
+}
+#image{
+    position: absolute;
+    top: 860px;
+    right: 350px;
+}
+
+#imageURL{
+    position: absolute;
+    top: 925px;
+    right: 350px;
+}
+#registerBtn{
+    position: absolute;
+    top: 990px;
+    right: 730px;
+}

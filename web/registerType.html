@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/menu.css">
     <link rel="stylesheet" href="css/form.css">
+    <link rel="stylesheet" href="css/register.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -37,25 +38,24 @@
     </div>
 </nav>
 
-<div class="container-fluid">
-
-    <h2>הרשמה</h2>
+<div class="container-fluid" id="register">
 
     <form class="container-fluid moveLeft" action="registerType" method="get" id="form">
 
         <div class="form-group">
-            <label for="radioBtns">בחר סוג משתמש:</label>
+            <!--label for="radioBtns">בחר סוג משתמש:</label-->
             <div class="form-group moveLeft" id="radioBtns">
                 <div class="radio">
-                    <label><input type="radio" class="form-check-input" name="type" id="regularUser" value="customer" checked>משתמש רגיל</label>
+                    <label><input type="radio" class="form-check-input" name="type" id="regularUser" value="customer" checked></label>
                 </div>
+                <br><br>
                 <div class="radio">
-                    <label><input type="radio" class="form-check-input" name="type" id="restaurant" value="restaurant">מסעדה</label>
+                    <label><input type="radio" class="form-check-input" name="type" id="restaurant" value="restaurant"></label>
                 </div>
             </div>
         </div>
 
-        <button type="submit" class="btn btn-default btnStyle">המשך</button>
+        <button type="submit" id="continueBtn" class="btn btn-warning">המשך</button>
 
     </form>
 </div>

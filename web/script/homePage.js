@@ -1,9 +1,14 @@
+
 $(function () {
-    $.ajax({
-        type: 'get',
-        url: 'loadDataBase',
-        async: false
-    });
+    var visited = localStorage['visited'];
+    if (!visited) {
+        $.ajax({
+            type: 'get',
+            url: 'loadDataBase',
+            async: false
+        });
+        localStorage['visited'] = true;
+    }
 
     $('.carousel').carousel({interval: 5000});
     getLastUploadsFromServer();

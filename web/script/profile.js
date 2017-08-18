@@ -34,7 +34,9 @@ function buildRestaurantProfile() {
             $('#link').html("&nbsp;"+user.link);
             $('#contactName').html("&nbsp;"+user.contactName);
             $('#contactPhone').html("&nbsp;"+user.contactPhone);
-            buildDishes(user.dishes)
+            var image = document.getElementById('image');
+            addImg(image,user.logoUrl,"200px","200px");
+            buildDishes(user.dishes);
         },
         error: function (jqXHR, textStatus, errorThrown) {
             alert('Error: ' + textStatus + ' ' + errorThrown);
@@ -48,8 +50,15 @@ function buildDishes(dishes) {
         var edit = "<button class=\"btn btn-default\" onclick=\"edit(" + dishes[i].id + ")\">עריכה</button>";
         var remove = "<button class=\"btn btn-default\" onclick=\"deleteDish(" + dishes[i].id + ")\">מחק מנה</button>";
         var duplicate = "<button class=\"btn btn-default\" onclick=\"duplicateDish(" + dishes[i].id + ")\">שכפל</button>";
-        $('<tr><td>' + Number(Number(i)+ Number(1)) + '</td><td>' + dishes[i].dishName + '</td><td>' + dishes[i].specialTypes + '</td><td>' + dishes[i].ingredients + '</td><td>' + dishes[i].restaurantName + '</td>' +
-            '<td>' + dishes[i].restaurantCity + '</td><td></td><td>' + edit + duplicate + remove + '</td></tr>').appendTo($("#addedDishes"));
+        if (dishes[i].dishUrl != "") {
+            var img = "<img src=\"" + dishes[i].dishUrl + "\" height=\"100px\" width=\"100px\" </img>";
+            $('<tr><td>' + Number(Number(i) + Number(1)) + '</td><td>' + dishes[i].dishName + '</td><td>' + dishes[i].specialTypes + '</td><td>' + dishes[i].ingredients + '</td><td>' + dishes[i].restaurantName + '</td>' +
+                '<td>' + dishes[i].restaurantCity + '</td><td>' + img + '</td><td>' + edit + duplicate + remove + '</td></tr>').appendTo($("#addedDishes"));
+        }
+        else {
+            $('<tr><td>' + Number(Number(i) + Number(1)) + '</td><td>' + dishes[i].dishName + '</td><td>' + dishes[i].specialTypes + '</td><td>' + dishes[i].ingredients + '</td><td>' + dishes[i].restaurantName + '</td>' +
+                '<td>' + dishes[i].restaurantCity + '</td><td></td><td>' + edit + duplicate + remove + '</td></tr>').appendTo($("#addedDishes"));
+        }
     }
 }
 
@@ -57,8 +66,16 @@ function buildFavoritesDishes(dishes) {
     $("#favoritesDishes").empty();
     for(var i = 0; i < dishes.length; i++) {
         var remove = "<button class=\"btn btn-default\" onclick=\"remove(" + dishes[i].id + ")\">הסר מנה</button>";
-        $('<tr><td>' + Number(Number(i)+ Number(1)) + '</td><td>' + dishes[i].dishName + '</td><td>' + dishes[i].specialTypes + '</td><td>' + dishes[i].ingredients + '</td><td>' + dishes[i].restaurantName + '</td>' +
-            '<td>' + dishes[i].restaurantCity + '</td><td></td><td>' + remove + '</td></tr>').appendTo($("#favoritesDishes"));
+        if (dishes[i].dishUrl!="") {
+            var img = "<img src=\""+ dishes[i].dishUrl + "\" height=\"100px\" width=\"100px\" </img>";
+            $('<tr><td>' + Number(Number(i)+ Number(1)) + '</td><td>' + dishes[i].dishName + '</td><td>' + dishes[i].specialTypes + '</td><td>' + dishes[i].ingredients + '</td><td>' + dishes[i].restaurantName + '</td>' +
+                '<td>' + dishes[i].restaurantCity + '</td><td>'+img+'</td><td>' + remove + '</td></tr>').appendTo($("#favoritesDishes"));
+        }
+        else {
+            $('<tr><td>' + Number(Number(i)+ Number(1)) + '</td><td>' + dishes[i].dishName + '</td><td>' + dishes[i].specialTypes + '</td><td>' + dishes[i].ingredients + '</td><td>' + dishes[i].restaurantName + '</td>' +
+                '<td>' + dishes[i].restaurantCity + '</td><td></td><td>' + remove + '</td></tr>').appendTo($("#favoritesDishes"));
+        }
+
     }
 }
 
@@ -139,7 +156,7 @@ function editRestaurant() {
             contentType: false,
             success: function (isAdmin) {
                 alert("השינויים נשמרו");
-                if (isAdmin)
+                if (isAdmin === "true")
                     window.location.href = 'admin.html';
                 else
                     window.location.href = 'restProfile.html';
@@ -241,7 +258,7 @@ function editCustomer() {
             },
             success: function (isAdmin) {
                 alert("השינויים נשמרו");
-                if (isAdmin)
+                if (isAdmin === "true")
                     window.location.href = 'admin.html';
                 else
                     window.location.href = 'profile.html';
@@ -249,4 +266,22 @@ function editCustomer() {
         });
     }
 }
+
+function addImg(element, url, height, width)
+{
+    if(!url)
+        url = "resources/logo.png";
+
+    var added = false;
+    if(url) {
+        added = true;
+        var img = document.createElement('img');
+        img.setAttribute('src', url);
+        img.setAttribute('height', height);
+        img.setAttribute('width', width);
+        element.appendChild(img);
+    }
+    return added;
+}
+
 

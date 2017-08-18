@@ -67,7 +67,29 @@ public class ProfileServlet extends HttpServlet {
         else if (requestType.equals("deleteDish")) {
             deleteDish(request,response);
         }
+        else if (requestType.equals("changePassword")){
+            changePassword(request,response);
+        }
     }
+
+    private void changePassword(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String usernameFromSession = SessionUtils.getParameter(request, Constants.USERNAME);
+        boolean isAdmin = false;
+        if (usernameFromSession.equals("CheckEat")) {
+            usernameFromSession = request.getParameter("userName");
+            isAdmin = true;
+        }
+        SignedUser signedUser = em.find(SignedUser.class,usernameFromSession);
+        em.getTransaction().begin();
+        signedUser.setPassword(request.getParameter("password"));
+        signedUser.setPassword2(request.getParameter("password"));
+        em.getTransaction().commit();
+        response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();
+        out.println(isAdmin);
+        out.flush();
+    }
+
 
     private void deleteDish(HttpServletRequest request, HttpServletResponse response) {
         String usernameFromSession = SessionUtils.getParameter(request, Constants.USERNAME);
@@ -151,7 +173,7 @@ public class ProfileServlet extends HttpServlet {
         restaurant.setRestaurantName(request.getParameter(Constants.REST_NAME));
         restaurant.setCity(request.getParameter(Constants.REST_CITY));
         restaurant.setStreet(request.getParameter("restStreet"));
-        restaurant.setStreetNum(request.getParameter("restStreetNum"));
+        restaurant.setStreetNum(Integer.parseInt(request.getParameter("restStreetNum")));
         restaurant.setEmail(request.getParameter(Constants.EMAIL));
         restaurant.setPhone(request.getParameter(Constants.PHONE));
         restaurant.setContactName(request.getParameter(Constants.CONTACT_NAME));

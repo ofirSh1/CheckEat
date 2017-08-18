@@ -89,7 +89,7 @@ public class LoadDataBaseServlet extends HttpServlet {
         for (GsonDish dish: dishes) {
             if (em.find(Dish.class,dish.getId())==null){ // if dish not in dataBase
                     newDish = new Dish();
-                    dishRestaurant = appManager.getDishRestaurant(em,dish.getRestaurantName(),dish.getRestaurantCity(),dish.getRestaurantStreet(),dish.getRestaurantStreetNum());
+                    dishRestaurant = appManager.getDishRestaurant(em,dish.getRestaurantName(),dish.getRestaurantCity(),dish.getRestaurantStreet(),Integer.toString(dish.getRestaurantStreetNum()));
                     newDish.gsonDishToDish(dish,dishRestaurant);
                     newDish.setDishUrl(ServletUtils.loadImageURL(dish.getDishUrl()));
                     em.getTransaction().begin();

@@ -38,7 +38,7 @@ public class RestaurantRegServlet extends HttpServlet{
         restaurant.setRestaurantName(request.getParameter(Constants.REST_NAME));
         restaurant.setCity(request.getParameter("city"));
         restaurant.setStreet(request.getParameter("street"));
-        restaurant.setStreetNum(request.getParameter("streetNum")); // TODO check
+        restaurant.setStreetNum(Integer.parseInt(request.getParameter("streetNum")));
         restaurant.setLink(request.getParameter(Constants.REST_LINK));
         restaurant.setContactName(request.getParameter(Constants.CONTACT_NAME));
         restaurant.setContactPhone(request.getParameter(Constants.CONTACT_PHONE));

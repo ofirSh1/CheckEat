@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/menu.css">
     <link rel="stylesheet" href="css/form.css">
+    <link rel="stylesheet" href="css/regularRegisterFormat.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -37,42 +38,40 @@
     </div>
 </nav>
 
-<div class="container-fluid">
-
-    <h2>הרשמה</h2>
+<div class="container-fluid" id="customerReg">
 
     <form class="container-fluid moveLeft" action="customerReg" method="get" id="form">
 
         <div class="form-group">
-            <label for="username">שם משתמש*:</label>
+            <!--label for="username">שם משתמש*:</label-->
             <input type="text" id="username" name="username" class="form-control">
         </div>
 
         <div class="form-group">
-            <label for="email">אימייל*:</label>
+            <!--label for="email">אימייל*:</label-->
             <input type="email" id="email" name="email" class="form-control">
         </div>
 
         <div class="form-group">
-            <label for="phone">טלפון:</label>
+            <!--label for="phone">טלפון:</label-->
             <input type="tel" id="phone" name="phone" class="form-control">
         </div>
 
         <div class="form-group">
-            <label for="password">סיסמא*:</label>
+            <!--label for="password">סיסמא*:</label-->
             <input type="password" id="password" name="password" class="form-control">
         </div>
 
         <div class="form-group">
-            <label for="verifyPassword">אישור סיסמא*:</label>
+            <!--label for="verifyPassword">אישור סיסמא*:</label-->
             <input type="password" id="verifyPassword" name="verifyPassword" class="form-control">
         </div>
 
         <div class="form-group">
-            <label>*שדה חובה</label>
+            <!--label>*שדה חובה</label-->
         </div>
 
-        <button type="submit" class="btn btn-default btnStyle">הרשם</button>
+        <button type="submit" class="btn btn-warning" id="registerBtn">הרשם</button>
 
     </form>
 </div>

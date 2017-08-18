@@ -2,28 +2,29 @@ var specialTypesEnum = {vegetarian:'צמחוני', naturalist:'טבעוני', ko
 var restProfile = false;
 
 $(function () {
-    checkIfRestaurant();
+    if (window.location.href != "http://localhost:8080/editDish.html")
+        checkIfRestaurant();
 });
 
 function checkIfRestaurant(){
-    $.ajax({
-        type: 'get',
-        url: 'dish',
-        async: false,
-        data: {
-            'requestType': 'loadCities'
-        },
-        success: function (cities) {
-            var citySelect = document.getElementById("selectCity");
-            var myOption;
-            for (var i = 0; i < cities.length; i++) {
-                myOption = document.createElement("option");
-                myOption.text = cities[i].name;
-                myOption.value = i;
-                citySelect.add(myOption);
+        $.ajax({
+            type: 'get',
+            url: 'dish',
+            async: false,
+            data: {
+                'requestType': 'loadCities'
+            },
+            success: function (cities) {
+                var citySelect = document.getElementById("selectCity");
+                var myOption;
+                for (var i = 0; i < cities.length; i++) {
+                    myOption = document.createElement("option");
+                    myOption.text = cities[i].name;
+                    myOption.value = i;
+                    citySelect.add(myOption);
+                }
             }
-        }
-    });
+        });
     $.ajax({
         url: 'profile',
         data: {
@@ -119,6 +120,17 @@ function getSpecialTypes() {
 }
 
 function editDish() {
+    $.ajax({
+        url: 'profile',
+        data: {
+            "requestType": 'checkIfRestaurant'
+        },
+        success: function (isRest) {
+            if (isRest.length != 0) {
+                restProfile = true;
+            }
+        }
+    });
     var dishId = sessionStorage.getItem("dishId");
     var dishName = $('#dishName').val();
     var ingredients = $('#ingredients').val().split(',');
@@ -222,6 +234,4 @@ function duplicateDishOnLoad(){
                 document.getElementById("noGluten").checked = true;
         }
     });
-
-
 }

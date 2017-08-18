@@ -124,7 +124,7 @@ public class AddDishServlet extends HttpServlet{
             restaurant.setRestaurantName(restName);
             restaurant.setCity(restCity);
             restaurant.setStreet(restStreet);
-            restaurant.setStreetNum(restStreetNum);
+            restaurant.setStreetNum(Integer.parseInt(restStreetNum));
             restaurant.setContactName(restName);
             restaurant.setLink(restName);
             dish.setRestaurant(restaurant);

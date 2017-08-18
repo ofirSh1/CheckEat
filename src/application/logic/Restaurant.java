@@ -13,7 +13,7 @@ public class Restaurant extends SignedUser {
     private String logoUrl;
     private String city;
     private String street;
-    private String streetNum;
+    private int streetNum;
     @OneToMany(mappedBy = "restaurant")
     private List<Dish> dishes = new ArrayList<>();
 
@@ -30,7 +30,7 @@ public class Restaurant extends SignedUser {
         this.street = street;
     }
 
-    public void setStreetNum(String streetNum) {
+    public void setStreetNum(int streetNum) {
         this.streetNum = streetNum;
     }
 
@@ -63,7 +63,7 @@ public class Restaurant extends SignedUser {
         return street;
     }
 
-    public String getStreetNum() {
+    public int getStreetNum() {
         return streetNum;
     }
 

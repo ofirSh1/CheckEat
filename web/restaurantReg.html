@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/menu.css">
     <link rel="stylesheet" href="css/form.css">
+    <link rel="stylesheet" href="css/restRegisterFormat.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -38,84 +39,85 @@
     </div>
 </nav>
 
-<div class="container-fluid">
+<div class="container-fluid" id="restReg">
 
-    <h2>הרשמה</h2>
+    <!--h2>הרשמה</h2-->
 
     <form class="container-fluid moveLeft" id="form" action="restaurantReg" method="post" enctype="multipart/form-data">
 
         <div class="form-group">
-            <label for="username">שם משתמש*:</label>
+            <!--label for="username">שם משתמש*:</label-->
             <input type="text" id="username" name="username" class="form-control">
         </div>
 
         <div class="form-group">
-            <label for="email">אימייל*:</label>
+            <!--label for="email">אימייל*:</label-->
             <input type="email" id="email" name="email" class="form-control">
         </div>
 
         <div class="form-group">
-            <label for="contactName">שם איש קשר*:</label>
+            <!--label for="contactName">שם איש קשר*:</label-->
             <input type="text" id="contactName" name="contactName" class="form-control">
         </div>
 
         <div class="form-group">
-            <label for="contactPhone">טלפון של איש קשר:</label>
+            <!--label for="contactPhone">טלפון של איש קשר:</label-->
             <input type="tel" id="contactPhone" name="contactPhone" class="form-control">
         </div>
 
         <div class="form-group">
-            <label for="password">סיסמא*:</label>
+            <!--label for="password">סיסמא*:</label-->
             <input type="password" id="password" name="password" class="form-control">
         </div>
 
         <div class="form-group">
-            <label for="verifyPassword">אישור סיסמא*:</label>
+            <!--label for="verifyPassword">אישור סיסמא*:</label-->
             <input type="password" id="verifyPassword" name="verifyPassword" class="form-control">
         </div>
 
         <div class="form-group">
-            <label for="restName">שם מסעדה*:</label>
+            <!--label for="restName">שם מסעדה*:</label-->
             <input type="text" id="restName" name="restName" class="form-control">
         </div>
 
-        <div class="form-group">
-            <label for="selectCity">עיר*:</label><br>
+        <div class="form-group" id="selectCityDiv">
+            <!--label for="selectCity">עיר*:</label-->
+            <!--br-->
             <select class="form-control js-example-basic-single" id="selectCity" name="city">
             </select>
         </div>
 
         <div class="form-group">
-            <label for="street">רחוב:</label>
+            <!--label for="street">רחוב:</label-->
             <input type="text" id="street" name="street" class="form-control">
         </div>
 
         <div class="form-group">
-            <label for="streetNum">מספר:</label>
+            <!--label for="streetNum">מספר:</label-->
             <input type="number" id="streetNum" name="streetNum" class="form-control">
         </div>
 
         <div class="form-group">
-            <label for="phone">טלפון המסעדה:</label>
+            <!--label for="phone">טלפון המסעדה:</label-->
             <input type="tel" id="phone" name="phone" class="form-control">
         </div>
 
         <div class="form-group">
-            <label for="restLink">קישור לאתר המסעדה*:</label>
+            <!--label for="restLink">קישור לאתר המסעדה*:</label-->
             <input type="text" id="restLink" name="restLink" class="form-control">
         </div>
 
         <div class="form-group">
-            <label for="image">תמונה:</label>
+            <!--label for="image">תמונה:</label-->
             <input class="btn btn-default" type="file" id="image" name="image" accept="image/*"/>
             <input type="text" id="imageURL" name="imageURL" class="form-control">
         </div>
 
         <div class="form-group">
-            <label>*שדה חובה</label>
+            <!--label>*שדה חובה</label-->
         </div>
 
-        <button type="submit" class="btn btn-default btnStyle">הרשם</button>
+        <button type="submit" class="btn btn-warning" id="registerBtn">הרשם</button>
 
     </form>
 </div>

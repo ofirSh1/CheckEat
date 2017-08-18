@@ -38,25 +38,17 @@
     </div>
 </nav>
 
+<div class="row-fluid" style="background-color: white">
+    <div class="span8" align="center">
 <h1> פרופיל לקוח </h1>
-<h2>פרטים אישיים</h2>
-<p>
+        <h3> שם משתמש:
+            <label id="username"></label></h3>
+        <h6> אימייל:
+            <label id="email"></label></h6>
+        <h6> טלפון:
+            <label id="phone"></label></h6>
+    <button type="button" onclick="window.location.href='editCustomer.html'">עריכת פרטים</button>
     <br>
-    שם משתמש:
-    <label id="username"></label>
-    <br>
-        אימייל:
-    <label id="email"></label>
-    <br>
-    טלפון:
-    <label id="phone"></label>
-    <br>
-    <button type="button" onclick="window.location.href='editCustomer.html'">עריכה</button>
-    <br>
-    <br>
-    <button type="button" onclick="window.location.href='addDish.html'">הוסף מנה למסעדה</button>
-    <br>
-</p>
 
 <div dir="rtl" class="panel panel-default" style="display: inline-block">
     <div class="panel-heading">
@@ -86,7 +78,10 @@
 
 <div dir="rtl" class="panel panel-default" style="display: inline-block">
     <div class="panel-heading">
-        מנות שהוספתי
+        <div style="display: inline-block; vertical-align: middle;">
+            <label>   מנות שהוספתי</label>
+            <button type="button" onclick="window.location.href='addDish.html'">הוסף מנה למסעדה</button>
+        </div>
         <div class="panel-body" >
                     <div class="table-responsive" style="float: right">
                         <table class="table table-bordered table-hover table-striped" style="text-align:right">
@@ -107,6 +102,8 @@
                         </table>
                     </div>
        </div>
+    </div>
+</div>
     </div>
 </div>
 </body>

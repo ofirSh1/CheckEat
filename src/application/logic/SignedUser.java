@@ -75,7 +75,6 @@ public class SignedUser
     public boolean isValidUser() {
         return isStringValid(userName) &&
                 isStringValid(email) &&
-                isStringValid(phone) &&
                 isStringValid(password) &&
                 isStringValid(verifyPassword);
     }

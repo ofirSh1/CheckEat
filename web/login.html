@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/menu.css">
     <link rel="stylesheet" href="css/form.css">
+    <link rel="stylesheet" href="css/signIn.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -37,26 +38,25 @@
     </div>
 </nav>
 
-<div class="container-fluid">
+<div class="container-fluid" id="signIn">
 
-    <h2>כניסה</h2>
 
     <form class="container-fluid moveLeft" action="login" method="post" id="form" accept-charset="UTF-8">
 
         <input type="hidden" name="requestType" value="login">
 
         <div class="form-group">
-            <label for="username">שם משתמש:</label>
+            <!--label for="username">שם משתמש:</label-->
             <input type="text" id="username" name="username" class="form-control">
         </div>
 
         <div class="form-group">
-            <label for="password">סיסמא:</label>
+            <!--label for="password">סיסמא:</label-->
             <input type="password" id="password" name="password" class="form-control">
         </div>
 
-        <button type="submit" class="btn btn-default">כניסה</button>
-        <button type="button" class="btn btn-default">שכחתי סיסמא</button>
+        <button type="submit" class="btn btn-warning" id="signInBtn">כניסה</button>
+        <button type="button" class="btn btn-warning" id="passwordBtn">שכחתי סיסמא</button>
 
     </form>
 </div>

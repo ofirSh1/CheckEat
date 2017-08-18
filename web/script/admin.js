@@ -33,15 +33,26 @@ function getRestaurants() {
         },
         success: function (restaurants) {
             $("#restaurants").empty();
+            var link;
+            var img;
             for (var i = 0; i < restaurants.length; i++) {
                 var edit = "<button class=\"btn btn-default\" onclick=\"editRestaurant(\'" + restaurants[i].userName + "\')\">עריכה</button>";
                 var changePassword = "<button class=\"btn btn-default\" onclick=\"changePassword(\'" + restaurants[i].userName + "\')\">שינוי סיסמא</button>";
                 var duplicate = "<button class=\"btn btn-default\" onclick=\"duplicate(\'" + restaurants[i].userName + "\')\">שכפול</button>";
                 var remove = "<button class=\"btn btn-default\" onclick=\"remove(\'" + restaurants[i].userName + "\')\">הסר</button>";
+                if (restaurants[i].logoUrl != "")
+                    img = "<img src=\"" + restaurants[i].logoUrl + "\" height=\"100px\" width=\"100px\" </img>";
+                else
+                    img = "";
+                if (restaurants[i].link != "")
+                   // link = "<a href=\"" + restaurants[i].link + "\" innerHTML=\"לחץ כאן\" </a>";
+                    link = "<a href=\"" + restaurants[i].link + "\"> לחץ כאן </a>";
+                else
+                    link = "";
                 $('<tr><td>' + Number(Number(i) + Number(1)) + '</td><td>' + restaurants[i].userName + '</td><td>' + restaurants[i].password + '</td><td>' + restaurants[i].email + '</td><td>' + restaurants[i].restaurantName + '</td>' +
                     '<td>' + restaurants[i].city + '</td><td>' + restaurants[i].street + '</td><td>' + restaurants[i].streetNum + '</td>' +
-                    '<td>' + restaurants[i].phone + '</td><td>' + restaurants[i].link + '</td><td>' + restaurants[i].contactName + '</td><td>' + restaurants[i].contactPhone + '</td>' +
-                    '<td></td><td>' + edit + changePassword + '</td><td>' + duplicate + '</td><td>' + remove + '</td></tr>').appendTo($("#restaurants"));
+                    '<td>' + restaurants[i].phone + '</td><td>' + link + '</td><td>' + restaurants[i].contactName + '</td><td>' + restaurants[i].contactPhone + '</td>' +
+                    '<td>' + img + '</td><td>' + edit + changePassword + '</td><td>' + duplicate + '</td><td>' + remove + '</td></tr>').appendTo($("#restaurants"));
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {
