@@ -50,7 +50,7 @@ body {
     margin-top: 50px;
     margin-right: 150px;
     height: 300px;
-    background: url("../resources/aboutBackground.png") no-repeat;
+  /*  background: url("../resources/aboutBackground.png") no-repeat; */
 }
 
 #termsBackground{
@@ -58,5 +58,5 @@ body {
     margin-top: 50px;
     margin-right: 150px;
     height: 300px;
-    background: url("../resources/termsBackground.png") no-repeat;
+  /*  background: url("../resources/termsBackground.png") no-repeat; */
 }
