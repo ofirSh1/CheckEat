@@ -5,7 +5,6 @@ import application.utils.Constants;
 import application.utils.ServletUtils;
 import application.utils.SessionUtils;
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import com.google.gson.reflect.TypeToken;
 
 import javax.persistence.EntityManager;
@@ -17,7 +16,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.util.*;
+import java.util.List;
+import java.util.Scanner;
+
 
 @WebServlet(name = "SearchDishServlet", urlPatterns = {"/dish"})
 @MultipartConfig
@@ -162,7 +163,6 @@ public class SearchDishServlet extends HttpServlet
     }
 
     private void getRestaurantsNearby(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
         AppManager appManager = ServletUtils.getAppManager(getServletContext());
         String city = request.getParameter("city");
         List<RestaurantShowFormat> result = appManager.getRestaurantsNearby(em, city);

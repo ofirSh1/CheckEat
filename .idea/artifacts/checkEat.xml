@@ -3,6 +3,9 @@
     <output-path>$PROJECT_DIR$/out/artifacts/checkEat</output-path>
     <root id="archive" name="checkEat.war">
       <element id="artifact" artifact-name="checkEat:war exploded" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="lib" />
+      </element>
     </root>
   </artifact>
 </component>

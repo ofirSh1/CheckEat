@@ -55,7 +55,6 @@
                 <div class="form-group" id="selectCityDiv">
                     <!--label for="selectCity">עיר:</label-->
                     <select class="form-control js-example-basic-single" id="selectCity">
-
                     </select>
                 </div>
 
@@ -67,7 +66,7 @@
                 <div class="form-group">
                     <!--label for="checkBoxes">סוג מנה:</label-->
                     <div class="form-group moveLeft" id="checkBoxes">
-                        <div class="checkbox" id="vegetarianC">
+                        <div class="checkbox", id="vegetarianC">
                             <label><input type="checkbox" name="vegetarian" id="vegetarian"></label>
                         </div>
                         <div class="checkbox" id="naturalistC">
@@ -95,16 +94,18 @@
                     <input type="text" id="ingredients" class="form-control">
                 </div>
 
-                <button id="searchBtn" type="button" class="btn btn-warning" onclick="findDish()">חפש</button>
+                <button id="searchBtn", type="button" class="btn btn-warning" onclick="findDish()">חפש</button>
 
 
             </form>
         </div>
     </div>
+
     <div class="col-sm-4">
         <row>
             <!-- Header Carousel -->
-            <div id="myCarousel" class="carousel slide">
+            <div id="myCarousel" class="carousel slide"
+            >
                 <!-- Indicators -->
                 <ol class="carousel-indicators">
                     <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
@@ -137,44 +138,68 @@
                 </a>
             </div>
         </row>
-        <row>
-            <!-- Header Carousel -->
-            <div id="myCarousel2" class="carousel slide">
-                <!-- Indicators -->
-                <ol class="carousel-indicators">
-                    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-                    <li data-target="#myCarousel" data-slide-to="1"></li>
-                    <li data-target="#myCarousel" data-slide-to="2"></li>
-                </ol>
+        <div class="carousel slide" data-ride="carousel" id="quote-carousel">
+            <!-- Bottom Carousel Indicators -->
+            <ol class="carousel-indicators">
+                <li data-target="#quote-carousel" data-slide-to="0" class="active"></li>
+                <li data-target="#quote-carousel" data-slide-to="1"></li>
+                <li data-target="#quote-carousel" data-slide-to="2"></li>
+            </ol>
 
-                <!-- Wrapper for slides -->
-                <div class="carousel-inner">
-                    <div class="item active">
-                        <img src="resources/comment1.jpg" style="width:100%;">
-                        <!--div class="fill slideDiv" style="background: url('resources/1.jpg')" id="dish1"></div-->
-                    </div>
-                    <div class="item">
-                        <img src="resources/comment2.jpg" style="width:100%;">
-                        <!--div class="fill slideDiv" style="background: url('resources/2.jpg')" id="dish2"></div-->
-                    </div>
-                    <div class="item">
-                        <!--div class="fill slideDiv" style="background: url('resources/3.jpg')" id="dish3"></div-->
-                        <img src="resources/comment3.jpg" style="width:100%;">
-                    </div>
+            <!-- Carousel Slides / Quotes -->
+            <div class="carousel-inner">
+
+                <!-- Quote 1 -->
+                <div class="item active">
+                    <blockquote>
+                        <div class="row">
+                            <div class="col-sm-3 text-center">
+                                <!--profile picture-->
+                                <!--img class="img-circle" src="http://wp-desk.com/lovinflat/images/persons/person_1.png" style="width: 100px;height:100px;"-->
+                            </div>
+                            <div class="col-sm-9">
+                                <p>comment1</p>
+                                <small>name</small>
+                            </div>
+                        </div>
+                    </blockquote>
                 </div>
-
-                <!-- Controls -->
-                <a class="right carousel-control" href="#myCarousel2" data-slide="prev">
-                    <span class="icon-prev"></span>
-                </a>
-                <a class="left carousel-control" href="#myCarousel2" data-slide="next">
-                    <span class="icon-next"></span>
-                </a>
+                <!-- Quote 2 -->
+                <div class="item">
+                    <blockquote>
+                        <div class="row">
+                            <div class="col-sm-3 text-center">
+                                <!--img class="img-circle" src="http://wp-desk.com/lovinflat/images/persons/person_2.png" style="width: 100px;height:100px;"-->
+                            </div>
+                            <div class="col-sm-9">
+                                <p>comment2</p>
+                                <small>Someone famous</small>
+                            </div>
+                        </div>
+                    </blockquote>
+                </div>
+                <!-- Quote 3 -->
+                <div class="item">
+                    <blockquote>
+                        <div class="row">
+                            <div class="col-sm-3 text-center">
+                                <!--img class="img-circle" src="http://wp-desk.com/lovinflat/images/persons/person_3.png" style="width: 100px;height:100px;"-->
+                            </div>
+                            <div class="col-sm-9">
+                                <p>comment3</p>
+                                <small>Someone famous</small>
+                            </div>
+                        </div>
+                    </blockquote>
+                </div>
             </div>
-        </row>
+
+            <!-- Carousel Buttons Next/Prev -->
+            <a data-slide="prev" href="#quote-carousel" class="left carousel-control"><i class="fa fa-chevron-left"></i></a>
+            <a data-slide="next" href="#quote-carousel" class="right carousel-control"><i class="fa fa-chevron-right"></i></a>
+        </div>
     </div>
+
 </row>
-
-
 </body>
 </html>
