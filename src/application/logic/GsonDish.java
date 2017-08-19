@@ -36,7 +36,7 @@ public class GsonDish {
         return restaurantStreet;
     }
 
-    public int getRestaurantStreetNum() {
+    public String getRestaurantStreetNum() {
         return restaurantStreetNum;
     }
 
@@ -70,7 +70,7 @@ public class GsonDish {
     private String restaurantName;
     private String restaurantCity;
     private String restaurantStreet;
-    private int restaurantStreetNum;
+    private String restaurantStreetNum;
 
 
     public GsonDish(Dish dish) {

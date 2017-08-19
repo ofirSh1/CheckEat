@@ -21,21 +21,6 @@ function getUserType() {
 }
 
 function checkUploader(userName, element) {
- /*   $.ajax({
-        url: 'login',
-        data: {
-            'requestType': 'getGivenUserType',
-            'userName': userName
-        },
-        type: 'get',
-        success: function(userType){
-            if(userType && userType === 'restaurant') {
-                var vIcon = addIcon(element, 'fa fa-check-circle');
-                vIcon.title = 'הועלה ע"י המסעדה';
-            }
-        }
-    });*/
-
     $.ajax({
         url: 'profile',
         async: false,
@@ -238,25 +223,23 @@ function buildCommentsWindow(dishId, comments) {
     var boardWin = window.open("", "Comments", "width=400,height=400");
     var link = document.createElement("link");
     link.media = "screen,print";
-
-    var addCommentButton = boardWin.document.createElement('button');
-    addCommentButton.innerHTML = "הוסף תגובה";
-    addCommentButton.onclick = function () { addCommentToDish(dishId, inputComment.value) };
-    boardWin.document.body.appendChild(addCommentButton);
-
     var ul = boardWin.document.createElement('ul');
     $.each(comments, function(outerKey, outerValue){
         var li = boardWin.document.createElement('li');
-        addLabel(outerKey + " : " + outerValue, li);
+        addLabel(li, outerKey + " : " + outerValue);
         ul.appendChild(li);
     });
     boardWin.document.body.appendChild(ul);
     var inputComment = boardWin.document.createElement('input');
     inputComment.setAttribute("type", "text");
     boardWin.document.body.appendChild(inputComment);
+    var addCommentButton = boardWin.document.createElement('button');
+    addCommentButton.innerHTML = "הוסף תגובה";
+    addCommentButton.onclick = function () { addCommentToDish(dishId, inputComment.value,ul,boardWin) };
+    boardWin.document.body.appendChild(addCommentButton);
 }
 
-function addCommentToDish(dishId, text, ul) {
+function addCommentToDish(dishId, text, ul, window) {
     if(userType != null) {
         if (text === "")
             alert("אין תוכן");
@@ -268,8 +251,8 @@ function addCommentToDish(dishId, text, ul) {
                     'comment': text,
                     'dishId': dishId
                 },
-                success: function (response) {
-                    addCommentToList(text, ul);
+                success: function () {
+                    addCommentToList(text, ul, window);
                 }
             });
         }
@@ -280,9 +263,9 @@ function addCommentToDish(dishId, text, ul) {
 
 }
 
-function addCommentToList(text, ul) {
-    var li = boardWin.document.createElement('li');
-    addLabel(" : " + text, li);
+function addCommentToList(text, ul, window) {
+    var li = window.document.createElement('li');
+    addLabel(li, " : " + text);
     ul.appendChild(li);
 }
 
@@ -418,12 +401,5 @@ function isEmptyList(list) {
             }
         }
     }
-    return empty;
-}
-
-function isEmptyString(str) {
-    var empty = true;
-    if(str && str.length !== 0)
-        empty = false;
     return empty;
 }

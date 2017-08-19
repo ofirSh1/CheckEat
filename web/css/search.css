@@ -1,0 +1,89 @@
+#search {
+    /*border: solid;
+    border-width: 2px;
+    border-color: #DEB887;*/
+    width: 960px;
+    height: 720px;
+    position: relative;
+    /*margin-top: 5px;*/
+    background: url("../resources/search.png")  no-repeat;
+    background-position: right;
+    margin-right: 50px;
+}
+#restName{
+    position: absolute;
+    top: 190px;
+    right: 225px;
+}
+#selectCityDiv{
+    position: absolute;
+    top: 250px;
+    right: 225px;
+}
+#dishName{
+    position: absolute;
+    top: 300px;
+    right: 225px;
+}
+
+#vegetarianC{
+    position: absolute;
+    top: 378px;
+    right: 100px;
+}
+#naturalistC{
+    position: absolute;
+    top: 420px;
+    right: 100px;
+
+}
+#kosherC{
+    position: absolute;
+    top: 450px;
+    right: 100px;
+}
+#noSugarC{
+    position: absolute;
+    top: 478px;
+    right: 100px;
+}
+#noGlutenC{
+    position: absolute;
+    top: 503px;
+    right: 100px;
+}
+#otherTypes{
+    position: absolute;
+    top: 565px;
+    right: 225px;
+}
+#ingredients{
+    position: absolute;
+    top: 620px;
+    right: 225px;
+}
+
+#searchBtn{
+    position: absolute;
+    top: 620px;
+    right: 700px;
+}
+#myCarousel{
+    margin-top: 50px;
+    width: 120%;
+    /*height: 100px;*/
+
+}
+
+#myCarousel2{
+    margin-top: 100px;
+    width: 120%;
+
+}
+
+.carousel-inner{
+    width:100%;
+
+    max-height: 350px !important;
+}
+

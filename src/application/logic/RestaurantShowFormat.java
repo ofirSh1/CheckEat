@@ -4,7 +4,7 @@ public class RestaurantShowFormat {
     private String restName;
     private String restCity;
     private String restStreet;
-    private int restStreetNum;
+    private String restStreetNum;
     private String restLink;
     private String logoUrl;
 

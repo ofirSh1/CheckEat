@@ -15,7 +15,7 @@ public class DishShowFormat {
     private String restName;
     private String restCity;
     private String restStreet;
-    private int restStreetNum;
+    private String restStreetNum;
     private String restlink;
     private String restUrl;
     private String addByUserName;

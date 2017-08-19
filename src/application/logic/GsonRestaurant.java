@@ -11,7 +11,7 @@ public class GsonRestaurant extends SignedUser{
     private String contactPhone;
     private String logoUrl;
     private String street;
-    private int streetNum;
+    private String streetNum;
 
     public List<GsonDish> getDishes() {
         return dishes;

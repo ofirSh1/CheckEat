@@ -50,7 +50,9 @@ function locationSuccess(position) {
             var currCity = formatted_address.split(',').slice(1,2);
 
             var option = $('#selectCity option').filter(function() { return $(this).html() == currCity;});
-            option.attr('selected', true);
+            option.attr('selected', 'selected');
+            //var citySelect = document.getElementById("selectCity");
+            //citySelect[0].options[0].textContent = currCity;
             //TODO
         }
     };

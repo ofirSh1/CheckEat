@@ -173,7 +173,7 @@ public class ProfileServlet extends HttpServlet {
         restaurant.setRestaurantName(request.getParameter(Constants.REST_NAME));
         restaurant.setCity(request.getParameter(Constants.REST_CITY));
         restaurant.setStreet(request.getParameter("restStreet"));
-        restaurant.setStreetNum(Integer.parseInt(request.getParameter("restStreetNum")));
+        restaurant.setStreetNum(request.getParameter("restStreetNum"));
         restaurant.setEmail(request.getParameter(Constants.EMAIL));
         restaurant.setPhone(request.getParameter(Constants.PHONE));
         restaurant.setContactName(request.getParameter(Constants.CONTACT_NAME));
