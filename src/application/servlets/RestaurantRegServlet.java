@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 
-@WebServlet(name = "RestaurantRegServlet", urlPatterns = {"/restaurantReg"})
+@WebServlet(name = "RestaurantRegServlet", urlPatterns = {"/restaurantReg"}, loadOnStartup = 1)
 @MultipartConfig
 public class RestaurantRegServlet extends HttpServlet{
 
@@ -53,7 +53,7 @@ public class RestaurantRegServlet extends HttpServlet{
             ServletUtils.redirect(response, "הינך רשום כבר במערכת", "index.html");
         }
         else if(!restaurant.isValidUser()) {
-            if (usernameFromSession.equals("CheckEat"))
+            if (usernameFromSession != null && usernameFromSession.equals("CheckEat"))
                 ServletUtils.redirect(response, "נא למלא שדות חובה", "duplicateRestaurant.html");
             else
                 ServletUtils.redirect(response, "נא למלא שדות חובה", "restaurantReg.html");

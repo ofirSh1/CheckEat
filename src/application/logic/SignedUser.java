@@ -1,8 +1,10 @@
 package application.logic;
 
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class SignedUser
@@ -19,6 +21,12 @@ public class SignedUser
     private String verifyPassword;
     private Type type;
 
+    @ElementCollection // TODO check
+    private List<Integer> likedDishes = new ArrayList<>();
+
+    public List<Integer> getLikedDishes() {
+        return likedDishes;
+    }
 
     public Type getType() {
         return type;

@@ -100,7 +100,6 @@ public class Restaurant extends SignedUser {
     public boolean isValidUser() {
         return super.isValidUser() &&
                 isStringValid(restaurantName) &&
-                isStringValid(link) &&
                 isStringValid(contactName) &&
                 isStringValid(city);
     }

@@ -1,6 +1,5 @@
 package application.logic;
 
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
@@ -22,10 +21,10 @@ public class Customer extends SignedUser {
     @OneToMany
     private List<Dish> favoritesDishes = new ArrayList<>();
 
-    @ElementCollection
+  /*  @ElementCollection // TODO check
     private List<Integer> likedDished = new ArrayList<>();
 
     public List<Integer> getLikedDished() {
         return likedDished;
-    }
+    }*/
 }

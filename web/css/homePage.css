@@ -89,10 +89,6 @@ footer {
     color: #f79621;
 }
 
-.panel-body{
-    height: 250px;
-}
-
 .detailStyle {
     text-decoration: underline;
 }
@@ -108,3 +104,72 @@ footer {
     background-color: #FDF5E6;
 }
 
+/*DISH AND REST SIZE*/
+.dishSizeHome {
+    height: 250px;
+}
+
+.restSizeHome {
+    height: 205px;
+}
+
+.dishSizeShow {
+    height: 300px;
+}
+
+/*COMMENTS*/
+.fa-heart {
+    color: red;
+}
+
+.commentsSection{
+}
+
+.commentsList{
+    overflow: auto;
+    height: 250px;
+    margin-top: 5px;
+}
+
+.comment{
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    background-color: #FDF5E6;
+    border-style: solid;
+    border-color: #DEB887;
+    border-width: 3px;
+}
+
+.userName {
+    font-size: 15px;
+}
+
+.date {
+    float: left;
+    font-weight: normal;
+}
+
+.commentContent {
+    height: 60px;
+    border: 2px;
+    overflow: auto;
+}
+
+.commentTextBox{
+    resize: none;
+}
+
+.commentBtn{
+    vertical-align: top;
+}
+
+.noCommentsLabel{
+    font-weight: normal;
+}
+
+.commentsHeaderLabel{
+    font-size: 20px;
+    color: #DEB887;
+}

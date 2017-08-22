@@ -1,7 +1,8 @@
 package application.logic;
 
-import javax.persistence.ElementCollection;
-import java.util.*;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 public class GsonDish {
     public int getId() {
@@ -65,12 +66,16 @@ public class GsonDish {
 
     private Set<String> ingredients = new HashSet<>();
     private int numLikes = 0;
-    @ElementCollection
-    private Map<String,String> comments = new HashMap<>();
+   /* @ElementCollection
+    private Map<String,String> comments = new HashMap<>();*/
     private String restaurantName;
     private String restaurantCity;
     private String restaurantStreet;
     private String restaurantStreetNum;
+    private String restUsername;
+    private String addByUserName;
+    private String restLink;
+    private String restUrl;
 
 
     public GsonDish(Dish dish) {
@@ -84,8 +89,12 @@ public class GsonDish {
         this.dishUrl = dish.getDishUrl();
         this.uploadDate = dish.getUploadDate();
         this.numLikes = dish.getNumLikes();
-        this.comments = dish.getComments();
+       // this.comments = dish.getComments();
         this.restaurantStreet = dish.getRestaurant().getStreet();
         this.restaurantStreetNum = dish.getRestaurant().getStreetNum();
+        this.restUsername = dish.getRestaurant().getUserName();
+        this.addByUserName = dish.getAddByUserName();
+        this.restLink = dish.getRestaurant().getLink();
+        this.restUrl = dish.getRestaurant().getLogoUrl();
     }
 }

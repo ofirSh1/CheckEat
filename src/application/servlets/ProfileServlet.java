@@ -1,7 +1,9 @@
 package application.servlets;
 
 import application.logic.*;
-import application.utils.*;
+import application.utils.Constants;
+import application.utils.ServletUtils;
+import application.utils.SessionUtils;
 import com.google.gson.Gson;
 
 import javax.persistence.EntityManager;
@@ -14,8 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Date;
-import java.util.List;
 
 @WebServlet(name = "ProfileServlet", urlPatterns = {"/profile"})
 @MultipartConfig
@@ -40,6 +40,12 @@ public class ProfileServlet extends HttpServlet {
         else if (requestType.equals("checkIfRestaurant")) {
             checkIfRestaurant(request,response);
         }
+        else if (requestType.equals("checkIfSaved")) {
+            checkIfDishSavedByUser(request,response);
+        }
+        else if (requestType.equals("checkIfLiked")){
+            checkIfDishLikedByUser(request,response);
+        }
         else if (requestType.equals("favorites")) {
             addAndRemoveFavorites(request,response);
         }
@@ -54,12 +60,6 @@ public class ProfileServlet extends HttpServlet {
         }       
         else if (requestType.equals("editRestaurant")) {
             editRestaurant(request,response);
-        }
-        else if (requestType.equals("like")) {
-            likeAndDisLike(request,response);
-        }
-        else if (requestType.equals("comments")){
-            addComment(request,response);
         }
         else if (requestType.equals("checkIfCustomerOrRestaurant")){
             checkIfCustomerOrRestaurant(request,response);
@@ -89,7 +89,6 @@ public class ProfileServlet extends HttpServlet {
         out.println(isAdmin);
         out.flush();
     }
-
 
     private void deleteDish(HttpServletRequest request, HttpServletResponse response) {
         String usernameFromSession = SessionUtils.getParameter(request, Constants.USERNAME);
@@ -123,38 +122,33 @@ public class ProfileServlet extends HttpServlet {
         }
     }
 
-    private void addComment(HttpServletRequest request, HttpServletResponse response) {
-        Dish dish = em.find(Dish.class,Integer.parseInt(request.getParameter("dishId")));
-        Date date = new Date();
-        em.getTransaction().begin();
-        dish.getComments().put(date.toString(),request.getParameter("comment"));
-        em.getTransaction().commit();
-    }
-
-    private void likeAndDisLike(HttpServletRequest request, HttpServletResponse response) {
+    private void checkIfDishLikedByUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType("text/plain;charset=UTF-8");
+        PrintWriter out = response.getWriter();
         String usernameFromSession = SessionUtils.getParameter(request, Constants.USERNAME);
-        Dish dish = em.find(Dish.class,Integer.parseInt(request.getParameter("dishId")));
-        if(usernameFromSession != null) {
-            Customer customer = em.find(Customer.class, usernameFromSession);
-            if (customer!=null) { // the user is customer
-                if (!customer.getLikedDished().contains(dish.getId())) {
-                    em.getTransaction().begin();
-                    customer.getLikedDished().add(dish.getId());
-                    dish.setNumLikes(dish.getNumLikes()+1);
-                    em.getTransaction().commit();
-                }
-                else {
-                    em.getTransaction().begin();
-                    customer.getLikedDished().remove((Integer)dish.getId());
-                    dish.setNumLikes(dish.getNumLikes()-1);
-                    em.getTransaction().commit();
-                }
+        if (usernameFromSession != null) {
+            SignedUser signedUser = em.find(SignedUser.class, usernameFromSession);
+            if (signedUser != null) {
+                Dish dish = em.find(Dish.class, Integer.parseInt(request.getParameter("dishId")));
+                if (signedUser.getLikedDishes().contains(dish.getId()))
+                    out.println("true");
+                out.flush();
             }
         }
-        else {
-            em.getTransaction().begin();
-            dish.setNumLikes(dish.getNumLikes()+1);
-            em.getTransaction().commit();
+    }
+
+    private void checkIfDishSavedByUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType("text/plain;charset=UTF-8");
+        PrintWriter out = response.getWriter();
+        String usernameFromSession = SessionUtils.getParameter(request, Constants.USERNAME);
+        if (usernameFromSession!=null) {
+            Customer customer = em.find(Customer.class, usernameFromSession);
+            if (customer != null) {
+                Dish dish = em.find(Dish.class, Integer.parseInt(request.getParameter("dishId")));
+                if (customer.getFavoritesDishes().contains(dish))
+                    out.println("true");
+                out.flush();
+            }
         }
     }
 
@@ -280,7 +274,7 @@ public class ProfileServlet extends HttpServlet {
 
     private void getRestaurant(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String usernameFromSession = SessionUtils.getParameter(request, Constants.USERNAME);
-        if (usernameFromSession.equals("CheckEat"))
+        if (usernameFromSession == null || usernameFromSession.equals("CheckEat")) // showMore or admin
             usernameFromSession = request.getParameter("restUserName");
         Restaurant restaurant = em.find(Restaurant.class,usernameFromSession);
         response.setContentType("application/json; charset=UTF-8");

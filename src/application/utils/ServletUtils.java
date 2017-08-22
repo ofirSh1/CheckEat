@@ -116,9 +116,18 @@ public class ServletUtils {
 		try {
 			Map uploadResult = cloudinary.uploader().upload(url, ObjectUtils.emptyMap());
 			return uploadResult.get("url").toString();
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			e.printStackTrace();
 		}
 		return "";
+	}
+
+	public static boolean isValidString(String str) {
+		if(str != null) {
+			String temp = new String(str);
+			return !temp.isEmpty() && temp.trim().length() > 0;
+		}
+		return false;
 	}
 }

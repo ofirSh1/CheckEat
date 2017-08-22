@@ -1,7 +1,6 @@
 package application.logic;
 
 import javax.persistence.*;
-import javax.swing.*;
 import java.util.*;
 
 @Entity
@@ -20,8 +19,10 @@ public class Dish{
     @ElementCollection
     private Set<String> ingredients = new HashSet<>();
     private int numLikes = 0;
-    @ElementCollection
-    private Map<String,String> comments = new HashMap<>();
+   /* @ElementCollection
+    private Map<String,String> comments = new HashMap<>();*/
+   @OneToMany(mappedBy = "dish")
+   private List<Comment> commentList = new ArrayList<>();
     @ManyToOne
     private Restaurant restaurant;
 
@@ -86,8 +87,12 @@ public class Dish{
 
     public int getNumLikes() { return numLikes; }
 
-    public Map<String, String> getComments() {
+  /*  public Map<String, String> getComments() {
         return comments;
+    }*/
+
+    public List<Comment> getCommentList() {
+        return commentList;
     }
 
     public Restaurant getRestaurant() { return restaurant; }

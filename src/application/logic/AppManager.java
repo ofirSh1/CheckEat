@@ -19,19 +19,6 @@ public class AppManager {
             return true;
     }
 
-    public List<DishShowFormat> getDishesNearby(EntityManager em, String city)
-    {
-        javax.persistence.TypedQuery<Dish> query =
-                em.createQuery("SELECT dish FROM Dish dish WHERE dish.restaurant.city = :city", Dish.class);
-        query.setParameter("city", city);
-        List<Dish> res = query.getResultList();
-
-        List<DishShowFormat> result = new ArrayList<>();
-        for(Dish d: res)
-            result.add(new DishShowFormat(d));
-        return result;
-    }
-
     private void equalQuery(List<Predicate> predicates, CriteriaBuilder cb,
                             String reqPar, Expression<String> par) {
         if (reqPar != null)
@@ -64,20 +51,24 @@ public class AppManager {
             return true;
     }
 
-    public List<DishShowFormat> getDishesInRestaurant(List<DishShowFormat> dishesSearchResult, String restName) {
-        List<DishShowFormat> result = new ArrayList<>();
-        for(DishShowFormat dish: dishesSearchResult)
-            if (dish.getRestName().equals(restName))
+    // TODO delete
+    public List<GsonDish> getDishesInRestaurant(List<GsonDish> dishesSearchResult, String restName) {
+        List<GsonDish> result = new ArrayList<>();
+        for(GsonDish dish: dishesSearchResult)
+            if (dish.getRestaurantName().equals(restName))
                 result.add(dish);
         return result;
     }
 
-    public List<DishShowFormat> getDishes(EntityManager em, DishSearchFormat dSFormat) {
+    public List<GsonDish> getDishes(EntityManager em, DishSearchFormat dSFormat) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Dish> q = cb.createQuery(Dish.class);
         Root<Dish> dish = q.from(Dish.class);
 
         List<Predicate> predicates = new ArrayList<>();
+        // search by rest id
+        if (dSFormat.getRestUsername() != null && !dSFormat.getRestUsername().isEmpty())
+            equalQuery(predicates, cb, dSFormat.getRestUsername(), dish.get("restaurant").get("userName"));
         // the user entered rest name
         if (dSFormat.getRestName() != null && !dSFormat.getRestName().isEmpty())
             equalQuery(predicates, cb, dSFormat.getRestName(), dish.get("restaurant").get("restaurantName"));
@@ -103,58 +94,39 @@ public class AppManager {
 
         TypedQuery<Dish> tq = em.createQuery(q);
         List<Dish> qr = tq.getResultList();
-        List<DishShowFormat> result = new ArrayList<>();
+        List<GsonDish> result = new ArrayList<>();
         for(Dish d: qr)
-            result.add(new DishShowFormat(d));
+            result.add(new GsonDish(d));
         return result;
     }
 
-    public List<DishShowFormat> getDishesOrderedByLikes(EntityManager em) {
+    public List<GsonDish> getDishesOrderedByLikes(EntityManager em) {
         javax.persistence.TypedQuery<Dish> query =
                 em.createQuery("SELECT dish FROM Dish dish " +
                         "ORDER BY dish.numLikes DESC", Dish.class);
 
         List<Dish> res = query.getResultList();
-        List<DishShowFormat> result = new ArrayList<>();
+        List<GsonDish> result = new ArrayList<>();
         for(Dish d: res) {
-            if(d.getId() == 46 || d.getId()== 53 || d.getId() == 61)
-                result.add(new DishShowFormat(d));
+            result.add(new GsonDish(d));
         }
         return result;
     }
 
-    public List<DishShowFormat> getDishesOrderedByUploadDate(EntityManager em) {
+    public List<GsonDish> getDishesOrderedByUploadDate(EntityManager em) {
         javax.persistence.TypedQuery<Dish> query =
                 em.createQuery("SELECT dish FROM Dish dish " +
                         "ORDER BY dish.uploadDate DESC", Dish.class);
 
         List<Dish> res = query.getResultList();
-        List<DishShowFormat> result = new ArrayList<>();
+        List<GsonDish> result = new ArrayList<>();
         for(Dish d: res) {
-            if(d.getId() == 63 || d.getId()== 64 || d.getId() == 65)
-            result.add(new DishShowFormat(d));
+            result.add(new GsonDish(d));
         }
         return result;
     }
 
-    public List<RestaurantShowFormat> getRestaurantsNearby(EntityManager em, String city)
-    {
-        city = "תל אביב יפו";
-        if (city == null || city.isEmpty())
-            return null;
-
-        javax.persistence.TypedQuery<Restaurant> query =
-                em.createQuery("SELECT rest FROM Restaurant rest" +
-                " WHERE rest.city = :city", Restaurant.class);
-        query.setParameter("city", city);
-        List<Restaurant> res = query.getResultList();
-
-        List<RestaurantShowFormat> result = new ArrayList<>();
-        for(Restaurant r: res)
-            result.add(new RestaurantShowFormat(r));
-        return result;
-    }
-
+    // TODO delete
     public Restaurant getDishRestaurant(EntityManager em, String restName, String restCity, String restStreet, String restStreetNum) {
         javax.persistence.TypedQuery<Restaurant> query =
                 em.createQuery("SELECT rest FROM Restaurant rest WHERE rest.restaurantName = :restName " +
@@ -171,5 +143,41 @@ public class AppManager {
             dishRest = res.get(0);
 
         return dishRest;
+    }
+
+    public List<CommentShowFormat> getDishComments(EntityManager em, int dishId) {
+        List<CommentShowFormat> result = new ArrayList<>();
+        Dish dish = em.find(Dish.class, dishId);
+        List<Comment> comments = dish.getCommentList();
+        sortCommentsByDate(comments);
+        for(Comment c : comments){
+            CommentShowFormat cs = new CommentShowFormat(c);
+            result.add(cs);
+        }
+
+        return result;
+    }
+
+    public List<CommentShowFormat> getLatestComments(EntityManager em) {
+        javax.persistence.TypedQuery<Comment> query =
+                em.createQuery("SELECT comment FROM Comment comment", Comment.class);
+
+        List<Comment> res = query.getResultList();
+        sortCommentsByDate(res);
+        List<CommentShowFormat> result = new ArrayList<>();
+        for(Comment c: res) {
+            result.add(new CommentShowFormat(c));
+        }
+        return result;
+    }
+
+    private void sortCommentsByDate(List<Comment> comments) {
+        Collections.sort(comments, new Comparator<Comment>() {
+            @Override
+            public int compare(Comment o1, Comment o2) {
+                return o1.getDate().compareTo(o2.getDate());
+            }
+        });
+        Collections.reverse(comments);
     }
 }

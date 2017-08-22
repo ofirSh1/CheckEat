@@ -13,6 +13,10 @@ public class GsonRestaurant extends SignedUser{
     private String street;
     private String streetNum;
 
+    public String getCity() {
+        return city;
+    }
+
     public List<GsonDish> getDishes() {
         return dishes;
     }

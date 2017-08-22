@@ -1,11 +1,11 @@
 package application.logic;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
 public class DishSearchFormat {
+    private String restUsername;
     private String restName;
     private String restCity;
     private String dishName;
@@ -14,6 +14,14 @@ public class DishSearchFormat {
     private Set<String> ingredients = new HashSet<>();
 
     //Getter and Setter
+    public String getRestUsername() {
+        return restUsername;
+    }
+
+    public void setRestUsername(String restUsername) {
+        this.restUsername = restUsername;
+    }
+
     public String getRestName() {
         return restName;
     }

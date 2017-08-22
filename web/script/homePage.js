@@ -1,20 +1,20 @@
 
 $(function () {
-    var visited = localStorage['visited'];
-    if (!visited) {
+ //   var visited = localStorage['visited'];
+  //  if (!visited) {
         $.ajax({
             type: 'get',
             url: 'loadDataBase',
             async: false
         });
-        localStorage['visited'] = true;
-    }
+    //    localStorage['visited'] = true;
+    //}
 
     $('.carousel').carousel({interval: 5000});
+    sessionStorage.clear();
     getLastUploadsFromServer();
     getFavDishesFromServer();
     getRestaurantsNearbyFromServer();
-   // getLocation();
 });
 
 function getLastUploadsFromServer() {
@@ -47,43 +47,10 @@ function getFavDishesFromServer() {
     });
 }
 
-/*function getLocation() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(locationSuccess);
-    }
-}*/
-
-/*
-function locationSuccess(position) {
-    var latitude = position.coords.latitude;
-    var longtitude = position.coords.longitude;
-    var request = new XMLHttpRequest();
-    var method = 'GET';
-    var url = 'http://maps.googleapis.com/maps/api/geocode/json?latlng=' + latitude + ',' + longtitude + '&sensor=true';
-    var async = true;
-
-    request.open(method, url, async);
-    request.onreadystatechange = function(){
-        if(request.readyState == 4 && request.status == 200){
-            var data = JSON.parse(request.responseText);
-            var address = data.results[0];
-            var currCity = address.formatted_address.split(',').slice(1,2);
-            $('#currCity').text(currCity);
-            getRestaurantsNearbyFromServer();
-        }
-    };
-    request.send();
-}*/
-
 function getRestaurantsNearbyFromServer() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(setNearbyRestaurantsHomePage);
     }
-   // var city = sessionStorage.getItem("currCity");
-   // $('#currCity').text(currCity);
-    //var city = document.getElementById('currCity').innerHTML;
-   // var restaurants = JSON.parse(sessionStorage.getItem("restNearby"));
-    //loadRestaurantsNearby(restaurants);
 }
 
 function setNearbyRestaurantsHomePage(position) {
@@ -125,8 +92,8 @@ function findCitiesNearby(position) {
             }
         }
     });
-    loadRestaurantsNearby(restaurantsNearby);
-   // sessionStorage.setItem("restNearby", JSON.stringify(restaurantsNearby));
+    loadRestaurantsNearby(restaurantsNearby); // list of GsonRestaurants
+    sessionStorage.setItem("restNearby", JSON.stringify(restaurantsNearby));
 }
 
 function findCurrCity(position) {
@@ -170,8 +137,7 @@ function deg2rad(degree) {
     return degree * Math.PI / 180;
 }
 
-function loadLastUploads(dishList)
-{
+function loadLastUploads(dishList) {
     var lastUploads = document.getElementById('lastUploads');
     var size = dishList.length;
     var i = 0;
@@ -184,8 +150,7 @@ function loadLastUploads(dishList)
         }
 }
 
-function loadFavDishes(dishList)
-{
+function loadFavDishes(dishList) {
     var favDishes = document.getElementById('favDishes');
     var size = dishList.length;
     var i = 0;
@@ -198,8 +163,7 @@ function loadFavDishes(dishList)
         }
 }
 
-function loadRestaurantsNearby(restList)
-{
+function loadRestaurantsNearby(restList) {
     $('#restaurants').show();
     var restaurants = document.getElementById('restaurants');
     var size = restList.length;
@@ -227,22 +191,22 @@ function loadDish(element, dish)
     header.appendChild(dishName);
 
     var body = document.createElement('div');
-    body.classList.add('panel-body');
+    body.classList.add('panel-body', 'dishSizeHome');
     if(addImg(body, dish.dishUrl, '100px', '200px'))
         addNewLine(body);
-    if(addDetail(body, 'מסעדה:', dish.restName))
+    if(addDetail(body, 'מסעדה:', dish.restaurantName))
         addNewLine(body);
-    if(addAddress(body, dish.restCity, dish.restStreet, dish.restStreetNum))
+    if(addAddress(body, dish.restaurantCity, dish.restaurantStreet, dish.restaurantStreetNum))
         addNewLine(body);
     if(addDetail(body, 'הועלה בתאריך:', dish.uploadDate))
         addNewLine(body);
     var btn = addButton(body, 'הצג');
     btn.classList.add('alignLeft');
+    btn.onclick = function () { showDish(dish.id, dish.restUsername); };
     panel.appendChild(body);
 }
 
-function loadRest(element, rest)
-{
+function loadRest(element, rest) {
     var panel = document.createElement('div');
     panel.classList.add('panel', 'panel-default');
     element.appendChild(panel);
@@ -251,11 +215,11 @@ function loadRest(element, rest)
     header.classList.add('panel-heading');
     panel.appendChild(header);
     var restName = document.createElement('h4');
-    restName.textContent = rest.restName;
+    restName.textContent = rest.restaurantName;
     header.appendChild(restName);
 
     var body = document.createElement('div');
-    body.classList.add('panel-body');
+    body.classList.add('panel-body','restSizeHome');
     if(addImg(body, rest.logoUrl, '100px', '200px'))
         addNewLine(body);
     if(addAddress(body, rest.city, rest.street, rest.streetNum))
@@ -264,6 +228,7 @@ function loadRest(element, rest)
         addNewLine(body);
     var btn = addButton(body, 'הצג');
     btn.classList.add('alignLeft');
+    btn.onclick = function () { showRest(rest.userName); };
     panel.appendChild(body);
 }
 
@@ -361,50 +326,32 @@ function addSpace(element) {
     addLabel(element, "&nbsp;");
 }
 
-function addIcon(element, _class) {
-    var i = document.createElement('i');
-    i.className = _class;
-    i.setAttribute('aria-hidden', 'true');
-    element.appendChild(i);
-    return i;
-}
-
-function addList(element, text, list) {
-    var added = false;
-    if (!isEmptyList(list)) {
-        added = true;
-        var label = addLabel(element, text);
-        label.classList.add('detailStyle');
-        addSpace(element);
-        for (var i = 0; i < list.length; i++) {
-            addLabel(element, list[i]);
-            if(i < list.length - 1) {
-                addLabel(element, ',');
-                addSpace(element);
-            }
-        }
-    }
-    return added;
-}
-
-//*******************************************************************************************
-//Validation
-function isEmptyList(list) {
-    var empty = true;
-    if(typeof list !== 'undefined' && list.length > 0) {
-        for (var i = 0; i < list.length; i++) {
-            if(list[i].length !== 0) {
-                empty = false;
-                break;
-            }
-        }
-    }
-    return empty;
-}
-
 //*******************************************************************************************
 //Redirect
 function showMoreLastUploads() {
     sessionStorage.setItem("title", "העלאות אחרונות");
-    window.location.href = "showMoreDishes.html";
+    window.location.href = "showMore.html";
+}
+
+function showMoreFavDishes() {
+    sessionStorage.setItem("title", "מנות מועדפות");
+    window.location.href = "showMore.html";
+}
+
+function showMoreNearby() {
+    sessionStorage.setItem("title", "מסעדות בקרבת מקום");
+    //sessionStorage.setItem("currCity", document.getElementById('currCity').innerHTML);
+    window.location.href = "showMore.html";
+}
+
+function showRest(restUsername) {
+    sessionStorage.setItem("restUsername", restUsername);
+    sessionStorage.setItem("dishId", "");
+    window.location.href = "restaurant.html";
+}
+
+function showDish(dishId,restUsername) { // TODO
+    sessionStorage.setItem("restUsername", restUsername);
+    sessionStorage.setItem("dishId", dishId);
+    window.location.href = "restaurant.html";
 }

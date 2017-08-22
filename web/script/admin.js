@@ -45,7 +45,6 @@ function getRestaurants() {
                 else
                     img = "";
                 if (restaurants[i].link != "")
-                   // link = "<a href=\"" + restaurants[i].link + "\" innerHTML=\"לחץ כאן\" </a>";
                     link = "<a href=\"" + restaurants[i].link + "\"> לחץ כאן </a>";
                 else
                     link = "";

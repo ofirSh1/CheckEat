@@ -1,10 +1,29 @@
+var specialTypesEnum = {vegetarian:'צמחוני', naturalist:'טבעוני', kosher:'כשר', noSugar:'ללא סוכר', noGluten:'ללא גלוטן'};
 var userType;
+var chosenDishId;
 
 $(function () {
-    var dishes = JSON.parse(sessionStorage.getItem("dishes"));
-    var restUsername = sessionStorage.getItem("restUsername");
-    setDishesList(dishes, restUsername);
     getUserType();
+    var restUsername = sessionStorage.getItem("restUsername");
+    var filterBtn = document.getElementById("filterBtn");
+    filterBtn.onclick = function () { getFilteredRestaurantsDishesFromServer(restUsername); };
+    getRestaurantFromServer(restUsername);
+    var chosenDishId = sessionStorage.getItem("dishId");
+    if(!chosenDishId)
+        getRestaurantDishesFromServer(restUsername);
+    else
+        getDishFromServer(chosenDishId);
+
+  /*  getUserType();
+    chosenDishId = sessionStorage.getItem("dishId");
+    if(chosenDishId) // show dish
+        getDishFromServer(chosenDishId);
+    else { // show restaurant
+        var restUsername = sessionStorage.getItem("restUsername");
+        var filterBtn = document.getElementById("filterBtn");
+        filterBtn.onclick = function () { getFilteredRestaurantsDishesFromServer(restUsername); }
+        getRestaurantFromServer(restUsername);
+    }*/
 });
 
 function getUserType() {
@@ -21,108 +40,196 @@ function getUserType() {
     });
 }
 
-function checkUploader(userName, element) {
+function getRestaurantFromServer(restUsername) {
     $.ajax({
         url: 'profile',
-        async: false,
         data: {
-            'requestType': 'checkIfCustomerOrRestaurant',
-            'userName': userName
+            'requestType': 'getRestaurant',
+            'restUserName': restUsername
         },
-        success: function(isRest){
-            if (isRest.length!=0) {
-                if (isRest === "true") {
-                    var vIcon = addIcon(element, 'fa fa-check-circle');
-                    vIcon.title = 'הועלה ע"י המסעדה';
-                }
-            }
-            else {
-                var vIcon = addIcon(element, 'fa fa-check-circle');
-                vIcon.title = 'הועלה ע"י CheckEat';
+        success: function(rest)
+        {
+            if(rest) {
+                loadRest(rest);
+                if(!chosenDishId)
+                    loadDishes(rest.dishes);
             }
         }
     });
 }
 
-function setDishesList(dishes, restUsername) {
-    var dishesList = document.getElementById('dishList');
-
-    for(var i = 0; i < dishes.length; i++) {
-        if(dishes[i].restUsername == restUsername) {
-            var dish = document.createElement('article');
-            dish.classList.add('fixDishesSize');
-            dishesList.appendChild(dish);
-            var dishName = document.createElement('h1');
-            dishName.innerHTML = dishes[i].dishName;
-            dishName.classList.add('headerStyle');
-            dish.appendChild(dishName);
-            checkUploader(dishes[i].addByUserName, dishName);
-            if (addImg(dish, dishes[i].dishUrl, '100px', '200px'))
-                addNewLine(dish);
-            addDishDetails(dishes[i], dish);
-            addDishActions(dishes[i], dish);
-            $(dish).addClass('bodyStyle');
+function getDishFromServer(dishId) {
+    $.ajax({
+        url: 'profile',
+        data: {
+            "requestType": 'getDish',
+            "dishId": dishId
+        },
+        success: function(dish)
+        {
+            if(dish){
+                var dishes = [];
+                dishes.push(dish);
+                loadDishes(dishes);
+            }
         }
+    });
+}
+
+function getFilteredRestaurantsDishesFromServer(restUsername) {
+    var dishName = $('#dishName').val();
+    var specialTypes = getSpecialTypes();
+    var otherTypes = $('#otherTypes').val().split(',');
+    var ingredients = $('#ingredients').val().split(',');
+
+    $.ajax({
+        type: 'get',
+        url: 'dish',
+        data: {
+            'requestType': 'getFilteredRestaurantDishes',
+            'restUsername': restUsername,
+            'dishName': dishName,
+            specialTypes: specialTypes,
+            otherTypes: otherTypes,
+            ingredients: ingredients
+        },
+        success: function(dishes)
+        {
+            if(dishes && dishes.length > 0)
+                loadDishes(dishes);
+        }
+    });
+}
+
+function getSpecialTypes() {
+    var specialTypes = [];
+    if($('#vegetarian').is(":checked"))
+    {
+        specialTypes.push(specialTypesEnum.vegetarian);
+    }
+    if($('#naturalist').is(":checked"))
+    {
+        specialTypes.push(specialTypesEnum.naturalist);
+    }
+    if($('#kosher').is(":checked"))
+    {
+        specialTypes.push(specialTypesEnum.kosher);
+    }
+    if($('#noSugar').is(":checked"))
+    {
+        specialTypes.push(specialTypesEnum.noSugar);
+    }
+    if($('#noGluten').is(":checked"))
+    {
+        specialTypes.push(specialTypesEnum.noGluten);
+    }
+    return specialTypes;
+}
+
+function loadRest(rest) {
+    var restaurant = document.getElementById('restaurant');
+    var col = document.createElement('div');
+    col.classList.add('col-md-12');
+    restaurant.appendChild(col);
+
+    if(addImg(col, rest.logoUrl, '100px', '200px'))
+        addNewLine(col);
+    if(addDetail(col, 'שם המסעדה:', rest.restaurantName))
+        addNewLine(col);
+    if(addAddress(col, rest.city, rest.street, rest.streetNum))
+        addNewLine(col);
+    if(addLink(col, 'אתר המסעדה:', rest.link))
+        addNewLine(col);
+}
+
+function loadDishes(dishList) {
+    var dishes = document.getElementById('dishes');
+    var size = dishList.length;
+
+    dishes.innerHTML = "";
+    //TODO if empty write no dishes
+    for(var i = 0; i < size; i++) {
+        var col = document.createElement('div');
+        col.classList.add('col-md-12');
+        loadDish(col, dishList[i]);
+        dishes.appendChild(col);
     }
 }
 
-//*******************************************************************************************
-//Dish Details
-function addDishDetails(dish, details) {
-    if(addList(details, 'סוג המנה:', dish.otherTypes))
-        addNewLine(details);
+function loadDish(element, dish) {
+    var row = document.createElement('div');
+    row.classList.add('row');
+    element.appendChild(row);
+    var col1 = document.createElement('div');
+    col1.classList.add('col-md-6');
+    row.appendChild(col1);
+    var col2 = document.createElement('div');
+    col2.classList.add('col-md-6');
+    row.appendChild(col2);
 
-    if(addList(details, 'קטגוריות:', dish.specialTypes))
-        addNewLine(details);
+    var panel = document.createElement('div');
+    panel.classList.add('panel', 'panel-default');
+    col1.appendChild(panel);
 
-    if(addList(details, 'מרכיבים:', dish.ingredients))
-        addNewLine(details);
+    var header = document.createElement('div');
+    header.classList.add('panel-heading');
+    panel.appendChild(header);
+    var dishName = document.createElement('h4');
+    dishName.textContent = dish.dishName;
+    header.appendChild(dishName);
 
-    if(addDetail(details, 'הועלה בתאריך:', dish.uploadDate))
-        addNewLine(details);
+    var body = document.createElement('div');
+    body.classList.add('panel-body', 'dishSizeShow');
+    addDishDetails(body, dish);
+    addLikes(body, dish);
+    addCommentsBtn(body, dish);
+    addSaveDishBtn(body, dish);
+    panel.appendChild(body);
 
-    if(addDetail(details, 'מסעדה:', dish.restaurantName))
-        addNewLine(details);
-
-    if(addAddress(details, dish.restaurantCity, dish.restaurantStreet, dish.restaurantStreetNum))
-        addNewLine(details);
-
-    if(addLink(details, 'קישור לאתר המסעדה:', dish.restLink))
-        addNewLine(details);
+    addCommentsSection(col2, dish);
 }
 
-//*******************************************************************************************
-//Dish Actions
-function addDishActions(dish, actions) {
-    addNewLine(actions);
-    var likeDishIcon = addIcon(actions, 'fa fa-heart-o');
+function addDishDetails(element, dish) {
+    if(addImg(element, dish.dishUrl, '100px', '200px'))
+        addNewLine(element);
+    if(addList(element, 'סוג המנה:', dish.otherTypes))
+        addNewLine(element);
+    if(addList(element, 'קטגוריות:', dish.specialTypes))
+        addNewLine(element);
+    if(addList(element, 'מרכיבים:', dish.ingredients))
+        addNewLine(element);
+    if(addDetail(element, 'הועלה בתאריך:', dish.uploadDate))
+        addNewLine(element);
+}
+
+function addLikes(element, dish) {
+    addNewLine(element);
+    var likeDishIcon = addIcon(element, 'fa fa-heart-o');
     likeDishIcon.onclick = function () { likeDislikeDish(this, dish, likesLabel) };
     checkIfLiked(dish, likeDishIcon);
-    addSpace(actions);
+    addSpace(element);
 
-    addLabel(actions, 'לייקים:');
-    addSpace(actions);
-    var likesLabel = addLabel(actions, dish.numLikes);
-    addNewLine(actions);
+    addLabel(element, 'לייקים:');
+    addSpace(element);
+    var likesLabel = addLabel(element, dish.numLikes);
+    addNewLine(element);
+}
 
-    var commentsBtn = addButton(actions, 'הצג תגובות');
+function addCommentsBtn(element, dish) {
+    var commentsBtn = addButton(element, 'הצג תגובות');
     commentsBtn.onclick = function () {
         toggleCommentsSection(dish.id);
         toggleText(this, 'הסתר תגובות', 'הצג תגובות');
     };
-    addSpace(actions);
+    addSpace(element);
+}
 
+function addSaveDishBtn(element, dish) {
     if(userType == null || userType === "customer") {
-        var saveDishBtn = addButton(actions, 'הוסף מנה למועדפים');
-        saveDishBtn.onclick = function () {
-            saveDish(this, dish)
-        };
+        var saveDishBtn = addButton(element, 'הוסף מנה למועדפים');
+        saveDishBtn.onclick = function () { saveDish(this, dish) };
         checkIfSaved(dish, saveDishBtn);
     }
-
-    addNewLine(actions);
-
-    addCommentsSection(actions, dish);
 }
 
 function addCommentsSection(element, dish) {
@@ -150,9 +257,8 @@ function addCommentsSection(element, dish) {
 
     var textBox = addTextArea(container);
 }
-
 //*******************************************************************************************
-//Like Actions
+//LIKE ACTIONS
 function checkIfLiked(dish, likeDishIcon) {
     $.ajax({
         url: 'profile',
@@ -169,7 +275,7 @@ function checkIfLiked(dish, likeDishIcon) {
 }
 
 function likeDislikeDish(icon, dish, likesLabel){
-    if(userType) {
+    if(userType != null) {
         changeIcon(icon, 'fa fa-heart', 'fa fa-heart-o');
         changeLikes(icon, likesLabel);
 
@@ -208,7 +314,7 @@ function changeLikes(icon, likesLabel) {
 }
 
 //*******************************************************************************************
-//Comment Actions
+//COMMENT ACTIONS
 function toggleCommentsSection(dishId) {
     var x = document.getElementById('commentsSection' + dishId);
     if (x.style.display === 'none') {
@@ -221,7 +327,6 @@ function toggleCommentsSection(dishId) {
 
 function comment(dishId, textBox) {
     var content = textBox.value;
-    var userType = sessionStorage.getItem("userType");
     if(userType != null) {
         if (content === "")
             alert("אין תוכן");
@@ -279,7 +384,7 @@ function loadComments(element, comments) {
         var userName = addLabel(container, comments[i].userName);
         userName.classList.add('userName');
         addSpace(container);
-        var date = addLabel(container, comments[i].date);
+        var date = addLabel(container, timeSince(comments[i].date));
         date.classList.add('date');
         addNewLine(container);
 
@@ -290,8 +395,12 @@ function loadComments(element, comments) {
     }
 }
 
+function removeComment() {
+
+}
+
 //*******************************************************************************************
-//Save Dish Actions
+//SAVE DISH ACTIONS
 function checkIfSaved(dish, saveDishBtn) {
     $.ajax({
         url: 'profile',
@@ -335,11 +444,7 @@ function toggleText(element, text1, text2) {
 
 //*******************************************************************************************
 //Adding Controls
-function addImg(element, url, height, width)
-{
-    if(!url)
-        url = "resources/logo.png";
-
+function addImg(element, url, height, width) {
     var added = false;
     if(url) {
         added = true;
@@ -352,8 +457,7 @@ function addImg(element, url, height, width)
     return added;
 }
 
-function addDetail(element, detail, text)
-{
+function addDetail(element, detail, text) {
     var added = false;
     if(text) {
         added = true;
@@ -365,8 +469,7 @@ function addDetail(element, detail, text)
     return added;
 }
 
-function addAddress(element, city, street, streetNum)
-{
+function addAddress(element, city, street, streetNum) {
     var added = false;
     if(city) {
         added = true;
@@ -387,8 +490,7 @@ function addAddress(element, city, street, streetNum)
     return added;
 }
 
-function addLabel(element, text)
-{
+function addLabel(element, text) {
     var label = document.createElement('label');
     label.innerHTML = text;
     element.appendChild(label);
@@ -421,7 +523,7 @@ function addButton(element, text) {
 function addTextArea(element) {
     var input = document.createElement('textarea');
     input.rows = 2;
-    input.cols = 15;
+    input.cols = 30;
     input.classList.add('commentTextBox');
     element.appendChild(input);
     return input;
@@ -475,4 +577,32 @@ function isEmptyList(list) {
         }
     }
     return empty;
+}
+
+//*******************************************************************************************
+//Calculate Time Ago
+function timeSince(mili) {
+    var date = new Date(mili);
+    var seconds = Math.floor((new Date() - date) / 1000);
+    var interval = Math.floor(seconds / 31536000);
+    if (interval > 1) {
+        return "לפני " + interval + " שנים";
+    }
+    interval = Math.floor(seconds / 2592000);
+    if (interval > 1) {
+        return "לפני " + interval + " חודשים";
+    }
+    interval = Math.floor(seconds / 86400);
+    if (interval > 1) {
+        return "לפני " + interval + " ימים";
+    }
+    interval = Math.floor(seconds / 3600);
+    if (interval > 1) {
+        return "לפני " + interval + " שעות";
+    }
+    interval = Math.floor(seconds / 60);
+    if (interval > 1) {
+        return "לפני " + interval + " דקות";
+    }
+    return Math.floor(seconds) + " שניות";
 }

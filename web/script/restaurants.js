@@ -17,7 +17,7 @@ function setRestaurantsList(dishes) {
             var header = document.createElement('h1');
             rest.appendChild(header);
             header.classList.add('headerStyle');
-            header.innerHTML = dishes[i].restName;
+            header.innerHTML = dishes[i].restaurantName;
             if(dishes[i].restUrl) {
                 var img = document.createElement('img');
                 img.setAttribute('src', dishes[i].restUrl);
@@ -27,15 +27,10 @@ function setRestaurantsList(dishes) {
                 header.appendChild(img);
             }
 
-            //$("<h1 class='headerStyle'></h1>").text(dishes[i].restName).appendTo(rest);
-
-            //if (addImg(rest, dishes[i].restUrl, '100px', '200px'))
-            //    addNewLine(rest);
-
-            if (addAddress(rest, dishes[i].restCity, dishes[i].restStreet, dishes[i].restStreetNum))
+            if (addAddress(rest, dishes[i].restaurantCity, dishes[i].restaurantStreet, dishes[i].restaurantStreetNum))
                 addNewLine(rest);
 
-            if (addLink(rest, 'אתר המסעדה:', dishes[i].restlink))
+            if (addLink(rest, 'אתר המסעדה:', dishes[i].restLink))
                 addNewLine(rest);
 
             setShowDishButton(dishes[i], dishes, rest);
@@ -190,12 +185,5 @@ function isEmptyList(list) {
             }
         }
     }
-    return empty;
-}
-
-function isEmptyString(str) {
-    var empty = true;
-    if(str && str.length !== 0)
-        empty = false;
     return empty;
 }

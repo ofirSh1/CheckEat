@@ -2,10 +2,8 @@ package application.servlets;
 
 import application.logic.*;
 import application.utils.ServletUtils;
-import com.cloudinary.utils.ObjectUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.cloudinary.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -14,10 +12,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
-import java.lang.reflect.Type;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 
 
@@ -66,21 +65,6 @@ public class LoadDataBaseServlet extends HttpServlet {
         }
         scanner.close();
 
- /*       String content = fileContents.toString();
-        String[] sentence = content.split(" ");
-        for(String word: sentence)
-        {
-            if(word.equals("\"specialTypes\":")){
-
-            }
-            if (word.equals("\"otherTypes\":")){
-
-            }
-            if (word.equals("\"ingredients\":")){
-
-            }
-        }*/
-
         gson = new Gson();
         TypeToken<List<GsonDish>> tokenDish = new TypeToken<List<GsonDish>>(){};
         List<GsonDish> dishes = gson.fromJson(fileContents.toString(), tokenDish.getType());
@@ -88,18 +72,15 @@ public class LoadDataBaseServlet extends HttpServlet {
         Restaurant dishRestaurant;
         for (GsonDish dish: dishes) {
             if (em.find(Dish.class,dish.getId())==null){ // if dish not in dataBase
-                    newDish = new Dish();
-                    dishRestaurant = appManager.getDishRestaurant(em,dish.getRestaurantName(),dish.getRestaurantCity(),dish.getRestaurantStreet(),dish.getRestaurantStreetNum());
-                    newDish.gsonDishToDish(dish,dishRestaurant);
-                    newDish.setDishUrl(ServletUtils.loadImageURL(dish.getDishUrl()));
-                    em.getTransaction().begin();
-                    em.persist(newDish);
-                    dishRestaurant.addDish(newDish);
-                    em.getTransaction().commit();
-
+                newDish = new Dish();
+                dishRestaurant = appManager.getDishRestaurant(em,dish.getRestaurantName(),dish.getRestaurantCity(),dish.getRestaurantStreet(),dish.getRestaurantStreetNum());
+                newDish.gsonDishToDish(dish,dishRestaurant);
+                newDish.setDishUrl(ServletUtils.loadImageURL(dish.getDishUrl()));
+                em.getTransaction().begin();
+                em.persist(newDish);
+                dishRestaurant.addDish(newDish);
+                em.getTransaction().commit();
             }
         }
     }
-
-
 }
