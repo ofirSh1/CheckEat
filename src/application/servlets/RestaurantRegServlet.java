@@ -59,13 +59,13 @@ public class RestaurantRegServlet extends HttpServlet{
                 ServletUtils.redirect(response, "נא למלא שדות חובה", "restaurantReg.html");
         }
         else if(!restaurant.isValidPassword()) {
-            if (usernameFromSession.equals("CheckEat"))
+            if (usernameFromSession != null && usernameFromSession.equals("CheckEat"))
                 ServletUtils.redirect(response, "שגיאה באישור סיסמא", "duplicateRestaurant.html");
             else
                 ServletUtils.redirect(response, "שגיאה באישור סיסמא", "customerReg.html");
         }
         else if(appManager.isUserExists(em, restaurant.getUserName())) {
-            if (usernameFromSession.equals("CheckEat"))
+            if (usernameFromSession != null && usernameFromSession.equals("CheckEat"))
                 ServletUtils.redirect(response, "שם משתמש כבר קיים, נא לבחור שם אחר", "duplicateRestaurant.html");
             else
                 ServletUtils.redirect(response, "שם משתמש כבר קיים, נא לבחור שם אחר", "restaurantReg.html");
@@ -82,7 +82,7 @@ public class RestaurantRegServlet extends HttpServlet{
                     em.getTransaction().rollback();
                 em.close();
             }
-            if (usernameFromSession.equals("CheckEat"))
+            if (usernameFromSession != null && usernameFromSession.equals("CheckEat")) // TODO check
                 ServletUtils.redirect(response, "ההרשמה עברה בהצלחה", "admin.html");
             else {
                 request.getSession(true).setAttribute(Constants.USERNAME, restaurant.getUserName());

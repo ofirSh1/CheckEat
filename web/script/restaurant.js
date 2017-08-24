@@ -8,11 +8,11 @@ $(function () {
     var filterBtn = document.getElementById("filterBtn");
     filterBtn.onclick = function () { getFilteredRestaurantsDishesFromServer(restUsername); };
     getRestaurantFromServer(restUsername);
-    var chosenDishId = sessionStorage.getItem("dishId");
-    if(!chosenDishId)
-        getRestaurantDishesFromServer(restUsername);
-    else
+    chosenDishId = sessionStorage.getItem("dishId");
+    if(chosenDishId) {
         getDishFromServer(chosenDishId);
+        document.getElementById("filter").style.display = 'none';
+    }
 
   /*  getUserType();
     chosenDishId = sessionStorage.getItem("dishId");
@@ -50,9 +50,10 @@ function getRestaurantFromServer(restUsername) {
         success: function(rest)
         {
             if(rest) {
-                loadRest(rest);
-                if(!chosenDishId)
+                loadRest(rest, restUsername);
+                if(!chosenDishId) {
                     loadDishes(rest.dishes);
+                }
             }
         }
     });
@@ -126,7 +127,7 @@ function getSpecialTypes() {
     return specialTypes;
 }
 
-function loadRest(rest) {
+function loadRest(rest, restUsername) {
     var restaurant = document.getElementById('restaurant');
     var col = document.createElement('div');
     col.classList.add('col-md-12');
@@ -140,6 +141,15 @@ function loadRest(rest) {
         addNewLine(col);
     if(addLink(col, 'אתר המסעדה:', rest.link))
         addNewLine(col);
+    if (chosenDishId) { // if show dish
+        var moreDishesInRestaurant = addButton(restaurant, 'הצג מנות נוספות במסעדה');
+        moreDishesInRestaurant.onclick = function () {
+            sessionStorage.clear();
+            sessionStorage.setItem("restUsername", restUsername);
+            sessionStorage.setItem("dishId", "");
+            window.location.href = "restaurant.html";
+        };
+    }
 }
 
 function loadDishes(dishList) {
