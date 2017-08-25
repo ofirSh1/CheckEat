@@ -1,7 +1,13 @@
 package application.servlets;
 
-import application.logic.*;
-import application.utils.*;
+import application.logic.Admin;
+import application.logic.AppManager;
+import application.logic.PasswordResetToken;
+import application.logic.SignedUser;
+import application.utils.Constants;
+import application.utils.ServletUtils;
+import application.utils.SessionUtils;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.servlet.ServletException;
@@ -33,9 +39,6 @@ public class LoginServlet extends HttpServlet {
         }
         else if(requestType.equals("getUserType")) {
             getUserType(request, response);
-        }
-        else if(requestType.equals("getGivenUserType")) {
-            getGivenUserType(request, response);
         }
         else if(requestType.equals(Constants.LOGIN)) {
             login(request, response);
@@ -81,23 +84,6 @@ public class LoginServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         if(usernameFromSession != null) {
             SignedUser signedUser = em.find(SignedUser.class, usernameFromSession);
-            if(signedUser != null) {
-                PrintWriter out = response.getWriter();
-                if (signedUser.getType() == SignedUser.Type.RESTAURANT)
-                    out.print("restaurant");
-                else
-                    out.print("customer");
-                out.flush();
-            }
-        }
-    }
-
-    private void getGivenUserType(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        String userName = request.getParameter("userName");
-        if(userName != null) {
-            SignedUser signedUser = em.find(SignedUser.class, userName);
             if(signedUser != null) {
                 PrintWriter out = response.getWriter();
                 if (signedUser.getType() == SignedUser.Type.RESTAURANT)

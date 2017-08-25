@@ -32,8 +32,10 @@ public class ServletUtils {
 		response.setContentType("text/html;charset=UTF-8");
 		PrintWriter out = response.getWriter();
 		out.println("<script type=\"text/javascript\">");
-		out.println(String.format("alert(\"%s\");", message));
-		out.println(String.format("location=\"%s\"", location));
+		if (!message.isEmpty())
+			out.println(String.format("alert(\"%s\");", message));
+		if (!location.isEmpty())
+			out.println(String.format("location=\"%s\"", location));
 		out.println("</script>");
 	}
 

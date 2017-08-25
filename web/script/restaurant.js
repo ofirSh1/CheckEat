@@ -13,17 +13,6 @@ $(function () {
         getDishFromServer(chosenDishId);
         document.getElementById("filter").style.display = 'none';
     }
-
-  /*  getUserType();
-    chosenDishId = sessionStorage.getItem("dishId");
-    if(chosenDishId) // show dish
-        getDishFromServer(chosenDishId);
-    else { // show restaurant
-        var restUsername = sessionStorage.getItem("restUsername");
-        var filterBtn = document.getElementById("filterBtn");
-        filterBtn.onclick = function () { getFilteredRestaurantsDishesFromServer(restUsername); }
-        getRestaurantFromServer(restUsername);
-    }*/
 });
 
 function getUserType() {
@@ -285,7 +274,7 @@ function checkIfLiked(dish, likeDishIcon) {
 }
 
 function likeDislikeDish(icon, dish, likesLabel){
-    if(userType != null) {
+    if(userType) {
         changeIcon(icon, 'fa fa-heart', 'fa fa-heart-o');
         changeLikes(icon, likesLabel);
 

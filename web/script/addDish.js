@@ -81,7 +81,6 @@ function addDish() {
             if(response.length != 0)
                 alert(response);
             else {
-                alert("הוספת המנה עברה בהצלחה");
                 if (restProfile == true)
                     window.location.href = 'restProfile.html';
                 else

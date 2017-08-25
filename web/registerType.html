@@ -48,10 +48,22 @@
             <div class="form-group moveLeft" id="radioBtns">
                 <div class="radio">
                     <label><input type="radio" class="form-check-input" name="type" id="regularUser" value="customer" checked></label>
+                    <area shape="rect" onclick="regularClickFunction()" style="overflow: hidden; padding: 10px 200px 22px 0px;"/>
+                    <script>
+                        function regularClickFunction() {
+                            document.getElementById("regularUser").checked = "checked";
+                        }
+                    </script>
                 </div>
                 <br><br>
                 <div class="radio">
                     <label><input type="radio" class="form-check-input" name="type" id="restaurant" value="restaurant"></label>
+                     <area shape="rect" onclick="restaurantClickFunction()" style="overflow: hidden; padding: 10px 150px 22px 0px;" />
+                    <script>
+                        function restaurantClickFunction() {
+                            document.getElementById("restaurant").checked = "checked";
+                        }
+                    </script>
                 </div>
             </div>
         </div>

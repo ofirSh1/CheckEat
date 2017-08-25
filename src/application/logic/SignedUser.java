@@ -14,7 +14,7 @@ public class SignedUser
     }
 
     @Id
-    private  String userName;
+    private String userName;
     private String email;
     private String phone;
     private String password;

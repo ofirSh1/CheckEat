@@ -22,8 +22,8 @@ import java.util.List;
 @WebServlet(name = "AdminServlet", urlPatterns = {"/admin"})
 @MultipartConfig
 public class AdminServlet extends HttpServlet {
-    private EntityManagerFactory emf;
-    private EntityManager em;
+    EntityManagerFactory emf;
+    EntityManager em;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -34,11 +34,9 @@ public class AdminServlet extends HttpServlet {
 
         if (requestType.equals("getAdmin")) {
             getAdminMsg(request, response);
-        }
-        else if (requestType.equals("contact")) {
+        } else if (requestType.equals("contact")) {
             contact(request, response);
-        }
-        else if (requestType.equals("removeMsg")) {
+        } else if (requestType.equals("removeMsg")) {
             removeMsg(request, response);
         }
         else if (requestType.equals("getCustomers")){
@@ -102,12 +100,46 @@ public class AdminServlet extends HttpServlet {
         em.getTransaction().commit();
     }
 
+    private void getAdminMsg(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String usernameFromSession = SessionUtils.getParameter(request, Constants.USERNAME);
+        Admin admin = em.find(Admin.class,usernameFromSession);
+        response.setContentType("application/json; charset=UTF-8");
+        PrintWriter out = response.getWriter();
+        Gson gson = new Gson();
+        String json = gson.toJson(admin.getMsgs());
+        out.println(json);
+        out.flush();
+    }
+
     private void contact(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String name = request.getParameter("name");
         String userEmail = request.getParameter("email");
         String phone = request.getParameter("phone");
         String reason = request.getParameter("request");
         String content = request.getParameter("content");
+
+        ContactMsg contactMsg = new ContactMsg();
+        contactMsg.setName(name);
+        contactMsg.setEmail(userEmail);
+        contactMsg.setPhone(phone);
+        contactMsg.setRequest(reason);
+        contactMsg.setContent(content);
+        Admin admin = em.find(Admin.class,"CheckEat");
+        if (admin!=null) {
+            em.getTransaction().begin();
+            em.persist(contactMsg);
+            admin.getMsgs().add(contactMsg);
+            em.getTransaction().commit();
+        }
+        else
+        {
+            admin = new Admin();
+            em.getTransaction().begin();
+            em.persist(contactMsg);
+            em.persist(admin);
+            admin.getMsgs().add(contactMsg);
+            em.getTransaction().commit();
+        }
 
         StringBuilder body = new StringBuilder();
         body.append("שם: ");
@@ -132,41 +164,6 @@ public class AdminServlet extends HttpServlet {
             ServletUtils.redirect(response, "הבקשה נקלטה בהצלחה", "index.html");
         else
             ServletUtils.redirect(response, "לא היה ניתן לשלוח בקשה", "contact.html");
-      /*  ContactMsg contactMsg = new ContactMsg();
-        contactMsg.setName(request.getParameter("name"));
-        contactMsg.setEmail(request.getParameter("email"));
-        contactMsg.setPhone(request.getParameter("phone"));
-        contactMsg.setRequest(request.getParameter("request"));
-        contactMsg.setContent(request.getParameter("content"));
-        Admin admin = em.find(Admin.class,"CheckEat");
-        if (admin!=null) {
-            em.getTransaction().begin();
-            em.persist(contactMsg);
-            admin.getMsgs().add(contactMsg);
-            em.getTransaction().commit();
-        }
-        else
-        {
-            admin = new Admin(); // TODO
-            em.getTransaction().begin();
-            em.persist(contactMsg);
-            em.persist(admin);
-            admin.getMsgs().add(contactMsg);
-            em.getTransaction().commit();
-        }
-        ServletUtils.redirect(response, "הבקשה נקלטה בהצלחה", "index.html");*/
-
-    }
-
-    private void getAdminMsg(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String usernameFromSession = SessionUtils.getParameter(request, Constants.USERNAME);
-        Admin admin = em.find(Admin.class,usernameFromSession);
-        response.setContentType("application/json; charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        Gson gson = new Gson();
-        String json = gson.toJson(admin.getMsgs());
-        out.println(json);
-        out.flush();
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
