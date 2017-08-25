@@ -13,10 +13,7 @@ public class AppManager {
         query.setParameter("name", name);
         List<SignedUser> res = query.getResultList();
 
-        if (res.isEmpty())
-            return false;
-        else
-            return true;
+        return !res.isEmpty();
     }
 
     private void equalQuery(List<Predicate> predicates, CriteriaBuilder cb,
@@ -45,10 +42,7 @@ public class AppManager {
         query.setParameter("restCity", i_dish.getRestaurant().getCity());
         List<Dish> res = query.getResultList();
 
-        if (res.isEmpty())
-            return false;
-        else
-            return true;
+        return !res.isEmpty();
     }
 
     // TODO delete
@@ -172,12 +166,40 @@ public class AppManager {
     }
 
     private void sortCommentsByDate(List<Comment> comments) {
-        Collections.sort(comments, new Comparator<Comment>() {
-            @Override
-            public int compare(Comment o1, Comment o2) {
-                return o1.getDate().compareTo(o2.getDate());
-            }
-        });
+        Collections.sort(comments, (o1, o2) -> o1.getDate().compareTo(o2.getDate()));
         Collections.reverse(comments);
+    }
+
+    public PasswordResetToken getUserPasswordResetToken(EntityManager em, String username) {
+        PasswordResetToken prt = null;
+        javax.persistence.TypedQuery<PasswordResetToken> query =
+                em.createQuery("SELECT p FROM PasswordResetToken p " +
+                        "WHERE p.username = :username", PasswordResetToken.class);
+
+        query.setParameter("username", username);
+        List<PasswordResetToken> res = query.getResultList();
+
+        if(!res.isEmpty()) {
+            prt = res.get(0);
+        }
+
+        return prt;
+    }
+
+    public PasswordResetToken getPasswordResetToken(EntityManager em, String token) {
+        PasswordResetToken prt = null;
+        javax.persistence.TypedQuery<PasswordResetToken> query =
+                em.createQuery("SELECT p FROM PasswordResetToken p " +
+                        "WHERE p.token = :token", PasswordResetToken.class);
+
+        query.setParameter("token", token);
+        List<PasswordResetToken> res = query.getResultList();
+        if(res != null && res.size() == 1) {
+            prt = res.get(0);
+            if (prt == null || !prt.getToken().equals(token) || prt.getExpiryDate().before(new Date()))
+                prt = null;
+        }
+
+        return prt;
     }
 }

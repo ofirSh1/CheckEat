@@ -41,8 +41,9 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="com.cloudinary:cloudinary-http44:1.14.0" level="project" />
+    <orderEntry type="library" name="gson-2.1" level="project" />
+    <orderEntry type="library" name="mail" level="project" />
     <orderEntry type="library" name="cloudinary-core-1.14.0" level="project" />
     <orderEntry type="library" name="objectdb" level="project" />
-    <orderEntry type="library" name="gson-2.1" level="project" />
   </component>
 </module>

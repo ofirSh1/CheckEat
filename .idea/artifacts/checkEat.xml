@@ -4,7 +4,12 @@
     <root id="archive" name="checkEat.war">
       <element id="artifact" artifact-name="checkEat:war exploded" />
       <element id="directory" name="WEB-INF">
-        <element id="directory" name="lib" />
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="gson-2.1" />
+          <element id="library" level="project" name="mail" />
+          <element id="library" level="project" name="cloudinary-core-1.14.0" />
+          <element id="library" level="project" name="objectdb" />
+        </element>
       </element>
     </root>
   </artifact>

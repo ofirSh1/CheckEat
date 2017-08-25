@@ -131,7 +131,7 @@ function loadRest(element, rest) {
         addNewLine(body);
     var btn = addButton(body, 'הצג');
     btn.classList.add('alignLeft');
-    btn.onclick = function () { showRest(rest.restUsername); }
+    btn.onclick = function () { showRest(rest.userName); }
     panel.appendChild(body);
 }
 

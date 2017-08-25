@@ -12,7 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @WebServlet(name = "LoginServlet", urlPatterns = {"/login"})
 @MultipartConfig
@@ -40,6 +42,12 @@ public class LoginServlet extends HttpServlet {
         }
         else if(requestType.equals(Constants.LOGOUT)) {
             logout(request, response);
+        }
+        else if(requestType.equals("forgotPassword")) {
+            forgotPassword(request, response);
+        }
+        else if(requestType.equals("resetPassword")) {
+            resetPassword(request, response);
         }
     }
 
@@ -146,5 +154,78 @@ public class LoginServlet extends HttpServlet {
                 ServletUtils.redirect(response, "שם משתמש או סיסמא לא נכונים", "login.html");
             }
         }
+    }
+
+    private void forgotPassword(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();
+        String username = request.getParameter("username");
+        if(ServletUtils.isValidString(username)) {
+            SignedUser signedUser = em.find(SignedUser.class, username);
+            if(signedUser != null) {
+                PasswordResetToken prt = createPasswordResetToken(em, username);
+                sendPasswordResetLink(signedUser.getEmail(), prt.getToken());
+                out.print("קוד איפוס סיסמא נשלח למייל");
+            }
+            else
+                out.print("שם משתמש לא נמצא");
+        }
+        else
+            out.print("לא ניתן היה לאפס את הסיסמא");
+        out.flush();
+    }
+
+    private PasswordResetToken createPasswordResetToken(EntityManager em, String username) {
+        AppManager appManager = ServletUtils.getAppManager(getServletContext());
+        PasswordResetToken prt = appManager.getUserPasswordResetToken(em, username);
+        String token = UUID.randomUUID().toString();
+        Date date = new Date();
+        if(prt == null) {
+            prt = new PasswordResetToken();
+            prt.setPasswordToken(token, username);
+            em.getTransaction().begin();
+            em.persist(prt);
+            em.getTransaction().commit();
+        }
+        else {
+            em.getTransaction().begin();
+            prt.setToken(token);
+            prt.setExpiryDate();
+            em.getTransaction().commit();
+        }
+
+        return prt;
+    }
+
+    private boolean sendPasswordResetLink(String userEmail, String token) {
+        String subject = "checkEat: reset password";
+        String url = "localhost:8080/resetPassword.html?token=" + token; //TODO real url
+        String body = "To reset your password click the link below:\n" + url + "\n";
+        return ServletUtils.sendEmail(userEmail, subject, body);
+    }
+
+    public void resetPassword(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        AppManager appManager = ServletUtils.getAppManager(getServletContext());
+        response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();
+        String token = request.getParameter("token");
+        String newPass = request.getParameter("password");
+
+        PasswordResetToken prt = appManager.getPasswordResetToken(em, token);
+        if(prt != null) {
+            SignedUser signedUser = em.find(SignedUser.class, prt.getUsername());
+            if(signedUser != null){
+                em.getTransaction().begin();
+                signedUser.setPassword(newPass);
+                em.remove(prt);
+                em.getTransaction().commit();
+            }
+            out.print("true");
+        }
+        else
+            out.print("false");
+        out.flush();
     }
 }

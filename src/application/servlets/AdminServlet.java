@@ -22,8 +22,8 @@ import java.util.List;
 @WebServlet(name = "AdminServlet", urlPatterns = {"/admin"})
 @MultipartConfig
 public class AdminServlet extends HttpServlet {
-    EntityManagerFactory emf;
-    EntityManager em;
+    private EntityManagerFactory emf;
+    private EntityManager em;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -34,9 +34,11 @@ public class AdminServlet extends HttpServlet {
 
         if (requestType.equals("getAdmin")) {
             getAdminMsg(request, response);
-        } else if (requestType.equals("contact")) {
+        }
+        else if (requestType.equals("contact")) {
             contact(request, response);
-        } else if (requestType.equals("removeMsg")) {
+        }
+        else if (requestType.equals("removeMsg")) {
             removeMsg(request, response);
         }
         else if (requestType.equals("getCustomers")){
@@ -101,7 +103,36 @@ public class AdminServlet extends HttpServlet {
     }
 
     private void contact(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        ContactMsg contactMsg = new ContactMsg();
+        String name = request.getParameter("name");
+        String userEmail = request.getParameter("email");
+        String phone = request.getParameter("phone");
+        String reason = request.getParameter("request");
+        String content = request.getParameter("content");
+
+        StringBuilder body = new StringBuilder();
+        body.append("שם: ");
+        body.append(name);
+        body.append("\n");
+        body.append("אימייל: ");
+        body.append(userEmail);
+        body.append("\n");
+        body.append("טלפון: ");
+        body.append(phone);
+        body.append("\n");
+        body.append("סיבת הפנייה: ");
+        body.append(reason);
+        body.append("\n");
+        body.append("תוכן: ");
+        body.append(content);
+        body.append("\n");
+
+        String subject = "בקשה ליצירת קשר";
+
+        if (ServletUtils.sendEmail(Constants.ADMIN_EMAIL, subject, body.toString())) //TODO admin.email
+            ServletUtils.redirect(response, "הבקשה נקלטה בהצלחה", "index.html");
+        else
+            ServletUtils.redirect(response, "לא היה ניתן לשלוח בקשה", "contact.html");
+      /*  ContactMsg contactMsg = new ContactMsg();
         contactMsg.setName(request.getParameter("name"));
         contactMsg.setEmail(request.getParameter("email"));
         contactMsg.setPhone(request.getParameter("phone"));
@@ -123,7 +154,7 @@ public class AdminServlet extends HttpServlet {
             admin.getMsgs().add(contactMsg);
             em.getTransaction().commit();
         }
-        ServletUtils.redirect(response, "הבקשה נקלטה בהצלחה", "index.html");
+        ServletUtils.redirect(response, "הבקשה נקלטה בהצלחה", "index.html");*/
 
     }
 

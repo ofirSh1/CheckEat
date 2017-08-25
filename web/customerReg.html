@@ -44,32 +44,38 @@
     <form class="container-fluid moveLeft" action="customerReg" method="get" id="form">
 
         <div class="form-group">
-            <!--label for="username">שם משתמש*:</label-->
-            <input type="text" id="username" name="username" class="form-control">
+            <input type="text" id="username" name="username" class="form-control"
+                   title="שם המשתמש יכול לכלול אותיות ומספרים בלבד"
+                   required>
         </div>
 
         <div class="form-group">
-            <!--label for="email">אימייל*:</label-->
-            <input type="email" id="email" name="email" class="form-control">
+            <input type="email" id="email" name="email" class="form-control"
+                   required>
         </div>
 
         <div class="form-group">
-            <!--label for="phone">טלפון:</label-->
-            <input type="tel" id="phone" name="phone" class="form-control">
+            <input type="tel" id="phone" name="phone" class="form-control"
+                   title="המספר צריך להיות חוקי"
+                   pattern="^\d{9,10}$">
         </div>
 
         <div class="form-group">
-            <!--label for="password">סיסמא*:</label-->
-            <input type="password" id="password" name="password" class="form-control">
+            <input type="password" id="password" name="password" class="form-control"
+                   title="הסיסמא צריכה לכלול לפחות 6 תווים הכוללים אותיות קטנות, גדולות ומספרים בלבד"
+                   required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}"
+                   onchange="this.setCustomValidity(this.validity.patternMismatch ? this.title : '');
+                   if(this.checkValidity()) form.verifyPassword.pattern = this.value">
         </div>
 
         <div class="form-group">
-            <!--label for="verifyPassword">אישור סיסמא*:</label-->
-            <input type="password" id="verifyPassword" name="verifyPassword" class="form-control">
+            <input type="password" id="verifyPassword" name="verifyPassword" class="form-control"
+                   title="הסיסמא צריכה להיות זהה לקודמת"
+                   required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}"
+                   onchange="this.setCustomValidity(this.validity.patternMismatch ? this.title : '')">
         </div>
 
         <div class="form-group">
-            <!--label>*שדה חובה</label-->
         </div>
 
         <button type="submit" class="btn btn-warning" id="registerBtn">הרשם</button>

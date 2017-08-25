@@ -1,6 +1,9 @@
 package application.utils;
 
 public class Constants {
+    public static final String ADMIN_EMAIL = "checkeatteam@gmail.com";
+    public static final String ADMIN_PASSWORD = "finalProject";
+
     public static final String REQUEST_TYPE = "requestType";
     public static final String GET_USERNAME = "getUsername";
     public static final String GET_CUSTOMER = "getCustomer";
