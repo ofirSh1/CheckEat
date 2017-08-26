@@ -42,79 +42,92 @@
 
 <div class="container-fluid" id="restReg">
 
-    <!--h2>הרשמה</h2-->
-
     <form class="container-fluid moveLeft" id="form" action="restaurantReg" method="post" enctype="multipart/form-data">
 
         <div class="form-group">
+            <label for="username">שם משתמש*</label>
             <input type="text" id="username" name="username" class="form-control"
                    title="שם המשתמש יכול לכלול אותיות ומספרים בלבד"
                    required>
         </div>
 
         <div class="form-group">
+            <label for="email">אימייל*</label>
             <input type="email" id="email" name="email" class="form-control"
                    required>
         </div>
 
         <div class="form-group">
+            <label for="contactName">שם איש קשר*</label>
             <input type="text" id="contactName" name="contactName" class="form-control"
                    title="השם צריך להיות חוקי"
                    required pattern="+[ א-תa-zA-Z]">
         </div>
 
         <div class="form-group">
+            <label for="contactPhone">טלפון של איש קשר</label>
             <input type="text" id="contactPhone" name="contactPhone" class="form-control"
                    title="המספר צריך להיות חוקי"
                    pattern="^\d{9,10}$">
         </div>
 
         <div class="form-group">
+            <label for="password">סיסמא*</label>
             <input type="password" id="password" name="password" class="form-control">
         </div>
 
         <div class="form-group">
+            <label for="verifyPassword">אישור סיסמא*</label>
             <input type="password" id="verifyPassword" name="verifyPassword" class="form-control">
         </div>
 
         <div class="form-group">
+            <label for="restName">שם מסעדה*</label>
             <input type="text" id="restName" name="restName" class="form-control"
                    title="השם צריך להיות חוקי"
                    required pattern="+[ א-תa-zA-Z]">
         </div>
 
         <div class="form-group" id="selectCityDiv">
+            <label for="selectCity">עיר*</label>
             <select class="form-control js-example-basic-single" id="selectCity" name="city"
                     required>
             </select>
         </div>
 
         <div class="form-group">
+            <label for="street">רחוב</label>
             <input type="text" id="street" name="street" class="form-control"
                    title="השם צריך להיות חוקי"
                    pattern="+[ א-תa-zA-Z]">
         </div>
 
         <div class="form-group">
+            <label for="streetNum">מספר</label>
             <input type="number" id="streetNum" name="streetNum" class="form-control">
         </div>
 
         <div class="form-group">
+            <label for="phone">טלפון המסעדה</label>
             <input type="text" id="phone" name="phone" class="form-control"
                    title="המספר צריך להיות חוקי"
-                   pattern="^\d{9,10}$">>
+                   pattern="^\d{9,10}$">
         </div>
 
         <div class="form-group">
+            <label for="restLink">קישור לאתר המסעדה</label>
             <input type="url" id="restLink" name="restLink" class="form-control">
         </div>
 
         <div class="form-group">
+            <label for="image">לוגו המסעדה</label>
             <input class="btn btn-default" type="file" id="image" name="image" accept="image/*"/>
+            <label for="imageURL">קישור ללוגו מהאינטרנט</label>
             <input type="text" id="imageURL" name="imageURL" class="form-control">
         </div>
 
         <div class="form-group">
+            <label id="must">*שדה חובה</label>
         </div>
 
         <button type="submit" class="btn btn-warning" id="registerBtn">הרשם</button>

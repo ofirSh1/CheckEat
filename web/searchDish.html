@@ -49,50 +49,55 @@
             <form class="container-fluid moveLeft" >
 
                 <div class="form-group">
-                    <!--label for="restName">שם מסעדה:</label-->
+                    <label for="restName">שם מסעדה:</label>
                     <input type="text" id="restName" class="form-control">
                 </div>
 
                 <div class="form-group" id="selectCityDiv" style="display: inline-block; vertical-align: middle;">
-                    <!--label for="selectCity">עיר:</label-->
+                    <label for="selectCity">עיר:</label>
                     <select class="form-control js-example-basic-single" id="selectCity">
                     </select>
                     <label id="restNearByLabel"><input type="checkbox" name="restNearBy" id="restNearBy">חפש בקרבת מקום</label>
                 </div>
 
                 <div class="form-group">
-                    <!--label for="dishName">שם מנה:</label-->
+                    <label for="dishName">שם מנה:</label>
                     <input type="text" id="dishName" class="form-control">
                 </div>
 
                 <div class="form-group">
-                    <!--label for="checkBoxes">סוג מנה:</label-->
+                    <label for="checkBoxes">העדפות מיוחדות:</label>
                     <div class="form-group moveLeft" id="checkBoxes">
                         <div class="checkbox" id="vegetarianC">
-                            <label><input type="checkbox" name="vegetarian" id="vegetarian"></label>
+                            <input type="checkbox" name="vegetarian" id="vegetarian">
+                            <label for="vegetarian">צמחוני</label>
                         </div>
                         <div class="checkbox" id="naturalistC">
-                            <label><input type="checkbox" name="naturalist" id="naturalist"></label>
+                            <input type="checkbox" name="naturalist" id="naturalist">
+                            <label for="naturalist">טבעוני</label>
                         </div>
                         <div class="checkbox" id="kosherC">
-                            <label><input type="checkbox" name="kosher" id="kosher"></label>
+                            <input type="checkbox" name="kosher" id="kosher">
+                            <label for="kosher">כשר</label>
                         </div>
                         <div class="checkbox" id="noSugarC">
-                            <label><input type="checkbox" name="noSugar" id="noSugar"></label>
+                            <input type="checkbox" name="noSugar" id="noSugar">
+                            <label for="noSugar">ללא סוכר</label>
                         </div>
                         <div class="checkbox" id="noGlutenC">
-                            <label><input type="checkbox" name="noGluten" id="noGluten"></label>
+                            <input type="checkbox" name="noGluten" id="noGluten">
+                            <label for="noGluten">ללא גלוטן</label>
                         </div>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <!--label for="otherTypes">אחר</label-->
+                    <label for="otherTypes">סוג מנה:</label>
                     <input type="text" id="otherTypes" class="form-control">
                 </div>
 
                 <div class="form-group">
-                    <!--label for="ingredients">מרכיבים:</label-->
+                    <label for="ingredients">מרכיבים:</label>
                     <input type="text" id="ingredients" class="form-control">
                 </div>
 
@@ -107,8 +112,7 @@
     <div class="col-sm-4">
         <row>
             <!-- Header Carousel -->
-            <div id="myCarousel" class="carousel slide"
-            >
+            <div id="myCarousel" class="carousel slide">
                 <!-- Indicators -->
                 <ol class="carousel-indicators">
                     <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
@@ -140,6 +144,41 @@
                     <span class="icon-next"></span>
                 </a>
             </div>
+        </row>
+            <row>
+                <!-- Header Carousel -->
+                <div id="myCarousel2" class="carousel slide">
+                    <!-- Indicators -->
+                    <ol class="carousel-indicators">
+                        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                        <li data-target="#myCarousel" data-slide-to="1"></li>
+                        <li data-target="#myCarousel" data-slide-to="2"></li>
+                    </ol>
+
+                    <!-- Wrapper for slides -->
+                    <div class="carousel-inner">
+                        <div class="item active">
+                            <img src="resources/comment1.jpg" style="width:100%;">
+                            <!--div class="fill slideDiv" style="background: url('resources/1.jpg')" id="dish1"></div-->
+                        </div>
+                        <div class="item">
+                            <img src="resources/comment2.jpg" style="width:100%;">
+                            <!--div class="fill slideDiv" style="background: url('resources/2.jpg')" id="dish2"></div-->
+                        </div>
+                        <div class="item">
+                            <!--div class="fill slideDiv" style="background: url('resources/3.jpg')" id="dish3"></div-->
+                            <img src="resources/comment3.jpg" style="width:100%;">
+                        </div>
+                    </div>
+
+                    <!-- Controls -->
+                    <a class="right carousel-control" href="#myCarousel2" data-slide="prev">
+                        <span class="icon-prev"></span>
+                    </a>
+                    <a class="left carousel-control" href="#myCarousel2" data-slide="next">
+                        <span class="icon-next"></span>
+                    </a>
+                </div>
         </row>
 
     </div>

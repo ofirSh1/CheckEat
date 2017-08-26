@@ -1,22 +1,36 @@
-#register {
-    /*border: solid;
-    border-width: 2px;
-    border-color: #DEB887;*/
-    width: 960px;
-    height: 720px;
-    position: relative;
-   /* margin-top: 50px;*/
-    background: url("../resources/register1.png") center no-repeat;
-}
-#radioBtns{
-    position: absolute;
-    top: 350px;
-    right: 210px;
-}
+@media screen and (min-width: 480px) {
+    #register {
+        /*border: solid;
+        border-width: 2px;
+        border-color: #DEB887;*/
+        width: 960px;
+        height: 720px;
+        position: relative;
+        /* margin-top: 50px;*/
+        background: url("../resources/register1.png") center no-repeat;
+    }
 
-#continueBtn{
-    position: absolute;
-    top: 500px;
-    right: 570px;
+    #radioBtns {
+        position: absolute;
+        top: 350px;
+        right: 210px;
+    }
 
+    #continueBtn {
+        position: absolute;
+        top: 500px;
+        right: 570px;
+
+    }
+
+    [for="radioBtns"] { display: none;}
+
+    [for="regularUser"] { display: none;}
+
+    [for="restaurant"] { display: none;}
+
+    input[type="radio"] {
+        right: 20px;
+        top: 10px;
+    }
 }

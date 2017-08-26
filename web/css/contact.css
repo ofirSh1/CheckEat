@@ -1,45 +1,55 @@
-#contact {
-    /*border: solid;
-    border-width: 2px;
-    border-color: #DEB887;*/
-    width: 960px;
-    height: 720px;
-    position: relative;
-    /* margin-top: 50px;*/
-    background: url("../resources/contact.png") center no-repeat;
-}
-#name {
-    position: absolute;
-    top: 225px;
-    right: 300px;
-}
+@media screen and (min-width: 480px) {
+    #contact {
+        /*border: solid;
+        border-width: 2px;
+        border-color: #DEB887;*/
+        width: 960px;
+        height: 720px;
+        position: relative;
+        /* margin-top: 50px;*/
+        background: url("../resources/contact.png") center no-repeat;
+    }
 
-#email{
-    position: absolute;
-    top: 300px;
-    right: 300px;
-}
+    #name {
+        position: absolute;
+        top: 225px;
+        right: 300px;
+    }
 
-#phone{
-    position: absolute;
-    top: 370px;
-    right: 300px;
-}
+    #email {
+        position: absolute;
+        top: 300px;
+        right: 300px;
+    }
 
-#request{
-    position: absolute;
-    top: 450px;
-    right: 300px;
-}
+    #phone {
+        position: absolute;
+        top: 370px;
+        right: 300px;
+    }
 
-#content{
-    position: absolute;
-    top: 540px;
-    right: 300px;
-}
+    #request {
+        position: absolute;
+        top: 450px;
+        right: 300px;
+    }
 
-#sendBtn{
-    position: absolute;
-    top: 600px;
-    right: 750px;
+    #content {
+        position: absolute;
+        top: 540px;
+        right: 300px;
+    }
+
+    #sendBtn {
+        position: absolute;
+        top: 600px;
+        right: 750px;
+    }
+
+    [for="name"] { display: none;}
+    [for="email"] { display: none;}
+    [for="phone"] { display: none;}
+    [for="request"] { display: none;}
+    [for="content"] { display: none;}
+    #must {display: none;}
 }

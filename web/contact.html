@@ -46,35 +46,40 @@
         <input type="hidden" name="requestType" value="contact">
 
         <div class="form-group">
+            <label for="name">שם*</label>
             <input type="text" id="name" name="name" class="form-control"
                    title="השם צריך להיות חוקי"
                    required pattern="+[ א-תa-zA-Z]">
         </div>
 
         <div class="form-group">
+            <label for="email">אימייל*</label>
             <input type="email" id="email" name="email" class="form-control"
                    required>
         </div>
 
         <div class="form-group">
+            <label for="phone">טלפון</label>
             <input type="text" id="phone" name="phone" class="form-control"
                    title="המספר צריך להיות חוקי"
                    pattern="^\d{9,10}$">
         </div>
 
         <div class="form-group">
+            <label for="request">סיבת הפנייה</label>
             <input type="text" id="request" name="request" class="form-control">
         </div>
 
         <div class="form-group">
+            <label for="content">תוכן ההודעה</label>
             <textarea cols="40" rows="5" name="content" id="content" class="form-control"></textarea>
         </div>
 
         <div class="form-group">
+            <label id="must">*שדה חובה</label>
         </div>
 
         <button type="submit" class="btn btn-warning" id="sendBtn">שלח</button>
-
     </form>
 </div>
 

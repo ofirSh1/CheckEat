@@ -1,31 +1,36 @@
-#signIn {
-    width: 652px;
-    height: 533px;
-    position: relative;
-    margin-top: 50px;
-    background: url("../resources/signIn.png") center no-repeat;
-}
+@media screen and (min-width: 480px) {
+    #signIn {
+        width: 652px;
+        height: 533px;
+        position: relative;
+        margin-top: 50px;
+        background: url("../resources/signIn.png") center no-repeat;
+    }
 
-#password{
-    position: absolute;
-    top: 350px;
-    right: 250px;
-}
+    #password {
+        position: absolute;
+        top: 350px;
+        right: 250px;
+    }
 
-#username{
-    position: absolute;
-    top: 250px;
-    right: 250px;
-}
+    #username {
+        position: absolute;
+        top: 250px;
+        right: 250px;
+    }
 
-#signInBtn{
-    position: absolute;
-    top: 420px;
-    right: 270px;
+    #signInBtn {
+        position: absolute;
+        top: 420px;
+        right: 270px;
 
-}
-#passwordBtn{
-    position: absolute;
-    top: 420px;
-    right: 370px;
+    }
+
+    #passwordBtn {
+        position: absolute;
+        top: 420px;
+        right: 370px;
+    }
+    [for="username"] { display: none;}
+    [for="password"] { display: none;}
 }

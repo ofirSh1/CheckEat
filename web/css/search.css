@@ -1,164 +1,195 @@
-#search {
-    /*border: solid;
-    border-width: 2px;
-    border-color: #DEB887;*/
-    width: 960px;
-    height: 720px;
-    position: relative;
-    /*margin-top: 5px;*/
-    background: url("../resources/search5.png")  no-repeat;
-    background-position: right;
-    margin-right: 50px;
-}
-#restName{
-    position: absolute;
-    top: 190px;
-    right: 225px;
-}
-#selectCityDiv{
-    position: absolute;
-    top: 250px;
-    right: 225px;
-}
-#dishName{
-    position: absolute;
-    top: 300px;
-    right: 225px;
+@media screen and (min-width: 480px) {
+    #search {
+        /*border: solid;
+        border-width: 2px;
+        border-color: #DEB887;*/
+        width: 960px;
+        height: 720px;
+        position: relative;
+        /*margin-top: 5px;*/
+        background: url("../resources/search5.png") no-repeat;
+        background-position: right;
+        margin-right: 50px;
+    }
+
+    #restName {
+        position: absolute;
+        top: 190px;
+        right: 225px;
+    }
+
+    #selectCityDiv {
+        position: absolute;
+        top: 250px;
+        right: 225px;
+    }
+
+    #dishName {
+        position: absolute;
+        top: 300px;
+        right: 225px;
+    }
+
+    #vegetarianC {
+        position: absolute;
+        top: 378px;
+        right: 100px;
+    }
+
+    #naturalistC {
+        position: absolute;
+        top: 420px;
+        right: 100px;
+
+    }
+
+    #kosherC {
+        position: absolute;
+        top: 450px;
+        right: 100px;
+    }
+
+    #noSugarC {
+        position: absolute;
+        top: 478px;
+        right: 100px;
+    }
+
+    #noGlutenC {
+        position: absolute;
+        top: 503px;
+        right: 100px;
+    }
+
+    #otherTypes {
+        position: absolute;
+        top: 565px;
+        right: 225px;
+    }
+
+    #ingredients {
+        position: absolute;
+        top: 620px;
+        right: 225px;
+    }
+
+    #searchBtn {
+        position: absolute;
+        top: 620px;
+        right: 700px;
+    }
+
+    [for="vegetarian"] { display: none;}
+    [for="naturalist"] { display: none;}
+    [for="kosher"] { display: none;}
+    [for="noSugar"] { display: none;}
+    [for="noGluten"] { display: none;}
+    [for="otherTypes"] { display: none;}
+    [for="ingredients"] { display: none;}
+    [for="checkBoxes"] { display: none;}
+    [for="dishName"] { display: none;}
+    [for="selectCity"] { display: none;}
+    [for="restName"] { display: none;}
+
+    #myCarousel{
+        margin-top: 50px;
+        width: 120%;
+        height: auto;
+        margin-bottom: 70px;
+    }
+
+    /*#myCarousel2{
+        margin-top: 100px;
+        width: 120%;
+
+    }*/
+
+    .carousel-inner{
+        width:100%;
+        height: 350px;
+        max-height: 350px !important;
+        margin: auto;
+    }
+    /* carousel */
+    #quote-carousel
+    {
+        margin-top: 100px;
+        width: 120%;
+        height: 180px;
+        background-color: whitesmoke;
+    }
+
+    /* Control buttons  */
+    #quote-carousel .carousel-control
+    {
+        background: none;
+        color: orange;
+        font-size: 2.3em;
+        text-shadow: none;
+        margin-top: 70px;
+        max-height: 350px !important;
+        max-width: 300px;
+    }
+    /* Previous button  */
+    #quote-carousel .carousel-control.left
+    {
+        left: -12px;
+    }
+    /* Next button  */
+    #quote-carousel .carousel-control.right
+    {
+        right: -12px !important;
+    }
+    /* Changes the position of the indicators */
+    #quote-carousel .carousel-indicators
+    {
+        right: 50%;
+        top: auto;
+        bottom: 0px;
+        margin-right: -19px;
+    }
+    /* Changes the color of the indicators */
+    #quote-carousel .carousel-indicators li
+    {
+        background: #c0c0c0;
+    }
+    #quote-carousel .carousel-indicators .active
+    {
+        background: orange;
+    }
+    /*quote-carousel img
+    {
+        width: 250px;
+        height: 100px
+    }*/
+    /* End carousel */
+
+    /*.item blockquote {
+        border-left: none;
+        margin: 0px;
+    }*/
+
+    /*.item blockquote img {
+        margin-bottom: 10px;
+    }*/
+
+    .item blockquote p:before {
+        content: "\f10d";
+        font-family: 'Fontawesome';
+        font-size: x-large;
+        float: left;
+        color: darkorange;
+        width: 30px;
+        margin-right: 10px;
+    }
 }
 
-#vegetarianC{
-    position: absolute;
-    top: 378px;
-    right: 100px;
-}
-#naturalistC{
-    position: absolute;
-    top: 420px;
-    right: 100px;
-
-}
-#kosherC{
-    position: absolute;
-    top: 450px;
-    right: 100px;
-}
-#noSugarC{
-    position: absolute;
-    top: 478px;
-    right: 100px;
-}
-#noGlutenC{
-    position: absolute;
-    top: 503px;
-    right: 100px;
-}
-#otherTypes{
-    position: absolute;
-    top: 565px;
-    right: 225px;
-}
-#ingredients{
-    position: absolute;
-    top: 620px;
-    right: 225px;
+@media screen and (max-width: 480px){
+    #myCarousel {display: none}
+    #myCarousel2 {display: none}
 }
 
-#searchBtn{
-    position: absolute;
-    top: 620px;
-    right: 700px;
-}
-#myCarousel{
-    margin-top: 50px;
-    width: 120%;
-    height: auto;
-    margin-bottom: 70px;
-}
 
-/*#myCarousel2{
-    margin-top: 100px;
-    width: 120%;
-
-}*/
-
-.carousel-inner{
-    width:100%;
-    height: 350px;
-    max-height: 350px !important;
-    margin: auto;
-}
-/* carousel */
-#quote-carousel
-{
-    margin-top: 100px;
-    width: 120%;
-    height: 180px;
-    background-color: whitesmoke;
-}
-
-/* Control buttons  */
-#quote-carousel .carousel-control
-{
-    background: none;
-    color: orange;
-    font-size: 2.3em;
-    text-shadow: none;
-    margin-top: 70px;
-    max-height: 350px !important;
-    max-width: 300px;
-}
-/* Previous button  */
-#quote-carousel .carousel-control.left
-{
-    left: -12px;
-}
-/* Next button  */
-#quote-carousel .carousel-control.right
-{
-    right: -12px !important;
-}
-/* Changes the position of the indicators */
-#quote-carousel .carousel-indicators
-{
-    right: 50%;
-    top: auto;
-    bottom: 0px;
-    margin-right: -19px;
-}
-/* Changes the color of the indicators */
-#quote-carousel .carousel-indicators li
-{
-    background: #c0c0c0;
-}
-#quote-carousel .carousel-indicators .active
-{
-    background: orange;
-}
-/*quote-carousel img
-{
-    width: 250px;
-    height: 100px
-}*/
-/* End carousel */
-
-/*.item blockquote {
-    border-left: none;
-    margin: 0px;
-}*/
-
-/*.item blockquote img {
-    margin-bottom: 10px;
-}*/
-
-.item blockquote p:before {
-    content: "\f10d";
-    font-family: 'Fontawesome';
-    font-size: x-large;
-    float: left;
-    color: darkorange;
-    width: 30px;
-    margin-right: 10px;
-}
 
 
 
@@ -167,7 +198,7 @@
 */
 
 /*Small devices (tablets, 768px and up) */
-@media (min-width: 768px) {
+/*@media (min-width: 768px) {
     #quote-carousel
     {
         margin-bottom: 0;
@@ -175,12 +206,12 @@
         margin-top: 30px;
     }
 
-}
+}*/
 
 /* Small devices (tablets, up to 768px) */
-@media (max-width: 768px) {
+/* Make the indicators larger for easier clicking with fingers/thumb on mobile */
+/*@media (max-width: 768px) {
 
-    /* Make the indicators larger for easier clicking with fingers/thumb on mobile */
 
     #quote-carousel .carousel-indicators {
         bottom: -20px !important;
@@ -196,4 +227,5 @@
         width: 20px;
         height: 20px;
     }
-}
+}*/
+

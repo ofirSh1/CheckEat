@@ -44,31 +44,37 @@
     <form class="container-fluid moveLeft" action="customerReg" method="get" id="form">
 
         <div class="form-group">
+            <label for="username">שם משתמש*</label>
             <input type="text" id="username" name="username" class="form-control"
                    title="שם המשתמש יכול לכלול אותיות ומספרים בלבד"
                    required>
         </div>
 
         <div class="form-group">
+            <label for="email">אימייל*</label>
             <input type="email" id="email" name="email" class="form-control"
                    required>
         </div>
 
         <div class="form-group">
+            <label for="phone">טלפון</label>
             <input type="tel" id="phone" name="phone" class="form-control"
                    title="המספר צריך להיות חוקי"
                    pattern="^\d{9,10}$">
         </div>
 
         <div class="form-group">
+            <label for="password">סיסמא*</label>
             <input type="password" id="password" name="password" class="form-control">
         </div>
 
         <div class="form-group">
+            <label for="verifyPassword">אישור סיסמא*</label>
             <input type="password" id="verifyPassword" name="verifyPassword" class="form-control">
         </div>
 
         <div class="form-group">
+            <label id="must">*שדה חובה</label>
         </div>
 
         <button type="submit" class="btn btn-warning" id="registerBtn">הרשם</button>
