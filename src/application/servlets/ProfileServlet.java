@@ -280,9 +280,9 @@ public class ProfileServlet extends HttpServlet {
     }
 
     private void getRestaurant(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        /*String usernameFromSession = SessionUtils.getParameter(request, Constants.USERNAME);
+        String usernameFromSession = SessionUtils.getParameter(request, Constants.USERNAME);
         String restUserName = request.getParameter("restUserName");
-        if (usernameFromSession == null || usernameFromSession.equals("CheckEat")) // showMore or admin
+        if (usernameFromSession == null || usernameFromSession.equals("CheckEat") || (restUserName != null && !restUserName.equals(usernameFromSession))) // showMore or admin
             usernameFromSession = restUserName;
         Restaurant restaurant = em.find(Restaurant.class,usernameFromSession);
         response.setContentType("application/json; charset=UTF-8");
@@ -290,21 +290,6 @@ public class ProfileServlet extends HttpServlet {
         Gson gson = new Gson();
         String json = gson.toJson(new GsonRestaurant(restaurant));
         out.println(json);
-        out.flush();*/
-
-        //TODO check
-        response.setContentType("application/json; charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            String username = request.getParameter("restUserName");
-            if(username == null)
-                username = SessionUtils.getParameter(request, Constants.USERNAME);
-            Restaurant restaurant = em.find(Restaurant.class, username);
-            if(restaurant != null) {
-                Gson gson = new Gson();
-                String json = gson.toJson(new GsonRestaurant(restaurant));
-                out.println(json);
-                out.flush();
-            }
-        }
+        out.flush();
     }
 }
