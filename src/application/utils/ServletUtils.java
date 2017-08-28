@@ -1,5 +1,6 @@
 package application.utils;
 
+import application.logic.Admin;
 import application.logic.AppManager;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
@@ -41,7 +42,6 @@ public class ServletUtils {
 
 	public static String uploadImageToCloudinary(Part filePart)
 			throws ServletException, IOException {
-
 		String path = saveImageTemporary(filePart);
 		if(path == null)
 			return null;
@@ -126,6 +126,7 @@ public class ServletUtils {
 		catch (IOException e) {
 			e.printStackTrace();
 		}
+
 		return "";
 	}
 
@@ -137,7 +138,7 @@ public class ServletUtils {
 		return false;
 	}
 
-	public static boolean sendEmail(String userEmail, String subject, String body) {
+	public static boolean sendEmail(Admin admin, String userEmail, String subject, String body) {
 		Properties props = new Properties();
 		props.put("mail.smtp.host", "smtp.gmail.com");
 		props.put("mail.smtp.socketFactory.port", "465");
@@ -148,15 +149,15 @@ public class ServletUtils {
 		Session session = Session.getDefaultInstance(props,
 				new javax.mail.Authenticator() {
 					protected PasswordAuthentication getPasswordAuthentication() {
-						return new PasswordAuthentication(Constants.ADMIN_EMAIL, Constants.ADMIN_PASSWORD); //TODO admin.email admin.password
+						return new PasswordAuthentication(admin.getEmail(), admin.getEmailPassword());
 					}
 				});
 
 		try {
 			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress(Constants.ADMIN_EMAIL));
+			message.setFrom(new InternetAddress(admin.getEmail()));
 			message.setRecipients(Message.RecipientType.TO,
-					InternetAddress.parse(Constants.ADMIN_EMAIL)); //TODO userEmail - just to check
+					InternetAddress.parse(userEmail));
 			message.setSubject(subject);
 			message.setText(body);
 			Transport.send(message);

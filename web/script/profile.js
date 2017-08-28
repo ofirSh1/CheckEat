@@ -267,8 +267,7 @@ function editCustomer() {
     }
 }
 
-function addImg(element, url, height, width)
-{
+function addImg(element, url, height, width) {
     if(!url)
         url = "resources/logo.png";
 

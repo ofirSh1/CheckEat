@@ -202,4 +202,29 @@ public class AppManager {
 
         return prt;
     }
+
+    public List<GsonCustomer> getCustomers(EntityManager em) {
+        javax.persistence.TypedQuery<Customer> query =
+                em.createQuery("SELECT customer FROM Customer customer", Customer.class);
+
+        List<Customer> res = query.getResultList();
+        List<GsonCustomer> gsonRes = new ArrayList<>();
+        for (Customer customer: res)
+            gsonRes.add(new GsonCustomer(customer));
+
+        return gsonRes;
+    }
+
+    public List<GsonRestaurant> getRestaurants(EntityManager em) {
+        javax.persistence.TypedQuery<Restaurant> query =
+                em.createQuery("SELECT restaurant FROM Restaurant restaurant", Restaurant.class);
+
+        List<Restaurant> res = query.getResultList();
+        List<GsonRestaurant> gsonRes = new ArrayList<>();
+        for (Restaurant restaurant: res) {
+            gsonRes.add(new GsonRestaurant(restaurant));
+        }
+
+        return gsonRes;
+    }
 }

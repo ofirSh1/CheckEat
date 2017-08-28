@@ -197,7 +197,7 @@ function addDishDetails(element, dish) {
         addNewLine(element);
     if(addList(element, 'מרכיבים:', dish.ingredients))
         addNewLine(element);
-    if(addDetail(element, 'הועלה בתאריך:', dish.uploadDate))
+    if(addDetail(element, 'הועלה בתאריך:', dish.dateStr))
         addNewLine(element);
 }
 
@@ -224,7 +224,7 @@ function addCommentsBtn(element, dish) {
 }
 
 function addSaveDishBtn(element, dish) {
-    if(userType == null || userType === "customer") {
+    if(!userType || userType === "customer") {
         var saveDishBtn = addButton(element, 'הוסף מנה למועדפים');
         saveDishBtn.onclick = function () { saveDish(this, dish) };
         checkIfSaved(dish, saveDishBtn);
@@ -326,7 +326,7 @@ function toggleCommentsSection(dishId) {
 
 function comment(dishId, textBox) {
     var content = textBox.value;
-    if(userType != null) {
+    if(userType) {
         if (content === "")
             alert("אין תוכן");
         else {
@@ -363,12 +363,12 @@ function setCommentsList(dishId) {
         success: function(comments)
         {
             var element = document.getElementById('commentsList' + dishId);
-            loadComments(element, comments);
+            loadComments(element, comments, dishId);
         }
     });
 }
 
-function loadComments(element, comments) {
+function loadComments(element, comments, dishId) {
     element.innerHTML = "";
     if(comments == null || comments.length == 0){
         var label = addLabel(element, 'אין תגובות');
@@ -385,6 +385,8 @@ function loadComments(element, comments) {
         addSpace(container);
         var date = addLabel(container, timeSince(comments[i].date));
         date.classList.add('date');
+        addSpace(date);
+        canDeleteComment(comments[i].commentId, dishId, date);
         addNewLine(container);
 
         var text = document.createElement('div');
@@ -394,8 +396,35 @@ function loadComments(element, comments) {
     }
 }
 
-function removeComment() {
+function canDeleteComment(commentId, dishId, element) {
+    $.ajax({
+        url: 'dish',
+        data: {
+            'requestType': 'canDeleteComment',
+            'commentId': commentId
+        },
+        success: function (res) {
+            if(res === 'true') {
+                var icon = addIcon(element, 'fa fa-trash-o');
+                icon.onclick = function () { deleteComment(commentId, dishId); }
+            }
+        }
+    });
+}
 
+function deleteComment(commentId, dishId) {
+    $.ajax({
+        url: 'dish',
+        data: {
+            'requestType': 'deleteComment',
+            'dishId': dishId,
+            'commentId': commentId
+        },
+        success: function (res) {
+            if(res === 'true')
+                setCommentsList(dishId);
+        }
+    });
 }
 
 //*******************************************************************************************
@@ -416,7 +445,7 @@ function checkIfSaved(dish, saveDishBtn) {
 }
 
 function saveDish(btn, dish) {
-    if(userType != null) {
+    if(userType) {
         toggleText(btn, 'הוסף מנה למועדפים', 'הסר מנה מהמועדפים');
         $.ajax({
             url: 'profile',

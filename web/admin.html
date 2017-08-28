@@ -38,9 +38,21 @@
     </div>
 </nav>
 
-<h1> מנהל מערכת  </h1>
+<div class="container-fluid">
 
-<div dir="rtl" class="panel panel-default" style="display: inline-block">
+    <h1>מנהל מערכת</h1>
+
+    <form class="container-fluid">
+        <label for="addResBtn">הוסף קובץ מסעדות:</label>
+        <input class="btn btn-default" type="file" id="addResBtn" name="addResBtn" accept="text/plain"/>
+        <button type="button" class="btn btn-default" onclick="addRestaurants()">הוסף</button><br><br>
+
+        <label for="addDishBtn">הוסף קובץ מנות:</label>
+        <input class="btn btn-default" type="file" id="addDishBtn" name="addDishBtn" accept="text/plain"/>
+        <button type="button" class="btn btn-default" onclick="addDishes()">הוסף</button><br><br>
+    </form>
+
+    <div dir="rtl" class="panel panel-default" style="display: inline-block">
     <div class="panel-heading">
 פניות
         <div class="panel-body" >
@@ -54,7 +66,6 @@
                         <th> טלפון</th>
                         <th>סיבת הפנייה</th>
                         <th>תוכן הפנייה</th>
-                        <th>מענה</th>
                         <th>הסר</th>
                     </tr>
                     </thead>
@@ -64,9 +75,9 @@
             </div>
         </div>
     </div>
-</div>
+    </div><br>
 
-<div dir="rtl" class="panel panel-default" style="display: inline-block">
+    <div dir="rtl" class="panel panel-default" style="display: inline-block">
     <div class="panel-heading">
         מסעדות
         <div class="panel-body" >
@@ -97,9 +108,9 @@
             </div>
         </div>
     </div>
-</div>
+    </div><br>
 
-<div dir="rtl" class="panel panel-default" style="display: inline-block">
+    <div dir="rtl" class="panel panel-default" style="display: inline-block">
     <div class="panel-heading">
         משתמשים רגילים
         <div class="panel-body" >
@@ -121,6 +132,8 @@
             </div>
         </div>
     </div>
+    </div>
+
 </div>
 
 </body>

@@ -1,15 +1,4 @@
-
 $(function () {
- //   var visited = localStorage['visited'];
-  //  if (!visited) {
-        $.ajax({
-            type: 'get',
-            url: 'loadDataBase',
-            async: false
-        });
-    //    localStorage['visited'] = true;
-    //}
-
     $('.carousel').carousel({interval: 5000});
     sessionStorage.clear();
     getLastUploadsFromServer();
@@ -177,8 +166,7 @@ function loadRestaurantsNearby(restList) {
         }
 }
 
-function loadDish(element, dish)
-{
+function loadDish(element, dish) {
     var panel = document.createElement('div');
     panel.classList.add('panel', 'panel-default');
     element.appendChild(panel);
@@ -198,7 +186,7 @@ function loadDish(element, dish)
         addNewLine(body);
     if(addAddress(body, dish.restaurantCity, dish.restaurantStreet, dish.restaurantStreetNum))
         addNewLine(body);
-    if(addDetail(body, 'הועלה בתאריך:', dish.uploadDate))
+    if(addDetail(body, 'הועלה בתאריך:', dish.dateStr))
         addNewLine(body);
     var btn = addButton(body, 'הצג');
     btn.classList.add('alignLeft');
@@ -234,8 +222,7 @@ function loadRest(element, rest) {
 
 //*******************************************************************************************
 //Adding Controls
-function addImg(element, url, height, width)
-{
+function addImg(element, url, height, width) {
     if(!url)
         url = "resources/logo.png";
 
@@ -251,8 +238,7 @@ function addImg(element, url, height, width)
     return added;
 }
 
-function addDetail(element, detail, text)
-{
+function addDetail(element, detail, text) {
     var added = false;
     if(text) {
         added = true;
@@ -264,8 +250,7 @@ function addDetail(element, detail, text)
     return added;
 }
 
-function addAddress(element, city, street, streetNum)
-{
+function addAddress(element, city, street, streetNum) {
     var added = false;
     if(city) {
         added = true;
@@ -286,8 +271,7 @@ function addAddress(element, city, street, streetNum)
     return added;
 }
 
-function addLabel(element, text)
-{
+function addLabel(element, text) {
     var label = document.createElement('label');
     label.innerHTML = text;
     element.appendChild(label);

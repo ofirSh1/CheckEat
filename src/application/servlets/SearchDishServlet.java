@@ -66,6 +66,9 @@ public class SearchDishServlet extends HttpServlet
         else if (requestType.equals("deleteComment")){
             deleteComment(request,response);
         }
+        else if (requestType.equals("canDeleteComment")){
+            canDeleteComment(request,response);
+        }
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -314,23 +317,37 @@ public class SearchDishServlet extends HttpServlet
         try (PrintWriter out = response.getWriter()) {
             Dish dish = em.find(Dish.class, Integer.parseInt(request.getParameter("dishId")));
             Comment comment = em.find(Comment.class, Integer.parseInt(request.getParameter("commentId")));
+            if (dish != null && comment != null && dish.getCommentList().contains(comment)) {
+                try {
+                    em.getTransaction().begin();
+                    dish.getCommentList().remove(comment);
+                    em.remove(comment);
+                    em.getTransaction().commit();
+                    out.print("true");
+                    out.flush();
+                }
+                finally {
+                    if (em.getTransaction().isActive())
+                        em.getTransaction().rollback();
+                    em.close();
+                }
+            }
+        }
+    }
+
+    private void canDeleteComment(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            Comment comment = em.find(Comment.class, Integer.parseInt(request.getParameter("commentId")));
+            Dish dish = comment.getDish();
+            Restaurant restaurant = dish.getRestaurant();
             String usernameFromSession = SessionUtils.getParameter(request, Constants.USERNAME);
-            if (usernameFromSession != null && dish != null && comment != null) {
-                SignedUser signedUser = em.find(SignedUser.class, usernameFromSession);
-                if (signedUser != null && dish.getCommentList().contains(comment)) {
-                    try {
-                        em.getTransaction().begin();
-                        dish.getCommentList().remove(comment);
-                        em.remove(comment);
-                        em.getTransaction().commit();
-                        out.print("true");
-                        out.flush();
-                    }
-                    finally {
-                        if (em.getTransaction().isActive())
-                            em.getTransaction().rollback();
-                        em.close();
-                    }
+            if (comment != null && dish.getCommentList().contains(comment) && usernameFromSession != null) {
+                if (usernameFromSession.equals("CheckEat")
+                        || usernameFromSession.equals(comment.getUserName())
+                        || usernameFromSession.equals(restaurant.getUserName())) {
+                    out.print("true");
+                    out.flush();
                 }
             }
         }

@@ -8,15 +8,14 @@ function getMsg() {
     $.ajax({
         url: 'admin',
         data: {
-            'requestType': 'getAdmin'
+            'requestType': 'getAdminMsg'
         },
         success: function (msgs) {
             $("#contactList").empty();
             for (var i = 0; i < msgs.length; i++) {
-                var answer = "<button class=\"btn btn-default\" onclick=\"answer(" + i + ")\">מענה</button>";
                 var remove = "<button class=\"btn btn-default\" onclick=\"removeMsg(" + i + ")\">הסר</button>";
                 $('<tr><td>' + Number(Number(i) + Number(1)) + '</td><td>' + msgs[i].name + '</td><td>' + msgs[i].email + '</td><td>' + msgs[i].phone + '</td><td>' + msgs[i].request + '</td>' +
-                    '<td>' + msgs[i].content + '</td><td>' + answer + '</td><td>' + remove + '</td></tr>').appendTo($("#contactList"));
+                    '<td>' + msgs[i].content + '</td><td>' + remove + '</td></tr>').appendTo($("#contactList"));
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -88,7 +87,8 @@ function duplicate(userName) {
 }
 
 function changePassword(userName) {
-
+    sessionStorage.setItem("userNameToChange", userName);
+    window.location.href = "changePassword.html";
 }
 
 function editCustomer(userName) {
@@ -113,10 +113,6 @@ function remove(userName) {
         });
         window.location.reload();
     }
-}
-
-function answer(numMsg) {
-
 }
 
 function removeMsg(numMsg) {
@@ -170,6 +166,48 @@ function duplicateRestaurantOnLoad() {
             document.getElementById("phone").setAttribute('value',restaurant.phone);
             document.getElementById("restLink").setAttribute('value',restaurant.link);
             document.getElementById("imageURL").setAttribute('value',restaurant.logoUrl);
+        }
+    });
+}
+
+function addRestaurants() {
+    var restFile = document.getElementById('addResBtn').files[0];
+    var formData = new FormData();
+    formData.append("restFile", restFile);
+    formData.append("requestType", "addRestaurants");
+
+    $.ajax({
+        url: "loadDataBase",
+        type: "POST",
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function() {
+            alert("קובץ המסעדות נוסף בהצלחה");
+        },
+        error: function() {
+            alert("שגיאה בהוספת קובץ המסעדות")
+        }
+    });
+}
+
+function addDishes() {
+    var dishFile = document.getElementById('addDishBtn').files[0];
+    var formData = new FormData();
+    formData.append("dishFile", dishFile);
+    formData.append("requestType", "addDishes");
+
+    $.ajax({
+        url: "loadDataBase",
+        type: "POST",
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function() {
+            alert("קובץ המנות נוסף בהצלחה");
+        },
+        error: function() {
+            alert("שגיאה בהוספת קובץ המנות")
         }
     });
 }

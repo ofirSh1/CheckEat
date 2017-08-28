@@ -73,7 +73,7 @@ public class LoginServlet extends HttpServlet {
                     out.print("customer");
             }
             else
-                out.print("CheckEat");
+                out.print("CheckEat"); //TODO check
             out.flush();
         }
     }
@@ -147,11 +147,12 @@ public class LoginServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         String username = request.getParameter("username");
+        Admin admin = em.find(Admin.class, "CheckEat");
         if(ServletUtils.isValidString(username)) {
             SignedUser signedUser = em.find(SignedUser.class, username);
             if(signedUser != null) {
                 PasswordResetToken prt = createPasswordResetToken(em, username);
-                sendPasswordResetLink(signedUser.getEmail(), prt.getToken());
+                sendPasswordResetLink(admin, signedUser.getEmail(), prt.getToken());
                 out.print("קוד איפוס סיסמא נשלח למייל");
             }
             else
@@ -184,11 +185,12 @@ public class LoginServlet extends HttpServlet {
         return prt;
     }
 
-    private boolean sendPasswordResetLink(String userEmail, String token) {
+    private boolean sendPasswordResetLink(Admin admin, String userEmail, String token) {
         String subject = "checkEat: reset password";
         String url = "localhost:8080/resetPassword.html?token=" + token; //TODO real url
+        //String url = "http://vmedu126.mtacloud.co.il:8080/checkEat/resetPassword.html?token=" + token;
         String body = "To reset your password click the link below:\n" + url + "\n";
-        return ServletUtils.sendEmail(userEmail, subject, body);
+        return ServletUtils.sendEmail(admin, userEmail, subject, body);
     }
 
     public void resetPassword(HttpServletRequest request, HttpServletResponse response)

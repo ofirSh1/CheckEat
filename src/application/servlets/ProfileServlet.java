@@ -21,12 +21,14 @@ import java.io.PrintWriter;
 @MultipartConfig
 public class ProfileServlet extends HttpServlet {
 
+    private EntityManagerFactory emf;
     private EntityManager em;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
+
+        emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
         em = emf.createEntityManager();
         request.setCharacterEncoding("UTF-8");
         String requestType = request.getParameter(Constants.REQUEST_TYPE);
@@ -57,7 +59,7 @@ public class ProfileServlet extends HttpServlet {
         }
         else if (requestType.equals("editCustomer")) {
             editCustomer(request,response);
-        }       
+        }
         else if (requestType.equals("editRestaurant")) {
             editRestaurant(request,response);
         }
@@ -70,6 +72,11 @@ public class ProfileServlet extends HttpServlet {
         else if (requestType.equals("changePassword")){
             changePassword(request,response);
         }
+    }
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        doGet(request, response);
     }
 
     private void changePassword(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -273,20 +280,31 @@ public class ProfileServlet extends HttpServlet {
     }
 
     private void getRestaurant(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String usernameFromSession = SessionUtils.getParameter(request, Constants.USERNAME);
+        /*String usernameFromSession = SessionUtils.getParameter(request, Constants.USERNAME);
+        String restUserName = request.getParameter("restUserName");
         if (usernameFromSession == null || usernameFromSession.equals("CheckEat")) // showMore or admin
-            usernameFromSession = request.getParameter("restUserName");
+            usernameFromSession = restUserName;
         Restaurant restaurant = em.find(Restaurant.class,usernameFromSession);
         response.setContentType("application/json; charset=UTF-8");
         PrintWriter out = response.getWriter();
         Gson gson = new Gson();
         String json = gson.toJson(new GsonRestaurant(restaurant));
         out.println(json);
-        out.flush();
-    }
+        out.flush();*/
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        doGet(request, response);
+        //TODO check
+        response.setContentType("application/json; charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            String username = request.getParameter("restUserName");
+            if(username == null)
+                username = SessionUtils.getParameter(request, Constants.USERNAME);
+            Restaurant restaurant = em.find(Restaurant.class, username);
+            if(restaurant != null) {
+                Gson gson = new Gson();
+                String json = gson.toJson(new GsonRestaurant(restaurant));
+                out.println(json);
+                out.flush();
+            }
+        }
     }
 }
