@@ -48,10 +48,42 @@ function getFavDishesFromServer() {
 }
 
 function getRestaurantsNearbyFromServer() {
-    if (navigator.geolocation) {
+/*    if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(setNearbyRestaurantsHomePage);
+    }*/
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            setNearbyRestaurantsHomePage,
+            browserGeolocationFail,
+            {maximumAge: 50000, timeout: 20000, enableHighAccuracy: true});
     }
 }
+
+var tryAPIGeolocation = function() {
+    jQuery.post( "https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyC46AxbGkzkTvAA9SfE3x863EqyHq4oyz8", setNearbyRestaurantsHomePage)
+        .fail(function(err) {
+           // document.getElementById("restNearByLabel").style.display = 'none';
+            //   alert("API Geolocation error! \n\n"+err);
+        });
+};
+
+var browserGeolocationFail = function(error) {
+    switch (error.code) {
+        case error.TIMEOUT:
+            alert("Browser geolocation error !\n\nTimeout.");
+            break;
+        case error.PERMISSION_DENIED:
+            if(error.message.indexOf("Only secure origins are allowed") == 0) {
+                tryAPIGeolocation();
+            }
+            break;
+        case error.POSITION_UNAVAILABLE:
+            document.getElementById("restNearByLabel").style.display = 'none';
+            alert("Browser geolocation error !\n\nPosition unavailable.");
+            break;
+    }
+};
+
 
 function setNearbyRestaurantsHomePage(position) {
     var currCity = findCurrCity(position);
@@ -60,8 +92,14 @@ function setNearbyRestaurantsHomePage(position) {
 }
 
 function findCitiesNearby(position) {
-    var latitude = position.coords.latitude;
-    var longitude = position.coords.longitude;
+    if (position.coords != null) {
+        var latitude = position.coords.latitude;
+        var longitude = position.coords.longitude;
+    }
+    else {
+        var latitude = position.location.lat;
+        var longitude = position.location.lng;
+    }
     var request = new XMLHttpRequest();
     var method = 'GET';
     var async = false;
@@ -76,7 +114,7 @@ function findCitiesNearby(position) {
         },
         success: function (restaurants) {
             for (var i = 0; i < restaurants.length; i++) { // find each city coords and check the distance
-                urlApi = 'http://maps.googleapis.com/maps/api/geocode/json?address=' + restaurants[i].city + '&sensor=true';
+                urlApi = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + restaurants[i].city + '&sensor=true';
                 request.open(method, urlApi, async); // find rest coords
                 request.onreadystatechange = function(){
                     if(request.readyState == 4 && request.status == 200) {
@@ -97,11 +135,17 @@ function findCitiesNearby(position) {
 }
 
 function findCurrCity(position) {
-    var latitude = position.coords.latitude;
-    var longitude = position.coords.longitude;
+    if (position.coords != null) {
+        var latitude = position.coords.latitude;
+        var longitude = position.coords.longitude;
+    }
+    else {
+        var latitude = position.location.lat;
+        var longitude = position.location.lng;
+    }
     var request = new XMLHttpRequest();
     var method = 'GET';
-    var url = 'http://maps.googleapis.com/maps/api/geocode/json?latlng=' + latitude + ',' + longitude + '&sensor=true';
+    var url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + latitude + ',' + longitude + '&sensor=true';
     var async = false;
     var currCity;
     request.open(method, url, async);
@@ -177,8 +221,7 @@ function loadRestaurantsNearby(restList) {
         }
 }
 
-function loadDish(element, dish)
-{
+function loadDish(element, dish) {
     var panel = document.createElement('div');
     panel.classList.add('panel', 'panel-default');
     element.appendChild(panel);
@@ -198,7 +241,7 @@ function loadDish(element, dish)
         addNewLine(body);
     if(addAddress(body, dish.restaurantCity, dish.restaurantStreet, dish.restaurantStreetNum))
         addNewLine(body);
-    if(addDetail(body, 'הועלה בתאריך:', dish.uploadDate))
+    if(addDetail(body, 'הועלה בתאריך:', dish.dateStr))
         addNewLine(body);
     var btn = addButton(body, 'הצג');
     btn.classList.add('alignLeft');
@@ -234,8 +277,7 @@ function loadRest(element, rest) {
 
 //*******************************************************************************************
 //Adding Controls
-function addImg(element, url, height, width)
-{
+function addImg(element, url, height, width) {
     if(!url)
         url = "resources/logo.png";
 
@@ -251,8 +293,7 @@ function addImg(element, url, height, width)
     return added;
 }
 
-function addDetail(element, detail, text)
-{
+function addDetail(element, detail, text) {
     var added = false;
     if(text) {
         added = true;
@@ -264,8 +305,7 @@ function addDetail(element, detail, text)
     return added;
 }
 
-function addAddress(element, city, street, streetNum)
-{
+function addAddress(element, city, street, streetNum) {
     var added = false;
     if(city) {
         added = true;
@@ -286,8 +326,7 @@ function addAddress(element, city, street, streetNum)
     return added;
 }
 
-function addLabel(element, text)
-{
+function addLabel(element, text) {
     var label = document.createElement('label');
     label.innerHTML = text;
     element.appendChild(label);
@@ -340,7 +379,6 @@ function showMoreFavDishes() {
 
 function showMoreNearby() {
     sessionStorage.setItem("title", "מסעדות בקרבת מקום");
-    //sessionStorage.setItem("currCity", document.getElementById('currCity').innerHTML);
     window.location.href = "showMore.html";
 }
 
@@ -350,7 +388,7 @@ function showRest(restUsername) {
     window.location.href = "restaurant.html";
 }
 
-function showDish(dishId,restUsername) { // TODO
+function showDish(dishId,restUsername) {
     sessionStorage.setItem("restUsername", restUsername);
     sessionStorage.setItem("dishId", dishId);
     window.location.href = "restaurant.html";

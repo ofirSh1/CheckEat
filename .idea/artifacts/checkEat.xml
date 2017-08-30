@@ -6,9 +6,9 @@
       <element id="directory" name="WEB-INF">
         <element id="directory" name="lib">
           <element id="library" level="project" name="gson-2.1" />
-          <element id="library" level="project" name="mail" />
           <element id="library" level="project" name="cloudinary-core-1.14.0" />
           <element id="library" level="project" name="objectdb" />
+          <element id="library" level="project" name="javax.mail:mail:1.4.6" />
         </element>
       </element>
     </root>

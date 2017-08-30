@@ -79,114 +79,139 @@
         right: 700px;
     }
 
-    [for="vegetarian"] { display: none;}
-    [for="naturalist"] { display: none;}
-    [for="kosher"] { display: none;}
-    [for="noSugar"] { display: none;}
-    [for="noGluten"] { display: none;}
-    [for="otherTypes"] { display: none;}
-    [for="ingredients"] { display: none;}
-    [for="checkBoxes"] { display: none;}
-    [for="dishName"] { display: none;}
-    [for="selectCity"] { display: none;}
-    [for="restName"] { display: none;}
+    [for="vegetarian"] {
+        display: none;
+    }
 
-    #myCarousel{
+    [for="naturalist"] {
+        display: none;
+    }
+
+    [for="kosher"] {
+        display: none;
+    }
+
+    [for="noSugar"] {
+        display: none;
+    }
+
+    [for="noGluten"] {
+        display: none;
+    }
+
+    [for="otherTypes"] {
+        display: none;
+    }
+
+    [for="ingredients"] {
+        display: none;
+    }
+
+    [for="checkBoxes"] {
+        display: none;
+    }
+
+    [for="dishName"] {
+        display: none;
+    }
+
+    [for="selectCity"] {
+        display: none;
+    }
+
+    [for="restName"] {
+        display: none;
+    }
+
+    #myCarousel {
         margin-top: 50px;
         width: 120%;
         height: auto;
         margin-bottom: 70px;
     }
 
-    /*#myCarousel2{
-        margin-top: 100px;
-        width: 120%;
-
-    }*/
-
-    .carousel-inner{
-        width:100%;
+    .carousel-inner {
+        width: 100%;
         height: 350px;
         max-height: 350px !important;
         margin: auto;
     }
+
     /* carousel */
-    #quote-carousel
-    {
+    #quote-carousel {
         margin-top: 100px;
         width: 120%;
         height: 180px;
-        background-color: whitesmoke;
+        background-color: #fff7e6;
+    }
+
+    #dishCarousel {
+        margin-top: 100px;
+        width: 120%;
+        height: 350px;
+        background-color: #fff7e6;
     }
 
     /* Control buttons  */
-    #quote-carousel .carousel-control
-    {
+    #quote-carousel .carousel-control {
         background: none;
-        color: orange;
+        color: #e69900;
         font-size: 2.3em;
         text-shadow: none;
         margin-top: 70px;
         max-height: 350px !important;
         max-width: 300px;
     }
+
     /* Previous button  */
-    #quote-carousel .carousel-control.left
-    {
+    #quote-carousel .carousel-control.left {
         left: -12px;
     }
+
     /* Next button  */
-    #quote-carousel .carousel-control.right
-    {
+    #quote-carousel .carousel-control.right {
         right: -12px !important;
     }
+
     /* Changes the position of the indicators */
-    #quote-carousel .carousel-indicators
-    {
+    #quote-carousel .carousel-indicators {
         right: 50%;
         top: auto;
         bottom: 0px;
         margin-right: -19px;
     }
+
     /* Changes the color of the indicators */
-    #quote-carousel .carousel-indicators li
-    {
+    #quote-carousel .carousel-indicators li {
         background: #c0c0c0;
     }
-    #quote-carousel .carousel-indicators .active
-    {
-        background: orange;
+
+    #quote-carousel .carousel-indicators .active {
+        background: #e69900;
     }
+
     /*quote-carousel img
     {
         width: 250px;
         height: 100px
     }*/
     /* End carousel */
-
     /*.item blockquote {
         border-left: none;
         margin: 0px;
     }*/
-
     /*.item blockquote img {
         margin-bottom: 10px;
     }*/
-
     .item blockquote p:before {
         content: "\f10d";
         font-family: 'Fontawesome';
         font-size: x-large;
         float: left;
-        color: darkorange;
+        color: #e69900;
         width: 30px;
         margin-right: 10px;
     }
-}
-
-@media screen and (max-width: 480px){
-    #myCarousel {display: none}
-    #myCarousel2 {display: none}
 }
 
 
@@ -198,7 +223,7 @@
 */
 
 /*Small devices (tablets, 768px and up) */
-/*@media (min-width: 768px) {
+@media (min-width: 768px) {
     #quote-carousel
     {
         margin-bottom: 0;
@@ -206,11 +231,11 @@
         margin-top: 30px;
     }
 
-}*/
+}
 
 /* Small devices (tablets, up to 768px) */
 /* Make the indicators larger for easier clicking with fingers/thumb on mobile */
-/*@media (max-width: 768px) {
+@media (max-width: 768px) {
 
 
     #quote-carousel .carousel-indicators {
@@ -227,5 +252,5 @@
         width: 20px;
         height: 20px;
     }
-}*/
+}
 

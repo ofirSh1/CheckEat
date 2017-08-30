@@ -23,7 +23,7 @@ public class CommentShowFormat {
         setUploadDate(comment.getDate());
     }
 
-    private void setUploadDate(Date date) { //TODO change format
+    private void setUploadDate(Date date) {
         this.date = date.getTime();
     }
 

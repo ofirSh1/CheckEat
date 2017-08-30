@@ -1,10 +1,10 @@
 var userType;
 
 $(function () {
+    getUserType();
     var dishes = JSON.parse(sessionStorage.getItem("dishes"));
     var restUsername = sessionStorage.getItem("restUsername");
     setDishesList(dishes, restUsername);
-    getUserType();
 });
 
 function getUserType() {
@@ -26,7 +26,7 @@ function checkUploader(userName, element) {
         url: 'profile',
         async: false,
         data: {
-            'requestType': 'checkIfCustomerOrRestaurant',
+            'requestType': 'checkUploader',
             'userName': userName
         },
         success: function(isRest){
@@ -78,7 +78,7 @@ function addDishDetails(dish, details) {
     if(addList(details, 'מרכיבים:', dish.ingredients))
         addNewLine(details);
 
-    if(addDetail(details, 'הועלה בתאריך:', dish.uploadDate))
+    if(addDetail(details, 'הועלה בתאריך:', dish.dateStr))
         addNewLine(details);
 
     if(addDetail(details, 'מסעדה:', dish.restaurantName))
@@ -112,7 +112,7 @@ function addDishActions(dish, actions) {
     };
     addSpace(actions);
 
-    if(userType == null || userType === "customer") {
+    if(!userType || userType === "customer") {
         var saveDishBtn = addButton(actions, 'הוסף מנה למועדפים');
         saveDishBtn.onclick = function () {
             saveDish(this, dish)
@@ -221,8 +221,7 @@ function toggleCommentsSection(dishId) {
 
 function comment(dishId, textBox) {
     var content = textBox.value;
-    var userType = sessionStorage.getItem("userType");
-    if(userType != null) {
+    if(userType) {
         if (content === "")
             alert("אין תוכן");
         else {
@@ -259,12 +258,12 @@ function setCommentsList(dishId) {
         success: function(comments)
         {
             var element = document.getElementById('commentsList' + dishId);
-            loadComments(element, comments);
+            loadComments(element, comments, dishId);
         }
     });
 }
 
-function loadComments(element, comments) {
+function loadComments(element, comments, dishId) {
     element.innerHTML = "";
     if(comments == null || comments.length == 0){
         var label = addLabel(element, 'אין תגובות');
@@ -279,8 +278,10 @@ function loadComments(element, comments) {
         var userName = addLabel(container, comments[i].userName);
         userName.classList.add('userName');
         addSpace(container);
-        var date = addLabel(container, comments[i].date);
+        var date = addLabel(container, timeSince(comments[i].date));
         date.classList.add('date');
+        addSpace(date);
+        canDeleteComment(comments[i].commentId, dishId, date);
         addNewLine(container);
 
         var text = document.createElement('div');
@@ -288,6 +289,37 @@ function loadComments(element, comments) {
         text.innerHTML = comments[i].content;
         container.appendChild(text);
     }
+}
+
+function canDeleteComment(commentId, dishId, element) {
+    $.ajax({
+        url: 'dish',
+        data: {
+            'requestType': 'canDeleteComment',
+            'commentId': commentId
+        },
+        success: function (res) {
+            if(res === 'true') {
+                var icon = addIcon(element, 'fa fa-trash-o');
+                icon.onclick = function () { deleteComment(commentId, dishId); }
+            }
+        }
+    });
+}
+
+function deleteComment(commentId, dishId) {
+    $.ajax({
+        url: 'dish',
+        data: {
+            'requestType': 'deleteComment',
+            'dishId': dishId,
+            'commentId': commentId
+        },
+        success: function (res) {
+            if(res === 'true')
+                setCommentsList(dishId);
+        }
+    });
 }
 
 //*******************************************************************************************
@@ -308,7 +340,7 @@ function checkIfSaved(dish, saveDishBtn) {
 }
 
 function saveDish(btn, dish) {
-    if(userType != null) {
+    if(userType) {
         toggleText(btn, 'הוסף מנה למועדפים', 'הסר מנה מהמועדפים');
         $.ajax({
             url: 'profile',
@@ -335,8 +367,7 @@ function toggleText(element, text1, text2) {
 
 //*******************************************************************************************
 //Adding Controls
-function addImg(element, url, height, width)
-{
+function addImg(element, url, height, width) {
     if(!url)
         url = "resources/logo.png";
 
@@ -352,8 +383,7 @@ function addImg(element, url, height, width)
     return added;
 }
 
-function addDetail(element, detail, text)
-{
+function addDetail(element, detail, text) {
     var added = false;
     if(text) {
         added = true;
@@ -365,8 +395,7 @@ function addDetail(element, detail, text)
     return added;
 }
 
-function addAddress(element, city, street, streetNum)
-{
+function addAddress(element, city, street, streetNum) {
     var added = false;
     if(city) {
         added = true;
@@ -387,8 +416,7 @@ function addAddress(element, city, street, streetNum)
     return added;
 }
 
-function addLabel(element, text)
-{
+function addLabel(element, text) {
     var label = document.createElement('label');
     label.innerHTML = text;
     element.appendChild(label);
@@ -475,4 +503,32 @@ function isEmptyList(list) {
         }
     }
     return empty;
+}
+
+//*******************************************************************************************
+//Calculate Time Ago
+function timeSince(mili) {
+    var date = new Date(mili);
+    var seconds = Math.floor((new Date() - date) / 1000);
+    var interval = Math.floor(seconds / 31536000);
+    if (interval > 1) {
+        return "לפני " + interval + " שנים";
+    }
+    interval = Math.floor(seconds / 2592000);
+    if (interval > 1) {
+        return "לפני " + interval + " חודשים";
+    }
+    interval = Math.floor(seconds / 86400);
+    if (interval > 1) {
+        return "לפני " + interval + " ימים";
+    }
+    interval = Math.floor(seconds / 3600);
+    if (interval > 1) {
+        return "לפני " + interval + " שעות";
+    }
+    interval = Math.floor(seconds / 60);
+    if (interval > 1) {
+        return "לפני " + interval + " דקות";
+    }
+    return Math.floor(seconds) + " שניות";
 }

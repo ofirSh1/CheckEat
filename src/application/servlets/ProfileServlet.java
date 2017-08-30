@@ -37,39 +37,44 @@ public class ProfileServlet extends HttpServlet {
         else if(requestType.equals(Constants.GET_RESTAURANT)) {
             getRestaurant(request, response);
         }
-        else if (requestType.equals("checkIfRestaurant")) {
+        else if (requestType.equals(Constants.CHECK_IF_RESTAURANT)) {
             checkIfRestaurant(request,response);
         }
-        else if (requestType.equals("checkIfSaved")) {
+        else if (requestType.equals(Constants.CHECK_IF_SAVED)) {
             checkIfDishSavedByUser(request,response);
         }
-        else if (requestType.equals("checkIfLiked")){
+        else if (requestType.equals(Constants.CHECK_IF_LIKED)){
             checkIfDishLikedByUser(request,response);
         }
-        else if (requestType.equals("favorites")) {
+        else if (requestType.equals(Constants.FAVORITES)) {
             addAndRemoveFavorites(request,response);
         }
-        else if (requestType.equals("getDish")) {
+        else if (requestType.equals(Constants.GET_DISH)) {
             getDish(request,response);
         }
-        else if (requestType.equals("editDish")) {
+        else if (requestType.equals(Constants.EDIT_DISH)) {
             editDish(request,response);
         }
-        else if (requestType.equals("editCustomer")) {
+        else if (requestType.equals(Constants.EDIT_CUSTOMER)) {
             editCustomer(request,response);
-        }       
-        else if (requestType.equals("editRestaurant")) {
+        }
+        else if (requestType.equals(Constants.EDIT_RESTAURANT)) {
             editRestaurant(request,response);
         }
-        else if (requestType.equals("checkIfCustomerOrRestaurant")){
-            checkIfCustomerOrRestaurant(request,response);
+        else if (requestType.equals(Constants.CHECK_UPLOADER)){
+            checkUploader(request,response);
         }
-        else if (requestType.equals("deleteDish")) {
+        else if (requestType.equals(Constants.DELETE_DISH)) {
             deleteDish(request,response);
         }
-        else if (requestType.equals("changePassword")){
+        else if (requestType.equals(Constants.CHANGE_PASSWORD)){
             changePassword(request,response);
         }
+    }
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        doGet(request, response);
     }
 
     private void changePassword(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -109,7 +114,7 @@ public class ProfileServlet extends HttpServlet {
         }
     }
 
-    private void checkIfCustomerOrRestaurant(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    private void checkUploader(HttpServletRequest request, HttpServletResponse response) throws IOException {
         SignedUser signedUser = em.find(SignedUser.class, request.getParameter("userName"));
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
@@ -120,6 +125,19 @@ public class ProfileServlet extends HttpServlet {
                 out.print(false);
             out.flush();
         }
+    }
+
+    private void checkIfRestaurant(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String usernameFromSession = SessionUtils.getParameter(request, Constants.USERNAME);
+        Restaurant restaurant = em.find(Restaurant.class,usernameFromSession);
+        response.setContentType("application/json; charset=UTF-8");
+        PrintWriter out = response.getWriter();
+        Gson gson = new Gson();
+        if (restaurant!=null) {
+            String json = gson.toJson(new GsonRestaurant(restaurant));
+            out.println(json);
+        }
+        out.flush();
     }
 
     private void checkIfDishLikedByUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -246,19 +264,6 @@ public class ProfileServlet extends HttpServlet {
         }
     }
 
-    private void checkIfRestaurant(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String usernameFromSession = SessionUtils.getParameter(request, Constants.USERNAME);
-        Restaurant restaurant = em.find(Restaurant.class,usernameFromSession);
-        response.setContentType("application/json; charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        Gson gson = new Gson();
-        if (restaurant!=null) {
-            String json = gson.toJson(new GsonRestaurant(restaurant));
-            out.println(json);
-        }
-        out.flush();
-    }
-
     private void getCustomer(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String usernameFromSession = SessionUtils.getParameter(request, Constants.USERNAME);
         if (usernameFromSession.equals("CheckEat"))
@@ -274,8 +279,10 @@ public class ProfileServlet extends HttpServlet {
 
     private void getRestaurant(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String usernameFromSession = SessionUtils.getParameter(request, Constants.USERNAME);
-        if (usernameFromSession == null || usernameFromSession.equals("CheckEat")) // showMore or admin
-            usernameFromSession = request.getParameter("restUserName");
+        String restUserName = request.getParameter("restUserName");
+        if (usernameFromSession == null || usernameFromSession.equals("CheckEat") ||
+                (restUserName !=null && !restUserName.equals(usernameFromSession))) // showMore or admin
+            usernameFromSession = restUserName;
         Restaurant restaurant = em.find(Restaurant.class,usernameFromSession);
         response.setContentType("application/json; charset=UTF-8");
         PrintWriter out = response.getWriter();
@@ -283,10 +290,5 @@ public class ProfileServlet extends HttpServlet {
         String json = gson.toJson(new GsonRestaurant(restaurant));
         out.println(json);
         out.flush();
-    }
-
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        doGet(request, response);
     }
 }

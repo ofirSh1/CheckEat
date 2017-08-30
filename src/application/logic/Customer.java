@@ -20,11 +20,4 @@ public class Customer extends SignedUser {
 
     @OneToMany
     private List<Dish> favoritesDishes = new ArrayList<>();
-
-  /*  @ElementCollection // TODO check
-    private List<Integer> likedDished = new ArrayList<>();
-
-    public List<Integer> getLikedDished() {
-        return likedDished;
-    }*/
 }

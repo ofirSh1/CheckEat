@@ -101,7 +101,7 @@ function loadDish(element, dish) {
         addNewLine(body);
     if(addAddress(body, dish.restaurantCity, dish.restaurantStreet, dish.restaurantStreetNum))
         addNewLine(body);
-    if(addDetail(body, 'הועלה בתאריך:', dish.uploadDate))
+    if(addDetail(body, 'הועלה בתאריך:', dish.dateStr))
         addNewLine(body);
     var btn = addButton(body, 'הצג');
     btn.classList.add('alignLeft');
@@ -224,16 +224,14 @@ function addSpace(element) {
 
 //*******************************************************************************************
 //Redirect
-function showRest(restUsername)
-{
+function showRest(restUsername) {
     sessionStorage.setItem("restUsername", restUsername);
     sessionStorage.setItem("dishId", "");
     window.location.href = "restaurant.html";
 }
 
-function showDish(restUsername, dishId)
-{
-   // sessionStorage.setItem("restUsername", restUsername);
+function showDish(restUsername, dishId) {
+    sessionStorage.setItem("restUsername", restUsername);
     sessionStorage.setItem("dishId", dishId);
     window.location.href = "restaurant.html";
 }

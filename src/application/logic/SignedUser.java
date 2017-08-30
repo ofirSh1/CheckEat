@@ -21,7 +21,7 @@ public class SignedUser
     private String verifyPassword;
     private Type type;
 
-    @ElementCollection // TODO check
+    @ElementCollection
     private List<Integer> likedDishes = new ArrayList<>();
 
     public List<Integer> getLikedDishes() {

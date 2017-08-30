@@ -41,33 +41,74 @@ function getCitiesFromServer() {
     });
     if (window.location.href == "http://localhost:8080/searchDish.html") {
         if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                findCitiesNearby,
+                browserGeolocationFail,
+                {maximumAge: 50000, timeout: 20000, enableHighAccuracy: true});
+           // searchNearby();
+        }
+
+        /*if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(locationSuccess);
             searchNearby();
-        }
+        }*/
     }
 }
 
-function locationSuccess(position) {
 
-    var currCity = findCurrCity(position);
-    var option = $('#selectCity option').filter(function() { return $(this).html() == currCity;});
+var tryAPIGeolocation = function() {
+    jQuery.post( "https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyC46AxbGkzkTvAA9SfE3x863EqyHq4oyz8",
+        findCitiesNearby)
+        .fail(function(err) {
+//            document.getElementById("restNearByLabel").style.display = 'none';
+            //   alert("API Geolocation error! \n\n"+err);
+        });
+};
+
+var browserGeolocationFail = function(error) {
+    switch (error.code) {
+        case error.TIMEOUT:
+            alert("Browser geolocation error !\n\nTimeout.");
+            break;
+        case error.PERMISSION_DENIED:
+            if(error.message.indexOf("Only secure origins are allowed") == 0) {
+                tryAPIGeolocation();
+            }
+            break;
+        case error.POSITION_UNAVAILABLE:
+            document.getElementById("restNearByLabel").style.display = 'none';
+            alert("Browser geolocation error !\n\nPosition unavailable.");
+            break;
+    }
+};
+
+//function locationSuccess(position) {
+
+  //  var currCity = findCurrCity(position);
+   // var option = $('#selectCity option').filter(function() { return $(this).html() == currCity;});
     //  option.attr('selected', 'selected');
     //var citySelect = document.getElementById("selectCity");
     //citySelect[0].options[0].textContent = currCity;
     //TODO
-}
+//}
 
-function searchNearby() {
+/*function searchNearby() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(findCitiesNearby);
     }
     // TODO else
 
-}
+}*/
 
-function findCitiesNearby(position) {
-    var latitude = position.coords.latitude;
-    var longitude = position.coords.longitude;
+var findCitiesNearby = function(position) {
+    if (position.coords != null) {
+        var latitude = position.coords.latitude;
+        var longitude = position.coords.longitude;
+    }
+    else {
+        var latitude = position.location.lat;
+        var longitude = position.location.lng;
+    }
     var request = new XMLHttpRequest();
     var method = 'GET';
     var async = false;
@@ -82,7 +123,7 @@ function findCitiesNearby(position) {
         },
         success: function (restaurants) {
             for (var i = 0; i < restaurants.length; i++) { // find each city coords and check the distance
-                urlApi = 'http://maps.googleapis.com/maps/api/geocode/json?address=' + restaurants[i].city + '&sensor=true';
+                urlApi = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + restaurants[i].city + '&sensor=true';
                 request.open(method, urlApi, async); // find rest coords
                 request.onreadystatechange = function(){
                     if(request.readyState == 4 && request.status == 200) {
@@ -103,11 +144,17 @@ function findCitiesNearby(position) {
 }
 
 function findCurrCity(position) {
-    var latitude = position.coords.latitude;
-    var longitude = position.coords.longitude;
+    if (position.coords != null) {
+        var latitude = position.coords.latitude;
+        var longitude = position.coords.longitude;
+    }
+    else {
+        var latitude = position.location.lat;
+        var longitude = position.location.lng;
+    }
     var request = new XMLHttpRequest();
     var method = 'GET';
-    var url = 'http://maps.googleapis.com/maps/api/geocode/json?latlng=' + latitude + ',' + longitude + '&sensor=true';
+    var url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + latitude + ',' + longitude + '&sensor=true';
     var async = false;
     var currCity;
     request.open(method, url, async);

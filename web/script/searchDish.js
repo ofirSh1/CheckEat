@@ -2,14 +2,54 @@ var specialTypesEnum = {vegetarian:'צמחוני', naturalist:'טבעוני', ko
 var restaurantsNearby = [];
 
 $(function () {
-    if (navigator.geolocation) {
+  /*  if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(){},function () {
             document.getElementById("restNearByLabel").style.display = 'none';
-        });
-    }
-    //autoComplete();
+        },      {maximumAge: 50000, timeout: 20000, enableHighAccuracy: true}); // TODO not working in the server
+    }*/
+    getLocation();
+    get3LatestCommentsFromServlet();
+    autoComplete();
 });
-/*
+
+var getLocation = function() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            function(){},
+            browserGeolocationFail,
+            {maximumAge: 50000, timeout: 20000, enableHighAccuracy: true});
+    }
+};
+
+var tryAPIGeolocation = function() {
+    jQuery.post( "https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyC46AxbGkzkTvAA9SfE3x863EqyHq4oyz8", function(success) {
+        //showPosition({coords: {latitude: success.location.lat, longitude: success.location.lng}});
+
+    })
+        .fail(function(err) {
+            document.getElementById("restNearByLabel").style.display = 'none';
+         //   alert("API Geolocation error! \n\n"+err);
+        });
+};
+
+var browserGeolocationFail = function(error) {
+    switch (error.code) {
+        case error.TIMEOUT:
+            alert("Browser geolocation error !\n\nTimeout.");
+            break;
+        case error.PERMISSION_DENIED:
+            if(error.message.indexOf("Only secure origins are allowed") == 0) {
+                tryAPIGeolocation();
+            }
+            break;
+        case error.POSITION_UNAVAILABLE:
+            document.getElementById("restNearByLabel").style.display = 'none';
+            alert("Browser geolocation error !\n\nPosition unavailable.");
+            break;
+    }
+};
+
+
 function autoComplete() {
     var otherTypesList = [
         "מנה ראשונה",
@@ -40,54 +80,25 @@ function autoComplete() {
     $("#otherTypes").autocomplete({
         source: otherTypesList
     });
-    var datalist = jQuery('otherTypesList');
-    var optionsarray = jQuery.map(otherTypesList ,function(option) {
-        return option.value;
-    });
-    var input = jQuery('input[list]');
-    var inputcommas = (input.val().match(/,/g)||[]).length;
-    var separator = ',';
 
-    function filldatalist(prefix) {
-        if (input.val().indexOf(separator) > -1 && options.length > 0) {
-            datalist.empty();
-            for (i=0; i < optionsarray.length; i++ ) {
-                if (prefix.indexOf(optionsarray[i]) < 0 ) {
-                    datalist.append('<option value="'+prefix+optionsarray[i]+'">');
-                }
-            }
-        }
-    }
-    input.bind("change paste keyup",function() {
-        var inputtrim = input.val().replace(/^\s+|\s+$/g, "");
-        var currentcommas = (input.val().match(/,/g)||[]).length;
-        if (inputtrim != input.val()) {
-            if (inputcommas != currentcommas) {
-                var lsIndex = inputtrim.lastIndexOf(separator);
-                var str = (lsIndex != -1) ? inputtrim.substr(0, lsIndex)+", " : "";
-                filldatalist(str);
-                inputcommas = currentcommas;
-            }
-            input.val(inputtrim);
-        }
+ //   var datalist = jQuery('datalist');
+  //  var options = jQuery('datalist option');
+    /*var optionsarray = jQuery.map(options ,function(option) {
+        return option.value;
     });*/
-
-/*
-    var datalist = jQuery('datalist');
-    var options = jQuery('datalist option');
-    var optionsarray = jQuery.map(options ,function(option) {
-        return option.value;
-    });
+    var optionsarray = otherTypesList.map(function(option) {
+     return option;
+     });
     var input = jQuery('input[list]');
     var inputcommas = (input.val().match(/,/g)||[]).length;
     var separator = ',';
 
     function filldatalist(prefix) {
         if (input.val().indexOf(separator) > -1 && options.length > 0) {
-            datalist.empty();
+            otherTypesList.empty();
             for (i=0; i < optionsarray.length; i++ ) {
                 if (prefix.indexOf(optionsarray[i]) < 0 ) {
-                    datalist.append('<option value="'+prefix+optionsarray[i]+'">');
+                    otherTypesList.append('<option value="'+prefix+optionsarray[i]+'">');
                 }
             }
         }
@@ -104,8 +115,8 @@ function autoComplete() {
             }
             input.val(inputtrim);
         }
-    });*/
-//}
+    });
+}
 
 function findDish()
 {
@@ -181,8 +192,14 @@ function setNearbyRestaurantsHomePage(position) {
 }
 
 function findCitiesNearby(position) {
-    var latitude = position.coords.latitude;
-    var longitude = position.coords.longitude;
+    if (position.coords != null) {
+        var latitude = position.coords.latitude;
+        var longitude = position.coords.longitude;
+    }
+    else {
+        var latitude = position.location.lat;
+        var longitude = position.location.lng;
+    }
     var request = new XMLHttpRequest();
     var method = 'GET';
     var async = false;
@@ -196,7 +213,7 @@ function findCitiesNearby(position) {
         },
         success: function (restaurants) {
             for (var i = 0; i < restaurants.length; i++) { // find each city coords and check the distance
-                urlApi = 'http://maps.googleapis.com/maps/api/geocode/json?address=' + restaurants[i].city + '&sensor=true';
+                urlApi = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + restaurants[i].city + '&sensor=true';
                 request.open(method, urlApi, async); // find rest coords
                 request.onreadystatechange = function(){
                     if(request.readyState == 4 && request.status == 200) {
@@ -233,4 +250,30 @@ function distance($lat1, $lng1, $lat2, $lng2) {
 
 function deg2rad(degree) {
     return degree * Math.PI / 180;
+}
+
+function get3LatestCommentsFromServlet()
+{
+    $.ajax({
+        type: 'get',
+        url: 'dish',
+        data: {
+            'requestType': 'getLatestComments'
+        },
+        success: function(comments)
+        {
+            //$('#comment2').text(comments[0].content);
+            /* $('#secondComment').text(comments[1].content);
+             $('#thirdComment').text(comments[2].content);*/
+            for (var i = 0; i < 3; i++)
+            {
+                var comment = '#comment' + (i+1);
+                var name = '#name' + (i+1);
+                var date = '#date' + (i+1);
+                $(comment).text(comments[i].content);
+                $(name).text(comments[i].userName);
+                $(date).text(timeSince(comments[i].date));
+            }
+        }
+    });
 }

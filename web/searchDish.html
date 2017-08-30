@@ -15,8 +15,8 @@
     <link rel="shortcut icon" type="image/png" href="resources/logo.png"/>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-  <!--  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
-  <!--  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> -->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
     <script src="script/menu.js"></script>
@@ -164,44 +164,80 @@
                 </a>
             </div>
         </row>
-            <row>
-                <!-- Header Carousel -->
-                <div id="myCarousel2" class="carousel slide">
-                    <!-- Indicators -->
-                    <ol class="carousel-indicators">
-                        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-                        <li data-target="#myCarousel" data-slide-to="1"></li>
-                        <li data-target="#myCarousel" data-slide-to="2"></li>
-                    </ol>
 
-                    <!-- Wrapper for slides -->
-                    <div class="carousel-inner">
-                        <div class="item active">
-                            <img src="resources/comment1.jpg" style="width:100%;">
-                            <!--div class="fill slideDiv" style="background: url('resources/1.jpg')" id="dish1"></div-->
-                        </div>
-                        <div class="item">
-                            <img src="resources/comment2.jpg" style="width:100%;">
-                            <!--div class="fill slideDiv" style="background: url('resources/2.jpg')" id="dish2"></div-->
-                        </div>
-                        <div class="item">
-                            <!--div class="fill slideDiv" style="background: url('resources/3.jpg')" id="dish3"></div-->
-                            <img src="resources/comment3.jpg" style="width:100%;">
-                        </div>
-                    </div>
+        <div class="carousel slide" data-ride="carousel" id="quote-carousel">
+            <!-- Bottom Carousel Indicators -->
+            <ol class="carousel-indicators">
+                <li data-target="#quote-carousel" data-slide-to="0" class="active"></li>
+                <li data-target="#quote-carousel" data-slide-to="1"></li>
+                <li data-target="#quote-carousel" data-slide-to="2"></li>
+            </ol>
 
-                    <!-- Controls -->
-                    <a class="right carousel-control" href="#myCarousel2" data-slide="prev">
-                        <span class="icon-prev"></span>
-                    </a>
-                    <a class="left carousel-control" href="#myCarousel2" data-slide="next">
-                        <span class="icon-next"></span>
-                    </a>
+            <!-- Carousel Slides / Quotes -->
+            <div class="carousel-inner">
+
+                <!-- Quote 1 -->
+                <div class="item active">
+                    <blockquote>
+                        <div class="row">
+                            <div class="col-sm-2 text-center">
+                            </div>
+                            <div class="col-sm-9">
+                                <p> <label id="comment1"></label></p>
+                                <small><label id="name1"></label></small><br>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-11 text-left">
+                                <label id="date1"></label>
+                            </div>
+                        </div>
+                    </blockquote>
                 </div>
-        </row>
+                <!-- Quote 2 -->
+                <div class="item">
+                    <blockquote>
+                        <div class="row">
+                            <div class="col-sm-2 text-center">
+                            </div>
+                            <div class="col-sm-9">
+                                <p><label id="comment2"></label></p>
+                                <small><label id="name2"></label></small>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-11 text-left">
+                                <label id="date2"></label>
+                            </div>
+                        </div>
 
+                    </blockquote>
+                </div>
+                <!-- Quote 3 -->
+                <div class="item">
+                    <blockquote>
+                        <div class="row">
+                            <div class="col-sm-2 text-center">
+                            </div>
+                            <div class="col-sm-9">
+                                <p><label id="comment3"> </label></p>
+                                <small><label id="name3"></label></small>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-11 text-left">
+                                <label id="date3"></label>
+                            </div>
+                        </div>
+                    </blockquote>
+                </div>
+            </div>
+
+            <!-- Carousel Buttons Next/Prev -->
+            <a data-slide="prev" href="#quote-carousel" class="left carousel-control"><i class="fa fa-chevron-left"></i></a>
+            <a data-slide="next" href="#quote-carousel" class="right carousel-control"><i class="fa fa-chevron-right"></i></a>
+        </div>
     </div>
-
 </row>
 </body>
 </html>
