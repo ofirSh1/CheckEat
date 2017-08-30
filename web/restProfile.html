@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/menu.css">
     <link rel="stylesheet" href="css/form.css">
+    <link rel="stylesheet" href="css/profile.css">
     <link rel="shortcut icon" type="image/png" href="resources/logo.png"/>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -39,65 +40,99 @@
         </div>
     </div>
 </nav>
+<div id="profileContainer" class="container">
+    <div class="row">
+        <div class="col-md-5  toppad  pull-right col-md-offset-3 ">
 
-    <div class="row-fluid" style="background-color: white">
-        <div class="span2" align="center" id="image"></div>
-        <div class="span8" align="center">
-            <h1> פרופיל מסעדה </h1>
-            <h3> שם משתמש:
-                <label id="username"></label></h3>
-            <h6> שם המסעדה:
-                <label id="restaurantName"></label></h6>
-            <h6> אימייל:
-                <label id="email"></label></h6>
-            <h6> טלפון במסעדה:
-                <label id="phone"></label></h6>
-            <h6> מיקום:
-                <label id="location"></label></h6>
-            <h6> קישור לאתר המסעדה:
-                <label id="link"></label></h6>
-            <h6>
-                שם איש הקשר:
-                <label id="contactName"></label>
-            </h6>
-            <h6>
-                טלפון של איש הקשר:
-                <label id="contactPhone"></label>
-            </h6>
-            <button type="button" onclick="window.location.href='editRestaurant.html'">עריכת פרטים</button>
-            <br>
-            <br>
         </div>
-        <div dir="rtl" class="panel panel-default" style="display: inline-block">
-            <div class="panel-heading">
-                <div style="display: inline-block; vertical-align: middle;">
-                    <label> מנות</label>
-                    <button type="button" onclick="window.location.href='addDish.html'">הוסף מנה למסעדה</button>
-                </div>
-                <div class="panel-body">
-                    <div class="table-responsive" style="float: right">
-                        <table class="container-fluid table table-bordered table-hover table-striped" style="text-align:right">
-                            <thead>
-                            <tr style="text-align:right">
-                                <th>#</th>
-                                <th> שם מנה</th>
-                                <th> סוג מנה</th>
-                                <th> מרכיבים</th>
-                                <th>מסעדה</th>
-                                <th>מיקום</th>
-                                <th>תמונה</th>
-                                <th>עריכה</th>
-                            </tr>
-                            </thead>
-                            <tbody id="addedDishes">
-                            </tbody>
-                        </table>
+        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-0
+         toppad" >
+
+            <div id="profile">
+                <div class="panel panel-warning">
+                    <div class="panel-heading">
+                        <h3 class="panel-title" id="titleProfile">פרופיל מסעדה</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-3 col-lg-3 " align="center" id="image"> </div>
+                            <div class=" col-md-9 col-lg-9 ">
+                                <table class="table table-user-information">
+                                    <tbody>
+                                    <tr>
+                                        <td>שם משתמש:</td>
+                                        <td><label id="username"></label></td>
+                                    </tr>
+                                    <tr>
+                                        <td>שם מסעדה:</td>
+                                        <td><label id="restaurantName"></label></td>
+                                    </tr>
+                                    <tr>
+                                        <td>אימייל:</td>
+                                        <td><label id="email"></label></td>
+                                    </tr>
+                                    <tr>
+                                        <td>טלפון במסעדה:</td>
+                                        <td><label id="phone"></label></td>
+                                    </tr>
+                                    <tr>
+                                        <td>מיקום:</td>
+                                        <td><label id="location"></label></td>
+                                    </tr>
+                                    <tr>
+                                        <td>קישור לאתר המסעדה:</td>
+                                        <td><label id="link"></label></td>
+                                    </tr>
+                                    <tr>
+                                        <td>שם איש קשר:</td>
+                                        <td><label id="contactName"></label></td>
+                                    </tr>
+                                    <tr>
+                                        <td>טלפון של איש קשר:</td>
+                                        <td><label id="contactPhone"></label></td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                                <button id="restDetBtn" type="button" onclick="window.location.href='editRestaurant.html'"><span class="glyphicon glyphicon-pencil"></span>עריכת פרטים</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <h3 class="panel-title"></h3>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
+</div>
+<br><br>
+<div row>
+    <div class="panel-heading">
+        <label id="title1">  <span class="glyphicon glyphicon-star"></span> מנות המסעדה: </label>
+        <button id="addDishBtn" type="button" onclick="window.location.href='addDish.html'"><span class="glyphicon glyphicon-plus"></span>הוסף מנה למסעדה</button>
+    </div>
+    <div class="panel-body">
+        <div class="table-responsive" style="float: right">
+            <table class="container-fluid table table-bordered table-hover table-striped" style="text-align:right">
+                <thead>
+                <tr style="text-align:right">
+                    <th>#</th>
+                    <th> שם מנה</th>
+                    <th> סוג מנה</th>
+                    <th> מרכיבים</th>
+                    <th>מסעדה</th>
+                    <th>מיקום</th>
+                    <th>תמונה</th>
+                    <th>עריכה</th>
+                </tr>
+                </thead>
+                <tbody id="addedDishes">
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
 </body>
 </html>

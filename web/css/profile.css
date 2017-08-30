@@ -1,0 +1,160 @@
+.glyphicon-trash{
+    background-color:#ff3333;
+    width: 30px;
+    height: 30px;
+    margin-top: 20px;
+    margin-right: 10px;
+    color: white;
+    border: none;
+}
+.glyphicon-duplicate{
+    background-color:#33cc33;
+    width: 30px;
+    height: 30px;
+    margin-top: 20px;
+    margin-right: 10px;
+    color: white;
+    border: none;
+}
+.glyphicon-edit{
+    background-color:#3385ff;;
+    width: 30px;
+    height: 30px;
+    margin-top: 20px;
+    margin-right: 10px;
+    color: white;
+    border: none;
+}
+.fa-heart
+{
+
+}
+#title1{
+    font-size: 25px;
+    color: #DEB887;
+    font-family: Aharoni;
+}
+#title2{
+    font-size: 25px;
+    color: #DEB887;
+    font-family: Aharoni;
+
+}
+
+#addDishBtn{
+    margin-right: 90px;
+    background-color: #FDF5E6;
+    border-radius: 8px;
+    width: 155px;
+    height: 40px;
+    border: none;
+
+}
+table{
+    table-layout: auto;
+    width: 200px;
+}
+
+th, td {
+    width: 200px;
+}
+
+#profileContainer{
+    margin-top: 50px;
+}
+
+#persDetBtn{
+    background-color: #FDF5E6;
+    width: 120px;
+    height: 40px;
+    margin-right: 215px;
+    border-radius: 8px;
+    border: none;
+
+}
+
+#restDetBtn {
+    background-color: #FDF5E6;
+    width: 120px;
+    height: 40px;
+    margin-right: 215px;
+    border-radius: 8px;
+    border: none;
+}
+
+.glyphicon-trash{
+    background-color:#ff3333;
+    width: 30px;
+    height: 30px;
+    margin-top: 20px;
+    margin-right: 10px;
+    color: white;
+    border: none;
+}
+.glyphicon-duplicate{
+    background-color:#33cc33;
+    width: 30px;
+    height: 30px;
+    margin-top: 20px;
+    margin-right: 10px;
+    color: white;
+    border: none;
+}
+.glyphicon-edit{
+    background-color:#3385ff;;
+    width: 30px;
+    height: 30px;
+    margin-top: 20px;
+    margin-right: 10px;
+    color: white;
+    border: none;
+}
+.fa-heart
+{
+
+}
+#title1{
+    font-size: 25px;
+    color: #DEB887;
+    font-family: Aharoni;
+}
+#title2{
+    font-size: 25px;
+    color: #DEB887;
+    font-family: Aharoni;
+
+}
+#titleProfile{
+    font-size: 25px;
+    color: #DEB887;
+    font-family: Aharoni;
+}
+#addDishBtn{
+    margin-right: 90px;
+    background-color: #FDF5E6;
+    border-radius: 8px;
+    width: 155px;
+    height: 40px;
+    border: none;
+}
+table{
+    table-layout: auto;
+    width: 200px;
+}
+
+th, td {
+    width: 200px;
+}
+
+#profileContainer{
+    align-self: center;
+}
+#profile
+{
+    margin-top: 10px;
+    width: 900px;
+
+}
+#image{
+    border-radius: 30%;
+}

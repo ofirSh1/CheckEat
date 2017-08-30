@@ -47,9 +47,9 @@ function buildRestaurantProfile() {
 function buildDishes(dishes) {
     $("#addedDishes").empty();
     for(var i = 0; i < dishes.length; i++) {
-        var edit = "<button class=\"btn btn-default\" onclick=\"edit(" + dishes[i].id + ")\">עריכה</button>";
-        var remove = "<button class=\"btn btn-default\" onclick=\"deleteDish(" + dishes[i].id + ")\">מחק מנה</button>";
-        var duplicate = "<button class=\"btn btn-default\" onclick=\"duplicateDish(" + dishes[i].id + ")\">שכפל</button>";
+        var edit = "<button class=\"glyphicon glyphicon-edit\" title=\"Edit\" onclick=\"edit(" + dishes[i].id + ")\"></button>";
+        var remove = "<button class=\"glyphicon glyphicon-trash\" title=\"Delete\" onclick=\"deleteDish(" + dishes[i].id + ")\"></button>";
+        var duplicate = "<button class=\"glyphicon glyphicon-duplicate\" title=\"Duplicate\" onclick=\"duplicateDish(" + dishes[i].id + ")\"></button>";
         if (dishes[i].dishUrl != "") {
             var img = "<img src=\"" + dishes[i].dishUrl + "\" height=\"100px\" width=\"100px\" </img>";
             $('<tr><td>' + Number(Number(i) + Number(1)) + '</td><td>' + dishes[i].dishName + '</td><td>' + dishes[i].specialTypes + '</td><td>' + dishes[i].ingredients + '</td><td>' + dishes[i].restaurantName + '</td>' +
@@ -65,7 +65,7 @@ function buildDishes(dishes) {
 function buildFavoritesDishes(dishes) {
     $("#favoritesDishes").empty();
     for(var i = 0; i < dishes.length; i++) {
-        var remove = "<button class=\"btn btn-default\" onclick=\"remove(" + dishes[i].id + ")\">הסר מנה</button>";
+        var remove = "<button class=\"glyphicon glyphicon-trash\" onclick=\"remove(" + dishes[i].id + ")\"></button>";
         if (dishes[i].dishUrl!="") {
             var img = "<img src=\""+ dishes[i].dishUrl + "\" height=\"100px\" width=\"100px\" </img>";
             $('<tr><td>' + Number(Number(i)+ Number(1)) + '</td><td>' + dishes[i].dishName + '</td><td>' + dishes[i].specialTypes + '</td><td>' + dishes[i].ingredients + '</td><td>' + dishes[i].restaurantName + '</td>' +

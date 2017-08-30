@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/menu.css">
     <link rel="stylesheet" href="css/form.css">
+    <link rel="stylesheet" href="css/profile.css">
     <link rel="shortcut icon" type="image/png" href="resources/logo.png"/>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -38,74 +39,114 @@
         </div>
     </div>
 </nav>
+<div id="profileContainer" class="container">
+    <div class="row">
+        <div class="col-md-5  toppad  pull-right col-md-offset-3 ">
 
-<div class="row-fluid" style="background-color: white">
-    <div class="span8" align="center">
-<h1> פרופיל לקוח </h1>
-        <h3> שם משתמש:
-            <label id="username"></label></h3>
-        <h6> אימייל:
-            <label id="email"></label></h6>
-        <h6> טלפון:
-            <label id="phone"></label></h6>
-    <button type="button" onclick="window.location.href='editCustomer.html'">עריכת פרטים</button>
-    <br>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-0
+         toppad" >
 
-<div dir="rtl" class="panel panel-default" style="display: inline-block">
-    <div class="panel-heading">
-        <i class="fa fa-heart"></i> מנות מועדפות
-        <div class="panel-body" >
-                    <div class="table-responsive" style="float: right">
-                        <table class="table table-bordered table-hover table-striped" style="text-align:right">
-                            <thead>
-                            <tr>
-                                <th>#</th>
-                                <th> שם מנה</th>
-                                <th> סוג מנה</th>
-                                <th> מרכיבים</th>
-                                <th>מסעדה</th>
-                                <th>מיקום</th>
-                                <th>תמונה</th>
-                                <th>הסר מנה</th>
-                            </tr>
-                            </thead>
-                            <tbody id="favoritesDishes">
-                        </tbody>
-                        </table>
+
+            <div class="panel panel-warning">
+                <div class="panel-heading">
+                    <h3 class="panel-title" id="titleProfile">פרופיל לקוח</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-3 col-lg-3 " align="center"> <img alt="User Pic" src="https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg" class="img-circle img-responsive"> </div>
+
+                        <div class=" col-md-9 col-lg-9 ">
+                            <table class="table table-user-information">
+                                <tbody>
+                                <tr>
+                                    <td>שם משתמש:</td>
+                                    <td><label id="username"></label></td>
+                                </tr>
+                                <tr>
+                                    <td>אימייל:</td>
+                                    <td><label id="email"></label></td>
+                                </tr>
+                                <tr>
+                                    <td>טלפון:</td>
+                                    <td><label id="phone"></label></td>
+                                </tr>
+
+                                </tbody>
+                            </table>
+
+                            <button id="persDetBtn" type="button"onclick="window.location.href='editCustomer.html'"><span class="glyphicon glyphicon-pencil"></span>   עריכת פרטים          </button>
+                        </div>
                     </div>
+                </div>
+                <div class="panel-footer">
+                    <h3 class="panel-title"></h3>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+<br><br>
+<div class="container">
+    <div class="row">
 
-<div dir="rtl" class="panel panel-default" style="display: inline-block">
-    <div class="panel-heading">
-        <div style="display: inline-block; vertical-align: middle;">
-            <label>   מנות שהוספתי</label>
-            <button type="button" onclick="window.location.href='addDish.html'">הוסף מנה למסעדה</button>
+        <div class="col-md-12">
+            <label id="title1"> <span class="glyphicon glyphicon-heart"></span> מנות מועדפות </label><br><br>
+            <div class="table-responsive" style="float: right">
+
+                <table id="mytable" class="table table-bordred table-striped">
+
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>שם מנה</th>
+                        <th>סוג מנה</th>
+                        <th>מרכיבים</th>
+                        <th>מסעדה</th>
+                        <th>מיקום</th>
+                        <th>תמונה</th>
+                        <th>הסר מנה</th>
+                    </tr>
+                    </thead>
+
+                    <tbody id="favoritesDishes">
+                    </tbody>
+
+                </table>
+
+            </div>
+        </div>
+    </div>
+    <br><br>
+    <div row>
+        <div class="panel-heading">
+            <label id="title2"> <span class="glyphicon glyphicon-paperclip"></span> מנות שהוספתי </label>
+            <button id="addDishBtn" type="button" onclick="window.location.href='addDish.html'"> <span class="glyphicon glyphicon-plus"></span>    הוסף מנה למסעדה   </button>
         </div>
         <div class="panel-body" >
-                    <div class="table-responsive" style="float: right">
-                        <table class="table table-bordered table-hover table-striped" style="text-align:right">
-                            <thead>
-                            <tr>
-                                <th>#</th>
-                                <th> שם מנה</th>
-                                <th> סוג מנה</th>
-                                <th> מרכיבים</th>
-                                <th>מסעדה</th>
-                                <th>מיקום</th>
-                                <th>תמונה</th>
-                                <th>עריכה</th>
-                            </tr>
-                            </thead>
-                            <tbody id="addedDishes">
-                            </tbody>
-                        </table>
-                    </div>
-       </div>
+            <div class="table-responsive" style="float: right">
+                <table class="table table-bordred table-striped" style="text-align:right">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th> שם מנה</th>
+                        <th> סוג מנה</th>
+                        <th> מרכיבים</th>
+                        <th>מסעדה</th>
+                        <th>מיקום</th>
+                        <th>תמונה</th>
+                        <th>עריכה</th>
+                    </tr>
+                    </thead>
+                    <tbody id="addedDishes">
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
-    </div>
 </div>
+</div>
+
 </body>
 </html>
