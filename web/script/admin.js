@@ -169,3 +169,45 @@ function duplicateRestaurantOnLoad() {
         }
     });
 }
+
+function addRestaurants() {
+    var restFile = document.getElementById('addResBtn').files[0];
+    var formData = new FormData();
+    formData.append("restFile", restFile);
+    formData.append("requestType", "addRestaurants");
+
+    $.ajax({
+        url: "loadDataBase",
+        type: "POST",
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function() {
+            alert("קובץ המסעדות נוסף בהצלחה");
+        },
+        error: function() {
+            alert("שגיאה בהוספת קובץ המסעדות")
+        }
+    });
+}
+
+function addDishes() {
+    var dishFile = document.getElementById('addDishBtn').files[0];
+    var formData = new FormData();
+    formData.append("dishFile", dishFile);
+    formData.append("requestType", "addDishes");
+
+    $.ajax({
+        url: "loadDataBase",
+        type: "POST",
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function() {
+            alert("קובץ המנות נוסף בהצלחה");
+        },
+        error: function() {
+            alert("שגיאה בהוספת קובץ המנות")
+        }
+    });
+}
