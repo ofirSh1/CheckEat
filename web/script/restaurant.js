@@ -178,7 +178,7 @@ function loadDish(element, dish) {
     header.appendChild(dishName);
 
     var body = document.createElement('div');
-    body.classList.add('panel-body', 'dishSizeShow');
+    body.classList.add('panel-body');
     addDishDetails(body, dish);
     addLikes(body, dish);
     addCommentsBtn(body, dish);

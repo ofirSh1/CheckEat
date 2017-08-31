@@ -19,8 +19,6 @@ public class Dish{
     @ElementCollection
     private Set<String> ingredients = new HashSet<>();
     private int numLikes = 0;
-   /* @ElementCollection
-    private Map<String,String> comments = new HashMap<>();*/
    @OneToMany(mappedBy = "dish")
    private List<Comment> commentList = new ArrayList<>();
     @ManyToOne
@@ -44,22 +42,19 @@ public class Dish{
     }
 
     public void setSpecialTypes(String[] specialTypes) {
-        if(specialTypes != null)
-            this.specialTypes = new HashSet<String>(Arrays.asList(specialTypes));
+        this.specialTypes = new HashSet<String>(Arrays.asList(specialTypes));
     }
 
     public void setSpecialTypes(Set<String> specialTypes) {
-            this.specialTypes = specialTypes;
+        this.specialTypes = specialTypes;
     }
 
     public void setOtherTypes(String[] otherTypes) {
-        if(otherTypes != null)
-            this.otherTypes = new HashSet<String>(Arrays.asList(otherTypes));
+        this.otherTypes = new HashSet<String>(Arrays.asList(otherTypes));
     }
 
     public void setIngredients(String[] ingredients) {
-        if(ingredients != null)
-            this.ingredients = new HashSet<String>(Arrays.asList(ingredients));
+        this.ingredients = new HashSet<String>(Arrays.asList(ingredients));
     }
 
     public void setNumLikes(int numLikes) {
@@ -86,10 +81,6 @@ public class Dish{
     public Set<String> getIngredients() { return ingredients; }
 
     public int getNumLikes() { return numLikes; }
-
-  /*  public Map<String, String> getComments() {
-        return comments;
-    }*/
 
     public List<Comment> getCommentList() {
         return commentList;

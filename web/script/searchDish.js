@@ -2,16 +2,19 @@ var specialTypesEnum = {vegetarian:'צמחוני', naturalist:'טבעוני', ko
 var restaurantsNearby = [];
 
 $(function () {
-  /*  if (navigator.geolocation) {
+   // var httpURL= window.location.hostname + window.location.pathname + window.location.search;
+   // var httpsURL= "https://" + httpURL;
+   // window.location = httpsURL;
+    if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(){},function () {
             document.getElementById("restNearByLabel").style.display = 'none';
-        },      {maximumAge: 50000, timeout: 20000, enableHighAccuracy: true}); // TODO not working in the server
-    }*/
-    getLocation();
+        },      {maximumAge: 50000, timeout: 20000, enableHighAccuracy: true});
+    }
+   // getLocation();
     get3LatestCommentsFromServlet();
     autoComplete();
 });
-
+/*
 var getLocation = function() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
@@ -19,8 +22,8 @@ var getLocation = function() {
             browserGeolocationFail,
             {maximumAge: 50000, timeout: 20000, enableHighAccuracy: true});
     }
-};
-
+};*/
+/*
 var tryAPIGeolocation = function() {
     jQuery.post( "https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyC46AxbGkzkTvAA9SfE3x863EqyHq4oyz8", function(success) {
         //showPosition({coords: {latitude: success.location.lat, longitude: success.location.lng}});
@@ -30,8 +33,8 @@ var tryAPIGeolocation = function() {
             document.getElementById("restNearByLabel").style.display = 'none';
          //   alert("API Geolocation error! \n\n"+err);
         });
-};
-
+}; */
+/*
 var browserGeolocationFail = function(error) {
     switch (error.code) {
         case error.TIMEOUT:
@@ -48,7 +51,7 @@ var browserGeolocationFail = function(error) {
             break;
     }
 };
-
+*/
 
 function autoComplete() {
     var otherTypesList = [
@@ -56,23 +59,23 @@ function autoComplete() {
         "מנה עיקרית",
         "קינוח",
         "מנה אחרונה",
-        "איטלקית",
+        "איטלקי",
         "סלט",
         "פסטה",
         "פיצה",
-        "סינית",
-        "תאילנדית",
+        "סיני",
+        "תאילנדי",
         "המבורגר",
         "ארוחת בוקר",
         "סושי",
         "נודלס",
         "כריך",
-        "יפנית",
-        "סינית",
+        "יפני",
+        "סיני",
         "סושי",
         "חומוס",
         "מרק",
-        "מקסיקנית",
+        "מקסיקני",
         "עוגה",
         "גלידה",
         "דג",
@@ -86,7 +89,7 @@ function autoComplete() {
     /*var optionsarray = jQuery.map(options ,function(option) {
         return option.value;
     });*/
-    var optionsarray = otherTypesList.map(function(option) {
+ /*   var optionsarray = otherTypesList.map(function(option) {
      return option;
      });
     var input = jQuery('input[list]');
@@ -102,8 +105,8 @@ function autoComplete() {
                 }
             }
         }
-    }
-  input.bind("change paste keyup",function() {
+    }*/
+ /* input.bind("change paste keyup",function() {
         var inputtrim = input.val().replace(/^\s+|\s+$/g, "");
         var currentcommas = (input.val().match(/,/g)||[]).length;
         if (inputtrim != input.val()) {
@@ -115,7 +118,7 @@ function autoComplete() {
             }
             input.val(inputtrim);
         }
-    });
+    });*/
 }
 
 function findDish()
@@ -265,7 +268,7 @@ function get3LatestCommentsFromServlet()
             //$('#comment2').text(comments[0].content);
             /* $('#secondComment').text(comments[1].content);
              $('#thirdComment').text(comments[2].content);*/
-            for (var i = 0; i < 3; i++)
+            for (var i = 0; i < 3 && i<comments.length; i++)
             {
                 var comment = '#comment' + (i+1);
                 var name = '#name' + (i+1);
@@ -276,4 +279,32 @@ function get3LatestCommentsFromServlet()
             }
         }
     });
+}
+
+//*******************************************************************************************
+//Calculate Time Ago
+function timeSince(mili) {
+    var date = new Date(mili);
+    var seconds = Math.floor((new Date() - date) / 1000);
+    var interval = Math.floor(seconds / 31536000);
+    if (interval > 1) {
+        return "לפני " + interval + " שנים";
+    }
+    interval = Math.floor(seconds / 2592000);
+    if (interval > 1) {
+        return "לפני " + interval + " חודשים";
+    }
+    interval = Math.floor(seconds / 86400);
+    if (interval > 1) {
+        return "לפני " + interval + " ימים";
+    }
+    interval = Math.floor(seconds / 3600);
+    if (interval > 1) {
+        return "לפני " + interval + " שעות";
+    }
+    interval = Math.floor(seconds / 60);
+    if (interval > 1) {
+        return "לפני " + interval + " דקות";
+    }
+    return Math.floor(seconds) + " שניות";
 }

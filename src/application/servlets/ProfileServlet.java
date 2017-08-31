@@ -223,12 +223,14 @@ public class ProfileServlet extends HttpServlet {
         String logoUrl = ServletUtils.uploadImageToCloudinary(request.getPart("image"));
         if (logoUrl==null)
             logoUrl=ServletUtils.loadImageURL(request.getParameter("imageURL"));
+        String special = request.getParameter("specialTypes");
+        String other = request.getParameter("otherTypes");
+        String ingredients = request.getParameter("ingredients");
         em.getTransaction().begin();
         dish.setDishName(request.getParameter(Constants.DISH_NAME));
-        dish.setDishName(request.getParameter(Constants.DISH_NAME));
-        dish.setSpecialTypes(request.getParameterValues(Constants.SPECIAL_TYPES));
-        dish.setOtherTypes(request.getParameterValues(Constants.OTHER_TYPES));
-        dish.setIngredients(request.getParameterValues(Constants.INGREDIENTS));
+        dish.setSpecialTypes(getStringArray(special));
+        dish.setOtherTypes(getStringArray(other));
+        dish.setIngredients(getStringArray(ingredients));
         if (!logoUrl.equals(""))
             dish.setDishUrl(logoUrl);
         em.getTransaction().commit();
@@ -290,5 +292,18 @@ public class ProfileServlet extends HttpServlet {
         String json = gson.toJson(new GsonRestaurant(restaurant));
         out.println(json);
         out.flush();
+    }
+
+    private String[] getStringArray(String arrStr) {
+        String[] arr = null;
+        if(arrStr != null)
+            arrStr = arrStr.replace("[", "");
+        if(arrStr != null)
+            arrStr = arrStr.replace("]", "");
+        if(arrStr != null)
+            arrStr = arrStr.replace("\"", "");
+        if(arrStr != null)
+            arr = arrStr.split(",");
+        return arr;
     }
 }

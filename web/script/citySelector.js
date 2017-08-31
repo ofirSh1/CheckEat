@@ -5,18 +5,18 @@ $(document).ready(function() {
 $(function () {
     if (window.location.href != "http://localhost:8080/index.html" && window.location.href != "http://localhost:8080/")
         getCitiesFromServer();
-   /* else {
+    else {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(setNearbyRestaurantsHomePage);
         }
-    }*/
+    }
 });
-/*
+
 function setNearbyRestaurantsHomePage(position) {
     var currCity = findCurrCity(position);
     sessionStorage.setItem("currCity", currCity);
     findCitiesNearby(position);
-}*/
+}
 
 function getCitiesFromServer() {
     $.ajax({
@@ -40,31 +40,29 @@ function getCitiesFromServer() {
         }
     });
     if (window.location.href == "http://localhost:8080/searchDish.html") {
-        if (navigator.geolocation) {
+  /*      if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
                 findCitiesNearby,
                 browserGeolocationFail,
                 {maximumAge: 50000, timeout: 20000, enableHighAccuracy: true});
            // searchNearby();
-        }
-
-        /*if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(locationSuccess);
-            searchNearby();
         }*/
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(findCitiesNearby);
+            searchNearby();
+        }
     }
 }
 
-
+/*
 var tryAPIGeolocation = function() {
     jQuery.post( "https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyC46AxbGkzkTvAA9SfE3x863EqyHq4oyz8",
         findCitiesNearby)
         .fail(function(err) {
-//            document.getElementById("restNearByLabel").style.display = 'none';
-            //   alert("API Geolocation error! \n\n"+err);
         });
-};
-
+};*/
+/*
 var browserGeolocationFail = function(error) {
     switch (error.code) {
         case error.TIMEOUT:
@@ -80,7 +78,7 @@ var browserGeolocationFail = function(error) {
             alert("Browser geolocation error !\n\nPosition unavailable.");
             break;
     }
-};
+};*/
 
 //function locationSuccess(position) {
 
@@ -92,23 +90,23 @@ var browserGeolocationFail = function(error) {
     //TODO
 //}
 
-/*function searchNearby() {
+function searchNearby() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(findCitiesNearby);
     }
     // TODO else
 
-}*/
+}
 
 var findCitiesNearby = function(position) {
-    if (position.coords != null) {
+ //   if (position.coords != null) {
         var latitude = position.coords.latitude;
         var longitude = position.coords.longitude;
-    }
+   /* }
     else {
         var latitude = position.location.lat;
         var longitude = position.location.lng;
-    }
+    }*/
     var request = new XMLHttpRequest();
     var method = 'GET';
     var async = false;
@@ -144,14 +142,14 @@ var findCitiesNearby = function(position) {
 }
 
 function findCurrCity(position) {
-    if (position.coords != null) {
+ //   if (position.coords != null) {
         var latitude = position.coords.latitude;
         var longitude = position.coords.longitude;
-    }
+   /* }
     else {
         var latitude = position.location.lat;
         var longitude = position.location.lng;
-    }
+    }*/
     var request = new XMLHttpRequest();
     var method = 'GET';
     var url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + latitude + ',' + longitude + '&sensor=true';

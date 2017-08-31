@@ -152,7 +152,6 @@ function editDish() {
         formData.append("otherTypes", JSON.stringify(otherTypes));
         formData.append("ingredients", JSON.stringify(ingredients));
         formData.append("imageURL", imageUrl);
-
         $.ajax({
             url: 'profile',
             type: "POST",

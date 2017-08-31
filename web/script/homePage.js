@@ -1,4 +1,7 @@
 $(function () {
+   // var httpURL= window.location.hostname + window.location.pathname + window.location.search;
+   // var httpsURL= "https://" + httpURL;
+   // window.location = httpsURL;
     $('.carousel').carousel({interval: 5000});
     sessionStorage.clear();
     getLastUploadsFromServer();
@@ -37,17 +40,17 @@ function getFavDishesFromServer() {
 }
 
 function getRestaurantsNearbyFromServer() {
-/*    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(setNearbyRestaurantsHomePage);
-    }*/
     if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(setNearbyRestaurantsHomePage);
+    }
+/*    if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
             setNearbyRestaurantsHomePage,
             browserGeolocationFail,
             {maximumAge: 50000, timeout: 20000, enableHighAccuracy: true});
-    }
+    }*/
 }
-
+/*
 var tryAPIGeolocation = function() {
     jQuery.post( "https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyC46AxbGkzkTvAA9SfE3x863EqyHq4oyz8", setNearbyRestaurantsHomePage)
         .fail(function(err) {
@@ -72,7 +75,7 @@ var browserGeolocationFail = function(error) {
             break;
     }
 };
-
+*/
 
 function setNearbyRestaurantsHomePage(position) {
     var currCity = findCurrCity(position);
@@ -81,14 +84,14 @@ function setNearbyRestaurantsHomePage(position) {
 }
 
 function findCitiesNearby(position) {
-    if (position.coords != null) {
+  //  if (position.coords != null) {
         var latitude = position.coords.latitude;
         var longitude = position.coords.longitude;
-    }
+   /* }
     else {
         var latitude = position.location.lat;
         var longitude = position.location.lng;
-    }
+    }*/
     var request = new XMLHttpRequest();
     var method = 'GET';
     var async = false;
@@ -124,14 +127,14 @@ function findCitiesNearby(position) {
 }
 
 function findCurrCity(position) {
-    if (position.coords != null) {
+  //  if (position.coords != null) {
         var latitude = position.coords.latitude;
         var longitude = position.coords.longitude;
-    }
+    /*}
     else {
         var latitude = position.location.lat;
         var longitude = position.location.lng;
-    }
+    }*/
     var request = new XMLHttpRequest();
     var method = 'GET';
     var url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + latitude + ',' + longitude + '&sensor=true';

@@ -124,9 +124,9 @@ public class LoginServlet extends HttpServlet {
         else {
             String username = request.getParameter(Constants.USERNAME);
             String password = request.getParameter(Constants.PASSWORD);
-
             javax.persistence.TypedQuery<SignedUser> query =
-                    em.createQuery("SELECT user FROM SignedUser user WHERE user.userName = '" + username + "'", SignedUser.class);
+                    em.createQuery("SELECT user FROM SignedUser user WHERE user.userName = :username", SignedUser.class);
+            query.setParameter("username", username);
             List<SignedUser> res = query.getResultList();
             if (!res.isEmpty())
                 signedUser = res.get(0);
