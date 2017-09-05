@@ -1,7 +1,4 @@
 $(function () {
-   // var httpURL= window.location.hostname + window.location.pathname + window.location.search;
-   // var httpsURL= "https://" + httpURL;
-   // window.location = httpsURL;
     $('.carousel').carousel({interval: 5000});
     sessionStorage.clear();
     getLastUploadsFromServer();
@@ -41,57 +38,13 @@ function getFavDishesFromServer() {
 
 function getRestaurantsNearbyFromServer() {
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(setNearbyRestaurantsHomePage);
+        navigator.geolocation.getCurrentPosition(findCitiesNearby);
     }
-/*    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-            setNearbyRestaurantsHomePage,
-            browserGeolocationFail,
-            {maximumAge: 50000, timeout: 20000, enableHighAccuracy: true});
-    }*/
-}
-/*
-var tryAPIGeolocation = function() {
-    jQuery.post( "https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyC46AxbGkzkTvAA9SfE3x863EqyHq4oyz8", setNearbyRestaurantsHomePage)
-        .fail(function(err) {
-           // document.getElementById("restNearByLabel").style.display = 'none';
-            //   alert("API Geolocation error! \n\n"+err);
-        });
-};
-
-var browserGeolocationFail = function(error) {
-    switch (error.code) {
-        case error.TIMEOUT:
-            alert("Browser geolocation error !\n\nTimeout.");
-            break;
-        case error.PERMISSION_DENIED:
-            if(error.message.indexOf("Only secure origins are allowed") == 0) {
-                tryAPIGeolocation();
-            }
-            break;
-        case error.POSITION_UNAVAILABLE:
-            document.getElementById("restNearByLabel").style.display = 'none';
-            alert("Browser geolocation error !\n\nPosition unavailable.");
-            break;
-    }
-};
-*/
-
-function setNearbyRestaurantsHomePage(position) {
-    var currCity = findCurrCity(position);
-    $('#currCity').text(currCity);
-    findCitiesNearby(position);
 }
 
 function findCitiesNearby(position) {
-  //  if (position.coords != null) {
-        var latitude = position.coords.latitude;
-        var longitude = position.coords.longitude;
-   /* }
-    else {
-        var latitude = position.location.lat;
-        var longitude = position.location.lng;
-    }*/
+    var latitude = position.coords.latitude;
+    var longitude = position.coords.longitude;
     var request = new XMLHttpRequest();
     var method = 'GET';
     var async = false;
@@ -127,14 +80,8 @@ function findCitiesNearby(position) {
 }
 
 function findCurrCity(position) {
-  //  if (position.coords != null) {
-        var latitude = position.coords.latitude;
-        var longitude = position.coords.longitude;
-    /*}
-    else {
-        var latitude = position.location.lat;
-        var longitude = position.location.lng;
-    }*/
+    var latitude = position.coords.latitude;
+    var longitude = position.coords.longitude;
     var request = new XMLHttpRequest();
     var method = 'GET';
     var url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + latitude + ',' + longitude + '&sensor=true';
@@ -223,6 +170,7 @@ function loadDish(element, dish) {
     panel.appendChild(header);
     var dishName = document.createElement('h4');
     dishName.textContent = dish.dishName;
+    checkUploader(dish.addByUserName, dishName);
     header.appendChild(dishName);
 
     var body = document.createElement('div');
@@ -239,6 +187,29 @@ function loadDish(element, dish) {
     btn.classList.add('alignLeft');
     btn.onclick = function () { showDish(dish.id, dish.restUsername); };
     panel.appendChild(body);
+}
+
+function checkUploader(userName, element) {
+    $.ajax({
+        url: 'profile',
+        async: false,
+        data: {
+            'requestType': 'checkUploader',
+            'userName': userName
+        },
+        success: function(isRest){
+            if (isRest.length!=0) {
+                if (isRest === "true") {
+                    var vIcon = addIcon(element, 'fa fa-check-circle');
+                    vIcon.title = 'הועלה ע"י המסעדה';
+                }
+            }
+            else {
+                var vIcon = addIcon(element, 'fa fa-check-circle');
+                vIcon.title = 'הועלה ע"י CheckEat';
+            }
+        }
+    });
 }
 
 function loadRest(element, rest) {
@@ -355,6 +326,14 @@ function addNewLine(element) {
 
 function addSpace(element) {
     addLabel(element, "&nbsp;");
+}
+
+function addIcon(element, _class) {
+    var i = document.createElement('i');
+    i.className = _class;
+    i.setAttribute('aria-hidden', 'true');
+    element.appendChild(i);
+    return i;
 }
 
 //*******************************************************************************************

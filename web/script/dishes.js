@@ -46,22 +46,28 @@ function checkUploader(userName, element) {
 
 function setDishesList(dishes, restUsername) {
     var dishesList = document.getElementById('dishList');
-
-    for(var i = 0; i < dishes.length; i++) {
-        if(dishes[i].restUsername == restUsername) {
-            var dish = document.createElement('article');
-            dish.classList.add('fixDishesSize');
-            dishesList.appendChild(dish);
-            var dishName = document.createElement('h1');
-            dishName.innerHTML = dishes[i].dishName;
-            dishName.classList.add('headerStyle');
-            dish.appendChild(dishName);
-            checkUploader(dishes[i].addByUserName, dishName);
-            if (addImg(dish, dishes[i].dishUrl, '100px', '200px'))
-                addNewLine(dish);
-            addDishDetails(dishes[i], dish);
-            addDishActions(dishes[i], dish);
-            $(dish).addClass('bodyStyle');
+    if (dishes.length == 0){
+        var noDishes = document.createElement('h3');
+        noDishes.innerHTML = "לא נמצאו מנות מתאימות";
+        dishesList.appendChild(noDishes);
+    }
+    else {
+        for (var i = 0; i < dishes.length; i++) {
+            if (dishes[i].restUsername == restUsername) {
+                var dish = document.createElement('article');
+                dish.classList.add('fixDishesSize');
+                dishesList.appendChild(dish);
+                var dishName = document.createElement('h1');
+                dishName.innerHTML = dishes[i].dishName;
+                dishName.classList.add('headerStyle');
+                dish.appendChild(dishName);
+                checkUploader(dishes[i].addByUserName, dishName);
+                if (addImg(dish, dishes[i].dishUrl, '100px', '200px'))
+                    addNewLine(dish);
+                addDishDetails(dishes[i], dish);
+                addDishActions(dishes[i], dish);
+                $(dish).addClass('bodyStyle');
+            }
         }
     }
 }

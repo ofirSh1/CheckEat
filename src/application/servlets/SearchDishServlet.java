@@ -23,51 +23,81 @@ import java.util.*;
 @MultipartConfig
 public class SearchDishServlet extends HttpServlet
 {
-    private EntityManagerFactory emf;
     private EntityManager em;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
+        EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
         em = emf.createEntityManager();
         request.setCharacterEncoding("UTF-8");
         String requestType = request.getParameter(Constants.REQUEST_TYPE);
 
-        if (requestType.equals("loadCities")) {
-            loadCities(request, response);
+        switch (requestType) {
+            case "loadCities":
+                loadCities(request, response);
+                break;
+            case "findDishes":
+                findDishes(request, response);
+                break;
+            case "findDishesInRestaurant":
+                findDishesInRestaurant(request, response);
+                break;
+            case "getDishesOrderedByLikes":
+                getDishesOrderedByLikes(request, response);
+                break;
+            case "getDishesOrderedByUploadDate":
+                getDishesOrderedByUploadDate(request, response);
+                break;
+            case "getFilteredRestaurantDishes":
+                getFilteredRestaurantDishes(request, response);
+                break;
+            case "getDishComments":
+                getDishComments(request, response);
+                break;
+            case "getLatestComments":
+                getLatestComments(request, response);
+                break;
+            case "likeDislikeDish":
+                likeAndDislike(request, response);
+                break;
+            case "addComment":
+                addComment(request, response);
+                break;
+            case "deleteComment":
+                deleteComment(request, response);
+                break;
+            case "canDeleteComment":
+                canDeleteComment(request, response);
+                break;
+            case "getAutoCompleteOtherTypes":
+                getAutoCompleteOtherTypes(request,response);
+                break;
+            case "getAutoCompleteIngredients":
+                getAutoCompleteIngredients(request,response);
+                break;
         }
-        else if(requestType.equals("findDishes")) {
-            findDishes(request, response);
+
+    }
+
+    private void getAutoCompleteIngredients(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        AppManager appManager = ServletUtils.getAppManager(getServletContext());
+        Set<String> autoCompleteIngredients = appManager.getAutoCompleteIngredients(em);
+        response.setContentType("application/json;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            Gson gson = new Gson();
+            out.println(gson.toJson(autoCompleteIngredients));
+            out.flush();
         }
-        else if (requestType.equals("findDishesInRestaurant")){
-            findDishesInRestaurant(request,response);
-        }
-        else if (requestType.equals("getDishesOrderedByLikes")){
-            getDishesOrderedByLikes(request,response);
-        }
-        else if (requestType.equals("getDishesOrderedByUploadDate")){
-            getDishesOrderedByUploadDate(request,response);
-        }
-        else if (requestType.equals("getFilteredRestaurantDishes")){
-            getFilteredRestaurantDishes(request,response);
-        }
-        else if (requestType.equals("getDishComments")){
-            getDishComments(request,response);
-        }
-        else if (requestType.equals("getLatestComments")){
-            getLatestComments(request,response);
-        }
-        else if (requestType.equals("likeDislikeDish")){
-            likeAndDislike(request,response);
-        }
-        else if (requestType.equals("addComment")){
-            addComment(request,response);
-        }
-        else if (requestType.equals("deleteComment")){
-            deleteComment(request,response);
-        }
-        else if (requestType.equals("canDeleteComment")){
-            canDeleteComment(request,response);
+    }
+
+    private void getAutoCompleteOtherTypes(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        AppManager appManager = ServletUtils.getAppManager(getServletContext());
+        Set<String> autoCompleteOtherTypes = appManager.getAutoCompleteOtherTypes(em);
+        response.setContentType("application/json;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            Gson gson = new Gson();
+            out.println(gson.toJson(autoCompleteOtherTypes));
+            out.flush();
         }
     }
 
@@ -233,7 +263,7 @@ public class SearchDishServlet extends HttpServlet
         try {
             em.getTransaction().begin();
             signedUser.getLikedDishes().add(dish.getId());
-            dish.setNumLikes(dish.getNumLikes() + 1);;
+            dish.setNumLikes(dish.getNumLikes() + 1);
             em.getTransaction().commit();
         }
         finally {
@@ -331,25 +361,6 @@ public class SearchDishServlet extends HttpServlet
                     em.close();
                 }
             }
-                    /*    String usernameFromSession = SessionUtils.getParameter(request, Constants.USERNAME);
-            if (usernameFromSession != null && dish != null && comment != null) {
-                SignedUser signedUser = em.find(SignedUser.class, usernameFromSession);
-                if (signedUser != null && dish.getCommentList().contains(comment)) {
-                    try {
-                        em.getTransaction().begin();
-                        dish.getCommentList().remove(comment);
-                        em.remove(comment);
-                        em.getTransaction().commit();
-                        out.print("true");
-                        out.flush();
-                    }
-                    finally {
-                        if (em.getTransaction().isActive())
-                            em.getTransaction().rollback();
-                        em.close();
-                    }
-                }
-            }*/
         }
     }
 

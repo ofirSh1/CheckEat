@@ -119,17 +119,6 @@ function getSpecialTypes() {
 }
 
 function editDish() {
-    $.ajax({
-        url: 'profile',
-        data: {
-            "requestType": 'checkIfRestaurant'
-        },
-        success: function (isRest) {
-            if (isRest.length != 0) {
-                restProfile = true;
-            }
-        }
-    });
     var dishId = sessionStorage.getItem("dishId");
     var dishName = $('#dishName').val();
     var ingredients = $('#ingredients').val().split(',');
@@ -182,6 +171,17 @@ function undoEdit() {
 }
 
 function editDishOnLoad() {
+    $.ajax({
+        url: 'profile',
+        data: {
+            "requestType": 'checkIfRestaurant'
+        },
+        success: function (isRest) {
+            if (isRest.length != 0) {
+                restProfile = true;
+            }
+        }
+    });
     var dishId = sessionStorage.getItem("dishId");
     $.ajax({
         url: 'profile',

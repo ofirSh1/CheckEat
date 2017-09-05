@@ -18,39 +18,39 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 @WebServlet(name = "LoginServlet", urlPatterns = {"/login"})
 @MultipartConfig
 public class LoginServlet extends HttpServlet {
-    EntityManagerFactory emf;
-    EntityManager em;
+    private EntityManager em;
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
+        EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
         em = emf.createEntityManager();
         request.setCharacterEncoding("UTF-8");
         String requestType = request.getParameter(Constants.REQUEST_TYPE);
 
-        if (requestType.equals(Constants.GET_USERNAME)) {
-            getUsername(request, response);
-        }
-        else if(requestType.equals("getUserType")) {
-            getUserType(request, response);
-        }
-        else if(requestType.equals(Constants.LOGIN)) {
-            login(request, response);
-        }
-        else if(requestType.equals(Constants.LOGOUT)) {
-            logout(request, response);
-        }
-        else if(requestType.equals("forgotPassword")) {
-            forgotPassword(request, response);
-        }
-        else if(requestType.equals("resetPassword")) {
-            resetPassword(request, response);
+        switch (requestType) {
+            case Constants.GET_USERNAME:
+                getUsername(request, response);
+                break;
+            case "getUserType":
+                getUserType(request, response);
+                break;
+            case Constants.LOGIN:
+                login(request, response);
+                break;
+            case Constants.LOGOUT:
+                logout(request, response);
+                break;
+            case "forgotPassword":
+                forgotPassword(request, response);
+                break;
+            case "resetPassword":
+                resetPassword(request, response);
+                break;
         }
     }
 
@@ -107,7 +107,7 @@ public class LoginServlet extends HttpServlet {
         if(usernameFromSession != null) {
             ServletUtils.redirect(response, "הינך רשום כבר במערכת", "index.html");
         }
-        else if (usernameFromSession==null && request.getParameter(Constants.USERNAME).equals("CheckEat")) {
+        else if (request.getParameter(Constants.USERNAME).equals("CheckEat")) {
             if (request.getParameter(Constants.PASSWORD).equals("CheckEat")){
                 if (em.find(Admin.class,"CheckEat")== null) {
                     em.getTransaction().begin();
@@ -167,7 +167,6 @@ public class LoginServlet extends HttpServlet {
         AppManager appManager = ServletUtils.getAppManager(getServletContext());
         PasswordResetToken prt = appManager.getUserPasswordResetToken(em, username);
         String token = UUID.randomUUID().toString();
-        Date date = new Date();
         if(prt == null) {
             prt = new PasswordResetToken();
             prt.setPasswordToken(token, username);
@@ -187,12 +186,13 @@ public class LoginServlet extends HttpServlet {
 
     private boolean sendPasswordResetLink(Admin admin, String userEmail, String token) {
         String subject = "checkEat: reset password";
-        String url = "localhost:8080/resetPassword.html?token=" + token; //TODO real url
+  //      String url = "localhost:8080/resetPassword.html?token=" + token; //TODO real url
+        String url = "https://vmedu126.mtacloud.co.il/checkEat/resetPassword.html?token=" + token;
         String body = "To reset your password click the link below:\n" + url + "\n";
         return ServletUtils.sendEmail(admin, userEmail, subject, body);
     }
 
-    public void resetPassword(HttpServletRequest request, HttpServletResponse response)
+    private void resetPassword(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         AppManager appManager = ServletUtils.getAppManager(getServletContext());
         response.setContentType("text/html;charset=UTF-8");

@@ -69,8 +69,14 @@ function getDishFromServer(dishId) {
 function getFilteredRestaurantsDishesFromServer(restUsername) {
     var dishName = $('#dishName').val();
     var specialTypes = getSpecialTypes();
-    var otherTypes = $('#otherTypes').val().split(',');
-    var ingredients = $('#ingredients').val().split(',');
+    var otherTypes = $('#otherTypes').val();
+    if (otherTypes.slice(-2,-1) == ',')
+        otherTypes = otherTypes.slice(0,-2);
+    otherTypes = otherTypes.split(',');
+    var ingredients = $('#ingredients').val();
+    if (ingredients.slice(-2,-1) == ',')
+        ingredients = ingredients.slice(0,-2);
+    ingredients = ingredients.split(',');
 
     $.ajax({
         type: 'get',
@@ -85,8 +91,7 @@ function getFilteredRestaurantsDishesFromServer(restUsername) {
         },
         success: function(dishes)
         {
-            if(dishes && dishes.length > 0)
-                loadDishes(dishes);
+            loadDishes(dishes);
         }
     });
 }
@@ -143,15 +148,17 @@ function loadRest(rest, restUsername) {
 
 function loadDishes(dishList) {
     var dishes = document.getElementById('dishes');
-    var size = dishList.length;
-
     dishes.innerHTML = "";
-    //TODO if empty write no dishes
-    for(var i = 0; i < size; i++) {
-        var col = document.createElement('div');
-        col.classList.add('col-md-12');
-        loadDish(col, dishList[i]);
-        dishes.appendChild(col);
+    if(dishList && dishList.length > 0) {
+        for (var i = 0; i < dishList.length; i++) {
+            var col = document.createElement('div');
+            col.classList.add('col-md-12');
+            loadDish(col, dishList[i]);
+            dishes.appendChild(col);
+        }
+    }
+    else {
+        dishes.innerHTML = "לא קיימות מנות מתאימות במסעדה"
     }
 }
 
@@ -175,6 +182,7 @@ function loadDish(element, dish) {
     panel.appendChild(header);
     var dishName = document.createElement('h4');
     dishName.textContent = dish.dishName;
+    checkUploader(dish.addByUserName, dishName);
     header.appendChild(dishName);
 
     var body = document.createElement('div');
@@ -186,6 +194,29 @@ function loadDish(element, dish) {
     panel.appendChild(body);
 
     addCommentsSection(col2, dish);
+}
+
+function checkUploader(userName, element) {
+    $.ajax({
+        url: 'profile',
+        async: false,
+        data: {
+            'requestType': 'checkUploader',
+            'userName': userName
+        },
+        success: function(isRest){
+            if (isRest.length!=0) {
+                if (isRest === "true") {
+                    var vIcon = addIcon(element, 'fa fa-check-circle');
+                    vIcon.title = 'הועלה ע"י המסעדה';
+                }
+            }
+            else {
+                var vIcon = addIcon(element, 'fa fa-check-circle');
+                vIcon.title = 'הועלה ע"י CheckEat';
+            }
+        }
+    });
 }
 
 function addDishDetails(element, dish) {
@@ -256,6 +287,7 @@ function addCommentsSection(element, dish) {
 
     var textBox = addTextArea(container);
 }
+
 //*******************************************************************************************
 //LIKE ACTIONS
 function checkIfLiked(dish, likeDishIcon) {

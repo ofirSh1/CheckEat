@@ -26,12 +26,11 @@ import java.util.Scanner;
 @MultipartConfig
 public class LoadDataBaseServlet extends HttpServlet {
 
-    private EntityManagerFactory emf;
     private EntityManager em;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
+        EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
         em = emf.createEntityManager();
         request.setCharacterEncoding("UTF-8");
         String requestType = request.getParameter(Constants.REQUEST_TYPE);

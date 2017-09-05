@@ -17,14 +17,11 @@ import java.io.*;
 @MultipartConfig
 public class RestaurantRegServlet extends HttpServlet{
 
-    private EntityManagerFactory emf;
-    private EntityManager em;
-
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
-        em = emf.createEntityManager();
+        EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
+        EntityManager em = emf.createEntityManager();
         request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
         AppManager appManager = ServletUtils.getAppManager(getServletContext());
@@ -55,26 +52,20 @@ public class RestaurantRegServlet extends HttpServlet{
         else if(!restaurant.isValidUser()) {
             if (usernameFromSession != null && usernameFromSession.equals("CheckEat"))
                 ServletUtils.redirect(response, "נא למלא שדות חובה", "");
-                //ServletUtils.redirect(response, "נא למלא שדות חובה", "duplicateRestaurant.html");
             else
                 ServletUtils.redirect(response, "נא למלא שדות חובה", "");
-            //ServletUtils.redirect(response, "נא למלא שדות חובה", "restaurantReg.html");
         }
         else if(!restaurant.isValidPassword()) {
             if (usernameFromSession != null && usernameFromSession.equals("CheckEat"))
                 ServletUtils.redirect(response, "שגיאה באישור סיסמא", "");
-                // ServletUtils.redirect(response, "שגיאה באישור סיסמא", "duplicateRestaurant.html");
             else
                 ServletUtils.redirect(response, "שגיאה באישור סיסמא", "");
-            //ServletUtils.redirect(response, "שגיאה באישור סיסמא", "customerReg.html");
         }
         else if(appManager.isUserExists(em, restaurant.getUserName())) {
             if (usernameFromSession != null && usernameFromSession.equals("CheckEat"))
                 ServletUtils.redirect(response, "שם משתמש כבר קיים, נא לבחור שם אחר", "");
-                //ServletUtils.redirect(response, "שם משתמש כבר קיים, נא לבחור שם אחר", "duplicateRestaurant.html");
             else
                 ServletUtils.redirect(response, "שם משתמש כבר קיים, נא לבחור שם אחר", "");
-            //ServletUtils.redirect(response, "שם משתמש כבר קיים, נא לבחור שם אחר", "restaurantReg.html");
         }
         // TODO: check if the restaurant exist in this city
         else {
@@ -88,7 +79,7 @@ public class RestaurantRegServlet extends HttpServlet{
                     em.getTransaction().rollback();
                 em.close();
             }
-            if (usernameFromSession != null && usernameFromSession.equals("CheckEat")) // TODO check
+            if (usernameFromSession != null && usernameFromSession.equals("CheckEat"))
                 ServletUtils.redirect(response, "", "admin.html");
             else {
                 request.getSession(true).setAttribute(Constants.USERNAME, restaurant.getUserName());

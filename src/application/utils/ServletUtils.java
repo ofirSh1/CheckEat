@@ -157,7 +157,7 @@ public class ServletUtils {
 			Message message = new MimeMessage(session);
 			message.setFrom(new InternetAddress(admin.getEmail()));
 			message.setRecipients(Message.RecipientType.TO,
-					InternetAddress.parse(userEmail)); //TODO userEmail - just to check
+					InternetAddress.parse(userEmail));
 			message.setSubject(subject);
 			message.setText(body);
 			Transport.send(message);
@@ -168,5 +168,18 @@ public class ServletUtils {
 		}
 
 		return true;
+	}
+
+	public static String[] getStringArray(String arrStr) {
+		String[] arr = null;
+		if(arrStr != null)
+			arrStr = arrStr.replace("[", "");
+		if(arrStr != null)
+			arrStr = arrStr.replace("]", "");
+		if(arrStr != null)
+			arrStr = arrStr.replace("\"", "");
+		if(arrStr != null)
+			arr = arrStr.split(",");
+		return arr;
 	}
 }

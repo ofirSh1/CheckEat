@@ -31,44 +31,46 @@ public class ProfileServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         String requestType = request.getParameter(Constants.REQUEST_TYPE);
 
-        if (requestType.equals(Constants.GET_CUSTOMER)) {
-            getCustomer(request, response);
-        }
-        else if(requestType.equals(Constants.GET_RESTAURANT)) {
-            getRestaurant(request, response);
-        }
-        else if (requestType.equals(Constants.CHECK_IF_RESTAURANT)) {
-            checkIfRestaurant(request,response);
-        }
-        else if (requestType.equals(Constants.CHECK_IF_SAVED)) {
-            checkIfDishSavedByUser(request,response);
-        }
-        else if (requestType.equals(Constants.CHECK_IF_LIKED)){
-            checkIfDishLikedByUser(request,response);
-        }
-        else if (requestType.equals(Constants.FAVORITES)) {
-            addAndRemoveFavorites(request,response);
-        }
-        else if (requestType.equals(Constants.GET_DISH)) {
-            getDish(request,response);
-        }
-        else if (requestType.equals(Constants.EDIT_DISH)) {
-            editDish(request,response);
-        }
-        else if (requestType.equals(Constants.EDIT_CUSTOMER)) {
-            editCustomer(request,response);
-        }
-        else if (requestType.equals(Constants.EDIT_RESTAURANT)) {
-            editRestaurant(request,response);
-        }
-        else if (requestType.equals(Constants.CHECK_UPLOADER)){
-            checkUploader(request,response);
-        }
-        else if (requestType.equals(Constants.DELETE_DISH)) {
-            deleteDish(request,response);
-        }
-        else if (requestType.equals(Constants.CHANGE_PASSWORD)){
-            changePassword(request,response);
+        switch (requestType) {
+            case Constants.GET_CUSTOMER:
+                getCustomer(request, response);
+                break;
+            case Constants.GET_RESTAURANT:
+                getRestaurant(request, response);
+                break;
+            case Constants.CHECK_IF_RESTAURANT:
+                checkIfRestaurant(request, response);
+                break;
+            case Constants.CHECK_IF_SAVED:
+                checkIfDishSavedByUser(request, response);
+                break;
+            case Constants.CHECK_IF_LIKED:
+                checkIfDishLikedByUser(request, response);
+                break;
+            case Constants.FAVORITES:
+                addAndRemoveFavorites(request, response);
+                break;
+            case Constants.GET_DISH:
+                getDish(request, response);
+                break;
+            case Constants.EDIT_DISH:
+                editDish(request, response);
+                break;
+            case Constants.EDIT_CUSTOMER:
+                editCustomer(request, response);
+                break;
+            case Constants.EDIT_RESTAURANT:
+                editRestaurant(request, response);
+                break;
+            case Constants.CHECK_UPLOADER:
+                checkUploader(request, response);
+                break;
+            case Constants.DELETE_DISH:
+                deleteDish(request, response);
+                break;
+            case Constants.CHANGE_PASSWORD:
+                changePassword(request, response);
+                break;
         }
     }
 
@@ -109,6 +111,9 @@ public class ProfileServlet extends HttpServlet {
         else {
             em.getTransaction().begin();
             dish.getRestaurant().getDishes().remove(dish);
+            customer = em.find(Customer.class, dish.getAddByUserName());
+            if (customer!=null) // dish add by customer not by a restaurant
+                customer.getAddedDishes().remove(dish);
             em.remove(dish);
             em.getTransaction().commit();
         }
@@ -228,9 +233,9 @@ public class ProfileServlet extends HttpServlet {
         String ingredients = request.getParameter("ingredients");
         em.getTransaction().begin();
         dish.setDishName(request.getParameter(Constants.DISH_NAME));
-        dish.setSpecialTypes(getStringArray(special));
-        dish.setOtherTypes(getStringArray(other));
-        dish.setIngredients(getStringArray(ingredients));
+        dish.setSpecialTypes(ServletUtils.getStringArray(special));
+        dish.setOtherTypes(ServletUtils.getStringArray(other));
+        dish.setIngredients(ServletUtils.getStringArray(ingredients));
         if (!logoUrl.equals(""))
             dish.setDishUrl(logoUrl);
         em.getTransaction().commit();
@@ -268,8 +273,9 @@ public class ProfileServlet extends HttpServlet {
 
     private void getCustomer(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String usernameFromSession = SessionUtils.getParameter(request, Constants.USERNAME);
+        String customerUserName = request.getParameter("customerUserName");
         if (usernameFromSession.equals("CheckEat"))
-            usernameFromSession = request.getParameter("customerUserName");
+            usernameFromSession = customerUserName;
         Customer customer = em.find(Customer.class,usernameFromSession);
         response.setContentType("application/json; charset=UTF-8");
         PrintWriter out = response.getWriter();
@@ -284,7 +290,8 @@ public class ProfileServlet extends HttpServlet {
         String restUserName = request.getParameter("restUserName");
         if (usernameFromSession == null || usernameFromSession.equals("CheckEat") ||
                 (restUserName !=null && !restUserName.equals(usernameFromSession))) // showMore or admin
-            usernameFromSession = restUserName;
+            if (!restUserName.equals(""))
+                usernameFromSession = restUserName;
         Restaurant restaurant = em.find(Restaurant.class,usernameFromSession);
         response.setContentType("application/json; charset=UTF-8");
         PrintWriter out = response.getWriter();
@@ -292,18 +299,5 @@ public class ProfileServlet extends HttpServlet {
         String json = gson.toJson(new GsonRestaurant(restaurant));
         out.println(json);
         out.flush();
-    }
-
-    private String[] getStringArray(String arrStr) {
-        String[] arr = null;
-        if(arrStr != null)
-            arrStr = arrStr.replace("[", "");
-        if(arrStr != null)
-            arrStr = arrStr.replace("]", "");
-        if(arrStr != null)
-            arrStr = arrStr.replace("\"", "");
-        if(arrStr != null)
-            arr = arrStr.split(",");
-        return arr;
     }
 }

@@ -1,139 +1,39 @@
 var specialTypesEnum = {vegetarian:'צמחוני', naturalist:'טבעוני', kosher:'כשר', noSugar:'ללא סוכר', noGluten:'ללא גלוטן'};
 var restaurantsNearby = [];
+var restNearBy = false;
 
 $(function () {
-   // var httpURL= window.location.hostname + window.location.pathname + window.location.search;
-   // var httpsURL= "https://" + httpURL;
-   // window.location = httpsURL;
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(){},function () {
-            document.getElementById("restNearByLabel").style.display = 'none';
-        },      {maximumAge: 50000, timeout: 20000, enableHighAccuracy: true});
-    }
-   // getLocation();
-    get3LatestCommentsFromServlet();
-    autoComplete();
-});
-/*
-var getLocation = function() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-            function(){},
-            browserGeolocationFail,
+        navigator.geolocation.getCurrentPosition(findCitiesNearby,
+            function () {
+                document.getElementById("restNearByLabel").style.display = 'none';
+            },
             {maximumAge: 50000, timeout: 20000, enableHighAccuracy: true});
     }
-};*/
-/*
-var tryAPIGeolocation = function() {
-    jQuery.post( "https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyC46AxbGkzkTvAA9SfE3x863EqyHq4oyz8", function(success) {
-        //showPosition({coords: {latitude: success.location.lat, longitude: success.location.lng}});
+    get3LatestCommentsFromServlet();
+});
 
-    })
-        .fail(function(err) {
-            document.getElementById("restNearByLabel").style.display = 'none';
-         //   alert("API Geolocation error! \n\n"+err);
-        });
-}; */
-/*
-var browserGeolocationFail = function(error) {
-    switch (error.code) {
-        case error.TIMEOUT:
-            alert("Browser geolocation error !\n\nTimeout.");
-            break;
-        case error.PERMISSION_DENIED:
-            if(error.message.indexOf("Only secure origins are allowed") == 0) {
-                tryAPIGeolocation();
-            }
-            break;
-        case error.POSITION_UNAVAILABLE:
-            document.getElementById("restNearByLabel").style.display = 'none';
-            alert("Browser geolocation error !\n\nPosition unavailable.");
-            break;
-    }
-};
-*/
-
-function autoComplete() {
-    var otherTypesList = [
-        "מנה ראשונה",
-        "מנה עיקרית",
-        "קינוח",
-        "מנה אחרונה",
-        "איטלקי",
-        "סלט",
-        "פסטה",
-        "פיצה",
-        "סיני",
-        "תאילנדי",
-        "המבורגר",
-        "ארוחת בוקר",
-        "סושי",
-        "נודלס",
-        "כריך",
-        "יפני",
-        "סיני",
-        "סושי",
-        "חומוס",
-        "מרק",
-        "מקסיקני",
-        "עוגה",
-        "גלידה",
-        "דג",
-        "שניצל"];
-    $("#otherTypes").autocomplete({
-        source: otherTypesList
-    });
-
- //   var datalist = jQuery('datalist');
-  //  var options = jQuery('datalist option');
-    /*var optionsarray = jQuery.map(options ,function(option) {
-        return option.value;
-    });*/
- /*   var optionsarray = otherTypesList.map(function(option) {
-     return option;
-     });
-    var input = jQuery('input[list]');
-    var inputcommas = (input.val().match(/,/g)||[]).length;
-    var separator = ',';
-
-    function filldatalist(prefix) {
-        if (input.val().indexOf(separator) > -1 && options.length > 0) {
-            otherTypesList.empty();
-            for (i=0; i < optionsarray.length; i++ ) {
-                if (prefix.indexOf(optionsarray[i]) < 0 ) {
-                    otherTypesList.append('<option value="'+prefix+optionsarray[i]+'">');
-                }
-            }
-        }
-    }*/
- /* input.bind("change paste keyup",function() {
-        var inputtrim = input.val().replace(/^\s+|\s+$/g, "");
-        var currentcommas = (input.val().match(/,/g)||[]).length;
-        if (inputtrim != input.val()) {
-            if (inputcommas != currentcommas) {
-                var lsIndex = inputtrim.lastIndexOf(separator);
-                var str = (lsIndex != -1) ? inputtrim.substr(0, lsIndex)+", " : "";
-                filldatalist(str);
-                inputcommas = currentcommas;
-            }
-            input.val(inputtrim);
-        }
-    });*/
-}
-
-function findDish()
-{
+function findDish() {
     var restName = $('#restName').val();
     var restCity = $("#selectCity option:selected").text();
     var dishName = $('#dishName').val();
     var specialTypes = getSpecialTypes();
-    var otherTypes = $('#otherTypes').val().split(',');
-    var ingredients = $('#ingredients').val().split(',');
-    var restNearBy = false;
+    var otherTypes = $('#otherTypes').val();
+    if (otherTypes.slice(-2,-1) == ',')
+        otherTypes = otherTypes.slice(0,-2);
+    otherTypes = otherTypes.split(',');
+    var ingredients = $('#ingredients').val();
+    if (ingredients.slice(-2,-1) == ',')
+        ingredients = ingredients.slice(0,-2);
+    ingredients = ingredients.split(',');
     if($('#restNearBy').is(":checked")) {
         restNearBy = true;
         getRestaurantsNearbyFromServer();
     }
+    searchDishes(restName,restCity,dishName,specialTypes,otherTypes,ingredients);
+}
+
+function searchDishes(restName,restCity,dishName,specialTypes,otherTypes,ingredients) {
     var restJson = JSON.stringify(restaurantsNearby);
     var data = {requestType: 'findDishes',
         restName: restName,
@@ -186,23 +86,13 @@ function getSpecialTypes() {
 
 function getRestaurantsNearbyFromServer() {
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(setNearbyRestaurantsHomePage);
+            navigator.geolocation.getCurrentPosition(findCitiesNearby);
     }
-}
-
-function setNearbyRestaurantsHomePage(position) {
-    findCitiesNearby(position);
 }
 
 function findCitiesNearby(position) {
-    if (position.coords != null) {
-        var latitude = position.coords.latitude;
-        var longitude = position.coords.longitude;
-    }
-    else {
-        var latitude = position.location.lat;
-        var longitude = position.location.lng;
-    }
+    var latitude = position.coords.latitude;
+    var longitude = position.coords.longitude;
     var request = new XMLHttpRequest();
     var method = 'GET';
     var async = false;
@@ -255,8 +145,7 @@ function deg2rad(degree) {
     return degree * Math.PI / 180;
 }
 
-function get3LatestCommentsFromServlet()
-{
+function get3LatestCommentsFromServlet() {
     $.ajax({
         type: 'get',
         url: 'dish',
@@ -265,9 +154,6 @@ function get3LatestCommentsFromServlet()
         },
         success: function(comments)
         {
-            //$('#comment2').text(comments[0].content);
-            /* $('#secondComment').text(comments[1].content);
-             $('#thirdComment').text(comments[2].content);*/
             for (var i = 0; i < 3 && i<comments.length; i++)
             {
                 var comment = '#comment' + (i+1);

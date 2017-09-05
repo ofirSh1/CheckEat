@@ -122,6 +122,11 @@ footer {
     color: red;
 }
 
+.fa-check-circle {
+    color: green;
+    float: left;
+}
+
 .commentsSection{
 }
 

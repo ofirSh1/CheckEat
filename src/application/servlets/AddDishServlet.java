@@ -18,14 +18,13 @@ import java.util.Date;
 @MultipartConfig
 public class AddDishServlet extends HttpServlet{
 
-    private EntityManagerFactory emf;
     private EntityManager em;
     private boolean newRest;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
+        EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
         em = emf.createEntityManager();
         request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
@@ -74,19 +73,6 @@ public class AddDishServlet extends HttpServlet{
         doGet(request, response);
     }
 
-    private String[] getStringArray(String arrStr) {
-        String[] arr = null;
-        if(arrStr != null)
-            arrStr = arrStr.replace("[", "");
-        if(arrStr != null)
-           arrStr = arrStr.replace("]", "");
-        if(arrStr != null)
-            arrStr = arrStr.replace("\"", "");
-        if(arrStr != null)
-            arr = arrStr.split(",");
-        return arr;
-    }
-
     private Dish getDish(HttpServletRequest request, String usernameFromSession)
             throws ServletException, IOException {
 
@@ -94,9 +80,9 @@ public class AddDishServlet extends HttpServlet{
         dish.setDishName(request.getParameter(Constants.DISH_NAME));
         dish.setUploadDate(new Date());
         dish.setAddByUserName(usernameFromSession);
-        dish.setSpecialTypes(getStringArray(request.getParameter("specialTypes")));
-        dish.setOtherTypes(getStringArray(request.getParameter("otherTypes")));
-        dish.setIngredients(getStringArray(request.getParameter("ingredients")));
+        dish.setSpecialTypes(ServletUtils.getStringArray(request.getParameter("specialTypes")));
+        dish.setOtherTypes(ServletUtils.getStringArray(request.getParameter("otherTypes")));
+        dish.setIngredients(ServletUtils.getStringArray(request.getParameter("ingredients")));
         String logoUrl = ServletUtils.uploadImageToCloudinary(request.getPart("image"));
         if (logoUrl==null)
             logoUrl=ServletUtils.loadImageURL(request.getParameter("imageURL"));
@@ -114,19 +100,19 @@ public class AddDishServlet extends HttpServlet{
 
         if (!newRest)
             dish.setRestaurant(restaurant);
-        else { // add dish to restaurant that does not exist // TODO
+        else { // add dish to restaurant that does not exist
             restaurant = new Restaurant();
             restaurant.setUserName(restName + "_" + restCity);
             restaurant.setPassword(restName + "_" + restCity);
             restaurant.setPassword2(restName + "_" + restCity);
-            restaurant.setEmail("@");
+            restaurant.setEmail("checkeatteam@gmail.com");
             restaurant.setType(SignedUser.Type.RESTAURANT);
             restaurant.setRestaurantName(restName);
             restaurant.setCity(restCity);
             restaurant.setStreet(restStreet);
             restaurant.setStreetNum(restStreetNum);
-            restaurant.setContactName(restName);
-            restaurant.setLink(restName);
+            restaurant.setContactName("");
+            restaurant.setLink("");
             dish.setRestaurant(restaurant);
         }
 

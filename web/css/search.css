@@ -213,6 +213,14 @@
         margin-right: 10px;
     }
 }
+@media screen and (max-width: 480px) {
+    #myCarousel {
+        display: none;
+    }
+    #quote-carousel{
+        display: none;
+    }
+}
 
 
 
@@ -223,7 +231,7 @@
 */
 
 /*Small devices (tablets, 768px and up) */
-@media (min-width: 768px) {
+/*@media (min-width: 768px) {
     #quote-carousel
     {
         margin-bottom: 0;
@@ -231,11 +239,11 @@
         margin-top: 30px;
     }
 
-}
+}*/
 
 /* Small devices (tablets, up to 768px) */
 /* Make the indicators larger for easier clicking with fingers/thumb on mobile */
-@media (max-width: 768px) {
+/*@media (max-width: 768px) {
 
 
     #quote-carousel .carousel-indicators {
@@ -252,5 +260,5 @@
         width: 20px;
         height: 20px;
     }
-}
+}*/
 

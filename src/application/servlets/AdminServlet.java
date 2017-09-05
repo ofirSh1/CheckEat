@@ -21,33 +21,34 @@ import java.util.List;
 @WebServlet(name = "AdminServlet", urlPatterns = {"/admin"})
 @MultipartConfig
 public class AdminServlet extends HttpServlet {
-    EntityManagerFactory emf;
-    EntityManager em;
+    private EntityManager em;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
+        EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
         em = emf.createEntityManager();
         request.setCharacterEncoding("UTF-8");
         String requestType = request.getParameter(Constants.REQUEST_TYPE);
 
-        if (requestType.equals("contact")) {
-            contact(request, response);
-        }
-        else if (requestType.equals("getCustomers")){
-            getCustomers(request,response);
-        }
-        else if (requestType.equals("getRestaurants")){
-            getRestaurants(request,response);
-        }
-        else if (requestType.equals("removeUser")){
-            removeUser(request,response);
-        }
-        else if (requestType.equals("getAdminMsg")) {
-            getAdminMsg(request, response);
-        }
-        else if (requestType.equals("removeMsg")) {
-            removeMsg(request, response);
+        switch (requestType) {
+            case "contact":
+                contact(request, response);
+                break;
+            case "getCustomers":
+                getCustomers(request, response);
+                break;
+            case "getRestaurants":
+                getRestaurants(request, response);
+                break;
+            case "removeUser":
+                removeUser(request, response);
+                break;
+            case "getAdminMsg":
+                getAdminMsg(request, response);
+                break;
+            case "removeMsg":
+                removeMsg(request, response);
+                break;
         }
     }
 
@@ -160,6 +161,7 @@ public class AdminServlet extends HttpServlet {
         Admin admin = em.find(Admin.class,usernameFromSession);
         em.getTransaction().begin();
         admin.getMsgs().remove(admin.getMsgs().get(numMsg));
+        em.remove(em.find(ContactMsg.class,numMsg));
         em.getTransaction().commit();
     }
 }

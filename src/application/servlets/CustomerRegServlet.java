@@ -41,16 +41,13 @@ public class CustomerRegServlet extends HttpServlet{
             ServletUtils.redirect(response, "הינך רשום כבר במערכת", "index.html");
         }
         else if(!customer.isValidUser()) {
-            //ServletUtils.redirect(response, "נא למלא שדות חובה", "location='customerReg.html';");
             ServletUtils.redirect(response, "נא למלא שדות חובה", "");
 
         }
         else if(!customer.isValidPassword()) {
-           // ServletUtils.redirect(response, "שגיאה באישור סיסמא", "location='customerReg.html';");
             ServletUtils.redirect(response, "שגיאה באישור סיסמא", "");
         }
         else if(appManager.isUserExists(em, customer.getUserName())) {
-            //ServletUtils.redirect(response, "שם משתמש כבר קיים, נא לבחור שם אחר", "location='customerReg.html';");
             ServletUtils.redirect(response, "שם משתמש כבר קיים, נא לבחור שם אחר", "");
 
         }

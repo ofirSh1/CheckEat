@@ -6,36 +6,42 @@ $(function () {
 function setRestaurantsList(dishes) {
     var restList = document.getElementById('restList');
     var restaurants = [];
+    if (dishes.length == 0){
+        var noDishes = document.createElement('h3');
+        noDishes.innerHTML = "לא נמצאו מסעדות מתאימות";
+        restList.appendChild(noDishes);
+    }
+    else {
+        for (var i = 0; i < dishes.length; i++) {
+            if (restaurants.indexOf(dishes[i].restUsername) <= -1) {
+                restaurants.push(dishes[i].restUsername);
 
-    for (var i = 0; i < dishes.length; i++) {
-        if(restaurants.indexOf(dishes[i].restUsername) <= -1) {
-            restaurants.push(dishes[i].restUsername);
+                var rest = document.createElement('article');
+                restList.appendChild(rest);
 
-            var rest = document.createElement('article');
-            restList.appendChild(rest);
+                var header = document.createElement('h1');
+                rest.appendChild(header);
+                header.classList.add('headerStyle');
+                header.innerHTML = dishes[i].restaurantName;
+                if (dishes[i].restUrl) {
+                    var img = document.createElement('img');
+                    img.setAttribute('src', dishes[i].restUrl);
+                    img.setAttribute('height', '50px');
+                    img.setAttribute('width', '50px');
+                    img.classList.add('alignLeft');
+                    header.appendChild(img);
+                }
 
-            var header = document.createElement('h1');
-            rest.appendChild(header);
-            header.classList.add('headerStyle');
-            header.innerHTML = dishes[i].restaurantName;
-            if(dishes[i].restUrl) {
-                var img = document.createElement('img');
-                img.setAttribute('src', dishes[i].restUrl);
-                img.setAttribute('height', '50px');
-                img.setAttribute('width', '50px');
-                img.classList.add('alignLeft');
-                header.appendChild(img);
+                if (addAddress(rest, dishes[i].restaurantCity, dishes[i].restaurantStreet, dishes[i].restaurantStreetNum))
+                    addNewLine(rest);
+
+                if (addLink(rest, 'אתר המסעדה:', dishes[i].restLink))
+                    addNewLine(rest);
+
+                setShowDishButton(dishes[i], dishes, rest);
+
+                $(rest).addClass('bodyStyle');
             }
-
-            if (addAddress(rest, dishes[i].restaurantCity, dishes[i].restaurantStreet, dishes[i].restaurantStreetNum))
-                addNewLine(rest);
-
-            if (addLink(rest, 'אתר המסעדה:', dishes[i].restLink))
-                addNewLine(rest);
-
-            setShowDishButton(dishes[i], dishes, rest);
-
-            $(rest).addClass('bodyStyle');
         }
     }
 }

@@ -18,9 +18,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
     <script src="script/menu.js"></script>
     <script src="script/addDish.js"></script>
+    <script src="script/autoComplete.js"></script>
 </head>
 
-<body dir="rtl">
+<body dir="rtl" onload="autoComplete()">
 
 <nav class="navbar navbar-default navbar-fixed-top navbar-custom" role="navigation">
     <div class="container">
@@ -99,7 +100,7 @@
 
         <div class="form-group">
             <label for="ingredients">מרכיבים:</label>
-            <input type="text" id="ingredients" class="form-control">
+            <input type="text" id="ingredients" class="form-control" placeholder="לדוגמא: מלפפון, עגבניה">
         </div>
 
         <div class="form-group">

@@ -1,6 +1,5 @@
 package application.servlets;
 
-import application.logic.AppManager;
 import application.logic.SignedUser;
 import application.utils.Constants;
 import application.utils.ServletUtils;
@@ -21,7 +20,6 @@ public class RegisterTypeServlet extends HttpServlet {
             throws ServletException, IOException {
 
         response.setContentType("text/html;charset=UTF-8");
-        AppManager appManager = ServletUtils.getAppManager(getServletContext());
         SignedUser.Type type = request.getParameter(Constants.TYPE).equals(Constants.CUSTOMER)
         ? SignedUser.Type.CUSTOMER : SignedUser.Type.RESTAURANT;
 

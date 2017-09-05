@@ -22,9 +22,10 @@
     <script src="script/menu.js"></script>
     <script src="script/citySelector.js"></script>
     <script src="script/searchDish.js"></script>
+    <script src="script/autoComplete.js"></script>
 </head>
 
-<body dir="rtl">
+<body dir="rtl" onload="autoComplete()">
 
 <!-- Navigation -->
 <nav class="navbar navbar-default navbar-fixed-top navbar-custom" role="navigation">
@@ -100,7 +101,7 @@
 
                 <div class="form-group">
                     <label for="ingredients">מרכיבים:</label>
-                    <input type="text" id="ingredients" class="form-control">
+                    <input type="text" id="ingredients" class="form-control" placeholder="לדוגמא: מלפפון, עגבניה">
                 </div>
 
                 <button id="searchBtn" type="button" class="btn btn-warning" onclick="findDish()">חפש</button>

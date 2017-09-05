@@ -60,3 +60,13 @@ body {
     height: 300px;
   /*  background: url("../resources/termsBackground.png") no-repeat; */
 }
+
+@media screen and (max-width: 480px) {
+    #termsBackground {
+        display: none;
+    }
+
+    #aboutBackground {
+        display: none;
+    }
+}

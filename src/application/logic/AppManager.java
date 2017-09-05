@@ -5,7 +5,6 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import java.util.*;
 
-
 public class AppManager {
     public boolean isUserExists(EntityManager em, String name) {
         javax.persistence.TypedQuery<SignedUser> query =
@@ -75,11 +74,11 @@ public class AppManager {
         if(dSFormat.getSpecialTypes() != null && !dSFormat.getSpecialTypes().isEmpty())
             containQuery(predicates, cb, dSFormat.getSpecialTypes(), dish.get("specialTypes"));
         // the user entered other types
-        if(dSFormat.getOtherTypes() != null && !dSFormat.getOtherTypes().isEmpty())
-            containQuery(predicates, cb, dSFormat.getOtherTypes(), dish.get("otherTypes"));
+        //if(dSFormat.getOtherTypes() != null && !dSFormat.getOtherTypes().isEmpty())
+        //containQuery(predicates, cb, dSFormat.getOtherTypes(), dish.get("otherTypes"));
         // the user entered ingredients
-        if(dSFormat.getIngredients() != null && !dSFormat.getIngredients().isEmpty())
-            containQuery(predicates, cb, dSFormat.getIngredients(), dish.get("ingredients"));
+        //if(dSFormat.getIngredients() != null && !dSFormat.getIngredients().isEmpty())
+        //   containQuery(predicates, cb, dSFormat.getIngredients(), dish.get("ingredients"));
 
         q.select(dish);
         if(!predicates.isEmpty())
@@ -88,9 +87,65 @@ public class AppManager {
         TypedQuery<Dish> tq = em.createQuery(q);
         List<Dish> qr = tq.getResultList();
         List<GsonDish> result = new ArrayList<>();
-        for(Dish d: qr)
-            result.add(new GsonDish(d));
+        for(Dish d: qr) {
+            if(matchesOrders(dSFormat.getIngredients(), d.getIngredients())
+                    && matchesOrders(dSFormat.getOtherTypes(), d.getOtherTypes()))
+                result.add(new GsonDish(d));
+        }
         return result;
+    }
+
+    private boolean matchesOrders(Set<String> orders, Set<String> set) {
+        if(orders == null || orders.isEmpty()) //no orders
+            return true;
+        if(set == null || set.isEmpty()) //orders but no categories in dish
+            return false;
+
+        boolean found = false;
+        int dis;
+        int maxLen;
+        double p;
+        for(String s1 : orders) {
+            if(s1.equals("")){
+                found = true;
+                continue;
+            }
+            found = false;
+            for (String s2 : set) {
+                if (s2.equals(""))
+                    continue;
+                dis = levenshteinDistance(s1, s2);
+                maxLen = Math.max(s1.length(), s2.length());
+                p = ((double)dis) / maxLen;
+                if(p <= 0.3) {
+                    found = true;
+                    break;
+                }
+            }
+            if(!found)
+                break;
+        }
+        return found;
+    }
+
+    private int levenshteinDistance(String a, String b) {
+        a = a.toLowerCase();
+        b = b.toLowerCase();
+        // i == 0
+        int [] costs = new int [b.length() + 1];
+        for (int j = 0; j < costs.length; j++)
+            costs[j] = j;
+        for (int i = 1; i <= a.length(); i++) {
+            // j == 0; nw = lev(i - 1, j)
+            costs[0] = i;
+            int nw = i - 1;
+            for (int j = 1; j <= b.length(); j++) {
+                int cj = Math.min(1 + Math.min(costs[j], costs[j - 1]), a.charAt(i - 1) == b.charAt(j - 1) ? nw : nw + 1);
+                nw = costs[j];
+                costs[j] = cj;
+            }
+        }
+        return costs[b.length()];
     }
 
     public List<GsonDish> getDishesOrderedByLikes(EntityManager em) {
@@ -119,7 +174,6 @@ public class AppManager {
         return result;
     }
 
-    // TODO delete
     public Restaurant getDishRestaurant(EntityManager em, String restName, String restCity, String restStreet, String restStreetNum) {
         javax.persistence.TypedQuery<Restaurant> query =
                 em.createQuery("SELECT rest FROM Restaurant rest WHERE rest.restaurantName = :restName " +
@@ -225,5 +279,33 @@ public class AppManager {
         }
 
         return gsonRes;
+    }
+
+    public Set<String> getAutoCompleteIngredients(EntityManager em) {
+        Set<String> autoCompleteIngredients = new HashSet<>();
+        javax.persistence.TypedQuery<Dish> query =
+                em.createQuery("SELECT dish FROM Dish dish", Dish.class);
+        List<Dish> res = query.getResultList();
+        for (Dish dish: res) {
+            for (String ingredients: dish.getIngredients()) {
+                if (!ingredients.isEmpty() && !autoCompleteIngredients.contains(ingredients))
+                    autoCompleteIngredients.add(ingredients.replaceAll("^\\s+", "").replaceAll("\\s+$", ""));
+            }
+        }
+        return autoCompleteIngredients;
+    }
+
+    public Set<String> getAutoCompleteOtherTypes(EntityManager em) {
+        Set<String> autoCompleteOtherTypes = new HashSet<>();
+        javax.persistence.TypedQuery<Dish> query =
+                em.createQuery("SELECT dish FROM Dish dish", Dish.class);
+        List<Dish> res = query.getResultList();
+        for (Dish dish: res) {
+            for (String otherType: dish.getOtherTypes()) {
+                if (!otherType.isEmpty() && !autoCompleteOtherTypes.contains(otherType))
+                    autoCompleteOtherTypes.add(otherType.replaceAll("^\\s+", "").replaceAll("\\s+$", ""));
+            }
+        }
+        return autoCompleteOtherTypes;
     }
 }
