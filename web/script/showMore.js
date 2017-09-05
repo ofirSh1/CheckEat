@@ -91,6 +91,7 @@ function loadDish(element, dish) {
     panel.appendChild(header);
     var dishName = document.createElement('h4');
     dishName.textContent = dish.dishName;
+    checkUploader(dish.addByUserName, dishName);
     header.appendChild(dishName);
 
     var body = document.createElement('div');
@@ -107,6 +108,29 @@ function loadDish(element, dish) {
     btn.classList.add('alignLeft');
     btn.onclick = function () { showDish(dish.restUsername, dish.id); };
     panel.appendChild(body);
+}
+
+function checkUploader(userName, element) {
+    $.ajax({
+        url: 'profile',
+        async: false,
+        data: {
+            'requestType': 'checkUploader',
+            'userName': userName
+        },
+        success: function(isRest){
+            if (isRest.length!=0) {
+                if (isRest === "true") {
+                    var vIcon = addIcon(element, 'fa fa-check-circle');
+                    vIcon.title = 'הועלה ע"י המסעדה';
+                }
+            }
+            else {
+                var vIcon = addIcon(element, 'fa fa-check-circle');
+                vIcon.title = 'הועלה ע"י CheckEat';
+            }
+        }
+    });
 }
 
 function loadRest(element, rest) {
@@ -220,6 +244,14 @@ function addNewLine(element) {
 
 function addSpace(element) {
     addLabel(element, "&nbsp;");
+}
+
+function addIcon(element, _class) {
+    var i = document.createElement('i');
+    i.className = _class;
+    i.setAttribute('aria-hidden', 'true');
+    element.appendChild(i);
+    return i;
 }
 
 //*******************************************************************************************
